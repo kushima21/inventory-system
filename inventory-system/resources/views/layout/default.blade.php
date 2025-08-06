@@ -9,7 +9,13 @@
 </head>
 <body>
     <div class="container">
-        <div class="sidebar-container"></div>
+
+        <div class="sidebar-container">
+            <div class="sidebar-header">
+                <h2>Inventory Booking System</h2>
+            </div>
+        </div>
+
     </div>
 </body>
 </html>
