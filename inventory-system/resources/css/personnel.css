@@ -1,0 +1,160 @@
+    .personnel-header-container {
+        width: 100%;
+        height: auto;
+        box-sizing: border-box;
+    }
+
+    .personnel-header {
+        font-size: clamp(18px, 2vw, 22px); /* Mo-scale depende sa screen */
+        padding-top: 10px;
+        padding-left: 20px;
+    }
+
+    .personnel-box {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap; /* Para if gamay ang screen, mo-wrap ang sulod */
+        width: 100%;
+        padding: 20px;
+    }
+
+    .personnelForm {
+        width: 220px;
+        height: 30px;
+        border-radius: 5px;
+        padding-left: 5px;
+    }
+
+    .addPersonel {
+    width: 130px;
+    height: 35px;
+    border-radius: 10px;
+    font-size: 11px;
+    }
+
+    .addPersonelModal {
+        width: 450px;
+        height: 420px;
+        box-shadow: 0px 0px 10px black;
+        position: fixed;
+        left: 40%;
+        border-radius: 12px;
+        display: none;
+    }
+
+    .AP-header {
+        text-align: center;
+        padding-top: 10px;
+        font-size: 18px;
+    }
+
+    .AP-form-container {
+    display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 30px;
+        width: 100%;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        max-width: 400px; /* Optional: limit width sa form */
+        box-sizing: border-box;
+    }
+
+    .info-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center horizontally */
+        width: 100%;
+    }
+
+    .info-container label {
+        margin-bottom: 1px;
+        font-weight: bold;
+        text-align: left; /* changed from center to left */
+        width: 100%;
+        font-size: 13px;
+        margin-bottom: 8px;
+    }
+
+
+    .info-container input {
+        width: 100%;
+        max-width: 300px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    input[list] {
+        cursor: pointer;
+    }
+
+    .info-btn {
+        display: flex;
+        justify-content: space-between;
+         margin: 25px;
+    }
+
+    .info-btn button{
+       width: 120px;
+       height: 35px;
+       border-radius: 10px;
+       font-size: 12px;
+    }
+
+    .personnel-list-header {
+        font-size: 18px;
+        padding-left: 20px;
+    }
+
+
+    .personnel-list-container {
+    width: 100%;
+    max-height: 420px;
+    overflow-y: auto;
+    margin-top: 10px;
+    }
+
+    .personnel-list-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .personnel-list-table th,
+    .personnel-list-table td {
+        padding: 12px;
+        text-align: left;
+    }
+
+    .personnel-list-table th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        font-size: 12px;
+        text-align: left;
+        border:  1px solid #ccc;
+    }
+
+     .personnel-list-table td {
+        font-size: 12px;
+        border:  1px solid #ccc;
+     }
+
+
+    /* Optional responsive adjustments */
+    @media (max-width: 768px) {
+        .personnel-box {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .addPersonel {
+            margin-right: 0;
+        }
+    }

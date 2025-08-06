@@ -85,9 +85,11 @@
 
         <div class="content-container">
             <div class="content-header"></div>
-            <div class="container-container-box"></div>
+            <div class="container-container-box">
+                 @yield ('content')
+            </div>
         </div>
-
+        
     </div>
 </body>
 </html>
