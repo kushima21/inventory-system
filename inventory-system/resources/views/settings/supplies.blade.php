@@ -8,7 +8,7 @@
         </h2>
         <div class="supplies-box-header">
             <form method="POST" action="">
-                <input class="supplies-search" name="supplies_name" id="searchSupplies" placeholder="Search Supplies..."> 
+                <input class="supplies-search" name="supplies" id="searchSupplies" placeholder="Search Supplies..."> 
             </form>
             <button class="addSupplies" type="button" onclick="openSuppliesModal()">
                 + Add Supplies

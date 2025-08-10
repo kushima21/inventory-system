@@ -1,0 +1,170 @@
+.ict-header-container {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+    margin-top: 60px;
+}
+
+.ict-header {
+     font-size: clamp(18px, 2vw, 22px); /* Mo-scale depende sa screen */
+        padding-top: 10px;
+        padding-left: 20px;
+}
+
+.ict-box-header {
+    display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap; /* Para if gamay ang screen, mo-wrap ang sulod */
+        width: 100%;
+        padding: 20px;
+}
+
+.equipmentSearch {
+     width: 240px;
+        height: 35px;
+        border-radius: 5px;
+        padding-left: 5px;
+}
+
+.equipmentBtn {
+      width: 140px;
+    height: 38px;
+    border-radius: 12px;
+    font-size: 11px;
+    background: linear-gradient(rgb(48, 2, 2), rgb(68, 1, 1));
+    border: none;
+    color: white;
+}
+
+.equipment-modal-container {
+      width: 450px;
+        height: 300px;
+        box-shadow: 0px 0px 10px black;
+        position: fixed;
+        left: 40%;
+        border-radius: 12px;
+        background-color: white;
+        z-index: 1000;
+        display: none;
+}
+
+.header-create-equipment {
+    padding-top: 10px;
+    font-size: 18px;
+    color: #7e0000;
+    text-align: center;
+}
+
+.equipment-form-container {
+     display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px;
+    width: 100%;
+}
+
+
+  form {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: 100%;
+        max-width: 400px; /* Optional: limit width sa form */
+        box-sizing: border-box;
+    }
+
+          .info-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center; /* Center horizontally */
+        width: 100%;
+    }
+
+
+       .info-container label {
+        margin-bottom: 1px;
+        font-weight: bold;
+        text-align: left; /* changed from center to left */
+        width: 100%;
+        font-size: 13px;
+        margin-bottom: 8px;
+        color: #b30101;
+    }
+
+    
+    .info-container input {
+        width: 100%;
+        max-width: 300px;
+        padding: 10px;
+        border: 1px solid #180a0a;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    input[list] {
+        cursor: pointer;
+    }
+
+           .info-btn {
+        display: flex;
+        justify-content: space-between;
+         margin: 25px;
+    }
+
+    .info-btn button{
+       width: 120px;
+       height: 35px;
+       border-radius: 10px;
+       font-size: 11px;
+       border: none;
+       color: white;
+       background: linear-gradient(rgb(48, 2, 2), rgb(68, 1, 1));
+    }
+
+    .equipment-header-list {
+         font-size: 18px;
+        padding-left: 20px;
+    }
+
+    .equipment-list-container {
+        width: 100%;
+        max-height: 70%;
+        overflow-y: auto;
+        margin-top: 10px;
+    }
+
+    .equipment-list-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+     .equipment-list-table th,
+      .equipment-list-table td{
+        padding: 12px;
+        text-align: left;
+     }
+
+       .equipment-list-table th {
+        position: sticky;
+        top: 0;
+        z-index: 500;
+        font-size: 14px;
+        text-align: left;
+        border:  1px solid #ccc;
+    }
+
+    .equipment-list-table td {
+        font-size: 13px;
+        border:  1px solid #ccc;
+     }
+
+      .equipment-list-table button {
+        width: 100px;
+        height: 35px;
+        margin: 5px;
+        border-radius: 13px;
+        border: none;
+        font-size: 11px;
+       background: linear-gradient(rgb(48, 2, 2), rgb(68, 1, 1));
+       color: white;
+     }

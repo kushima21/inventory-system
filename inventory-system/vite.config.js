@@ -11,6 +11,7 @@ export default defineConfig({
             'resources/css/personnel.css',
             'resources/css/settings.css',
             'resources/css/supplies.css',
+            'resources/css/equipment.css',
             'resources/js/app.js'],
             refresh: true,
         }),

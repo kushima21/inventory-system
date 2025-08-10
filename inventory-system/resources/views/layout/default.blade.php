@@ -69,7 +69,7 @@
                 <a href="#">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
-                        <span>ICT Section</span>
+                        <span>Equipment Section</span>
                     </div>
                 </a>
                 <span class="link-title">ACCOUNT</span>
