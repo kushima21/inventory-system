@@ -17,7 +17,7 @@
     </div>
 
 
-
+    
 
     <div class="supplies-modal-container" id="addMoreModal">
         <h2 class="header-create-supplies">Add More Supplies</h2>
