@@ -45,12 +45,38 @@
                     <button type="submit" name="submit">Create</button>
                     <button type="button" name="cancel" onclick="closeSuppliesModal()">Cancel</button>
                 </div>
-
-
             </form>
         </div>
     </div>
+    
+    <h2 class="supplies-header-list">Supplies List</h2>
+
+    <div class="supplies-list-container">
+       <table class="supplies-list-table">
+          <thead>
+            <tr>
+              <th>Supplies</th>
+              <th>Quantity</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Exam Bondpaper</td>
+              <td>12</td>
+              <td>
+                <button>+ Add More</button>
+                <span>or</span>
+                <button>Delete</button>
+              </td>
+            </tr>
+            
+          </tbody>
+       </table>
+    </div>
+
 @endsection
+
 <script>
   function openSuppliesModal() {
     document.getElementById('supplies-modal-container').style.display = 'block';

@@ -31,7 +31,7 @@
     height: 38px;
     border-radius: 12px;
     font-size: 11px;
-    background: linear-gradient(red, rgb(56, 1, 1));
+    background: linear-gradient(rgb(48, 2, 2), rgb(68, 1, 1));
     border: none;
     color: white;
 }
@@ -121,3 +121,51 @@
        color: white;
        background: linear-gradient(rgb(48, 2, 2), rgb(68, 1, 1));
     }
+
+    .supplies-header-list {
+         font-size: 18px;
+        padding-left: 20px;
+    }
+
+    .supplies-list-container {
+        width: 100%;
+        max-height: 70%;
+        overflow-y: auto;
+        margin-top: 10px;
+    }
+
+    .supplies-list-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .supplies-list-table th,
+    .supplies-list-table td {
+        padding: 12px;
+        text-align: left;
+    }
+
+    .supplies-list-table th {
+        position: sticky;
+        top: 0;
+        z-index: 1;
+        font-size: 14px;
+        text-align: left;
+        border:  1px solid #ccc;
+    }
+
+    .supplies-list-table td {
+        font-size: 13px;
+        border:  1px solid #ccc;
+     }
+
+     .supplies-list-table button {
+        width: 100px;
+        height: 35px;
+        margin: 5px;
+        border-radius: 13px;
+        border: none;
+        font-size: 11px;
+       background: linear-gradient(rgb(48, 2, 2), rgb(68, 1, 1));
+       color: white;
+     }
