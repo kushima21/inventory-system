@@ -23,3 +23,6 @@ Route::get('/personnel_dashboard', [UserController::class, 'search'])->name('use
 
 Route::get('/supplies', [SuppliesController::class, 'create'])->name('supplies.create');
 Route::post('/supplies', [SuppliesController::class, 'store'])->name('supplies.store');
+
+Route::post('/supplies/{id}/add-more', [SuppliesController::class, 'addMore'])->name('supplies.addMore');
+Route::delete('/supplies/{id}', [SuppliesController::class, 'delete'])->name('supplies.delete');

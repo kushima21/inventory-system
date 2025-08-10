@@ -52,7 +52,7 @@
     <h2 class="supplies-header-list">Supplies List</h2>
 
     <div class="supplies-list-container">
-       <table class="supplies-list-table">
+      <table class="supplies-list-table">
           <thead>
             <tr>
               <th>Supplies</th>
@@ -61,19 +61,28 @@
             </tr>
           </thead>
           <tbody>
+            @foreach($supplies as $item)
             <tr>
-              <td>Exam Bondpaper</td>
-              <td>12</td>
+              <td>{{ $item->supplies }}</td>
+              <td>{{ $item->quantity }}</td>
               <td>
-                <button>+ Add More</button>
+                <form action="{{ route('supplies.addMore', $item->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    <button type="submit">+ Add More</button>
+                </form>
                 <span>or</span>
-                <button>Delete</button>
+                <form action="{{ route('supplies.delete', $item->id) }}" method="POST" style="display:inline;">
+                    @csrf
+                    @method('DELETE')
+                    <button type="submit" onclick="return confirm('Are you sure to delete this item?')">Delete</button>
+                </form>
               </td>
             </tr>
-            
+            @endforeach
           </tbody>
-       </table>
+      </table>
     </div>
+
 
 @endsection
 

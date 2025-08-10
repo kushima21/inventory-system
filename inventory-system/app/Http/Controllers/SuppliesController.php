@@ -10,7 +10,8 @@ class SuppliesController extends Controller
     // Show the form view
     public function create()
     {
-        return view('settings.supplies'); // your form blade
+        $supplies = Supplies::all();  // get all supplies from DB
+        return view('settings.supplies', compact('supplies'));
     }
 
     // Save supplies to DB
@@ -28,4 +29,23 @@ class SuppliesController extends Controller
 
         return redirect()->back()->with('success', 'Supplies added successfully!');
     }
+
+
+    public function addMore($id)
+{
+    $supply = Supplies::findOrFail($id);
+    $supply->quantity += 1; // add 1 more, you can customize logic here
+    $supply->save();
+
+    return redirect()->back()->with('success', 'Quantity updated!');
+}
+
+public function delete($id)
+{
+    $supply = Supplies::findOrFail($id);
+    $supply->delete();
+
+    return redirect()->back()->with('success', 'Supply deleted!');
+}
+
 }
