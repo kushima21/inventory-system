@@ -8,9 +8,30 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function index()
+    {
+        $users = User::orderBy('created_at', 'desc')->get();
+        return view('personnel.personnel_dashboard', compact('users'));
+    }
+
+  public function search(Request $request)
+{
+    $query = $request->input('name');
+
+    $users = User::where('name', 'LIKE', "%{$query}%")
+                ->orderBy('created_at', 'desc')
+                ->get();
+
+    if ($request->ajax()) {
+        return view('personnel.partials.personnel_table_rows', compact('users'));
+    }
+
+    // For non-AJAX requests (fallback)
+    return view('personnel.personnel_dashboard', compact('users'));
+}
+
     public function store(Request $request)
     {
-        // Validate form input
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users',
@@ -18,7 +39,6 @@ class UserController extends Controller
             'roles' => 'required|string',
         ]);
 
-        // Save to database
         User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -26,7 +46,6 @@ class UserController extends Controller
             'roles' => $request->roles,
         ]);
 
-        // Redirect back to the personnel dashboard with a success message
         return redirect('/personnel_dashboard')->with('success', 'Personnel created successfully.');
     }
 }
