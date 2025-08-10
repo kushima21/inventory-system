@@ -16,6 +16,33 @@
         </div>
     </div>
 
+
+
+
+    <div class="supplies-modal-container" id="addMoreModal">
+        <h2 class="header-create-supplies">Add More Supplies</h2>
+
+        <div class="supplies-form-container">
+            <form method="POST" action="" id="addMoreForm">
+                @csrf
+                <div class="info-container">
+                    <label for="supplies_name">Supplies:</label>
+                    <input type="text" name="supplies" id="supplies_name" readonly>
+                </div>
+
+                <div class="info-container">
+                    <label for="add_quantity">Quantity to Add:</label>
+                    <input type="number" name="quantity_to_add" id="add_quantity" placeholder="Enter quantity..." min="1" required>
+                </div>
+
+                <div class="info-btn">
+                    <button type="submit" name="submit">Add</button>
+                    <button type="button" onclick="closeAddMoreModal()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
     <div class="supplies-modal-container" id="supplies-modal-container">
         <h2 class="header-create-supplies">Create Supplies</h2>
 
@@ -48,6 +75,7 @@
             </form>
         </div>
     </div>
+
     
     <h2 class="supplies-header-list">Supplies List</h2>
 
@@ -66,10 +94,9 @@
               <td>{{ $item->supplies }}</td>
               <td>{{ $item->quantity }}</td>
               <td>
-                <form action="{{ route('supplies.addMore', $item->id) }}" method="POST" style="display:inline;">
-                    @csrf
-                    <button type="submit">+ Add More</button>
-                </form>
+                <button type="button" onclick="openAddMoreModal('{{ $item->id }}', '{{ $item->supplies }}', {{ $item->quantity }})">
+                  + Add More
+                </button>
                 <span>or</span>
                 <form action="{{ route('supplies.delete', $item->id) }}" method="POST" style="display:inline;">
                     @csrf
@@ -86,6 +113,22 @@
 
 @endsection
 
+
+<script>
+function openAddMoreModal(id, supplies, currentQuantity) {
+    document.getElementById('addMoreModal').style.display = 'block';
+    document.getElementById('supplies_name').value = supplies;
+    document.getElementById('add_quantity').value = '';
+
+    // Set the form action to POST to the addMore route with the supply id
+    const form = document.getElementById('addMoreForm');
+    form.action = `/supplies/${id}/add-more`;
+}
+
+function closeAddMoreModal() {
+    document.getElementById('addMoreModal').style.display = 'none';
+}
+</script>
 <script>
   function openSuppliesModal() {
     document.getElementById('supplies-modal-container').style.display = 'block';
@@ -94,15 +137,4 @@
   function closeSuppliesModal() {
     document.getElementById('supplies-modal-container').style.display = 'none';
   }
-
-  // Personnel search handler
-  document.getElementById('searchPersonnel').addEventListener('keyup', function () {
-    const query = this.value;
-
-    fetch(`/personnel_dashboard?name=${encodeURIComponent(query)}`)
-      .then(response => response.text())
-      .then(data => {
-        document.getElementById('personnelTableBody').innerHTML = data;
-      });
-  });
 </script>

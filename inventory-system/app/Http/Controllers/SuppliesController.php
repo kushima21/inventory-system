@@ -31,10 +31,14 @@ class SuppliesController extends Controller
     }
 
 
-    public function addMore($id)
+public function addMore(Request $request, $id)
 {
+    $request->validate([
+        'quantity_to_add' => 'required|integer|min:1',
+    ]);
+
     $supply = Supplies::findOrFail($id);
-    $supply->quantity += 1; // add 1 more, you can customize logic here
+    $supply->quantity += $request->quantity_to_add; // add the input quantity
     $supply->save();
 
     return redirect()->back()->with('success', 'Quantity updated!');
