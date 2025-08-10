@@ -9,6 +9,8 @@ export default defineConfig({
             ['resources/css/app.css',
             'resources/css/default.css',
             'resources/css/personnel.css',
+            'resources/css/settings.css',
+            'resources/css/supplies.css',
             'resources/js/app.js'],
             refresh: true,
         }),

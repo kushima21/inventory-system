@@ -47,6 +47,12 @@
                         <span>ICT Reservation</span>
                     </div>
                 </a>
+                 <a href="#">
+                    <div class="link-item">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Inventory</span>
+                    </div>
+                </a>
                 <a href="#">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>

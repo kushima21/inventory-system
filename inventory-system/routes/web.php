@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\SuppliesController;
 
 Route::get('default', function () {
     return view('layout.default');
@@ -10,6 +11,15 @@ Route::get('default', function () {
 Route::get('/personnel_dashboard', function () {
     return view('personnel.personnel_dashboard');
 });
+
+Route::get('/supplies', function () {
+    return view('settings.supplies');
+});
+
 Route::get('/personnel_dashboard', [UserController::class, 'index'])->name('personnel.personnel_dashboard');
 Route::post('/personnel_dashboard', [UserController::class, 'store'])->name('users.store');
 Route::get('/personnel_dashboard', [UserController::class, 'search'])->name('users.search');
+
+
+Route::get('/supplies', [SuppliesController::class, 'create'])->name('supplies.create');
+Route::post('/supplies', [SuppliesController::class, 'store'])->name('supplies.store');

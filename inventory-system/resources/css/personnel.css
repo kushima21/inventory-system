@@ -2,6 +2,7 @@
         width: 100%;
         height: auto;
         box-sizing: border-box;
+        margin-top: 60px;
     }
 
     .personnel-header {
@@ -19,17 +20,20 @@
     }
 
     .personnelForm {
-        width: 220px;
-        height: 30px;
+        width: 240px;
+        height: 35px;
         border-radius: 5px;
         padding-left: 5px;
     }
 
     .addPersonel {
-    width: 130px;
-    height: 35px;
-    border-radius: 10px;
+    width: 140px;
+    height: 38px;
+    border-radius: 12px;
     font-size: 11px;
+    background: linear-gradient(red, rgb(56, 1, 1));
+    border: none;
+    color: white;
     }
 
     .addPersonelModal {
@@ -40,16 +44,19 @@
         left: 40%;
         border-radius: 12px;
         display: none;
+        background-color: white;
+        z-index: 1000;
     }
 
     .AP-header {
         text-align: center;
         padding-top: 10px;
         font-size: 18px;
+        color: #7e0000;
     }
 
     .AP-form-container {
-    display: flex;
+        display: flex;
         justify-content: center;
         align-items: center;
         padding: 30px;
@@ -79,6 +86,7 @@
         width: 100%;
         font-size: 13px;
         margin-bottom: 8px;
+        color: #b30101;
     }
 
 
@@ -86,7 +94,7 @@
         width: 100%;
         max-width: 300px;
         padding: 10px;
-        border: 1px solid #ccc;
+        border: 1px solid #180a0a;
         border-radius: 5px;
         box-sizing: border-box;
     }
@@ -105,7 +113,10 @@
        width: 120px;
        height: 35px;
        border-radius: 10px;
-       font-size: 12px;
+       font-size: 11px;
+       border: none;
+       color: white;
+       background: linear-gradient(rgb(48, 2, 2), rgb(68, 1, 1));
     }
 
     .personnel-list-header {
