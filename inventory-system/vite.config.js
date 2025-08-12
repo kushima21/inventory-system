@@ -13,6 +13,7 @@ export default defineConfig({
             'resources/css/supplies.css',
             'resources/css/equipment.css',
             'resources/css/gym.css',
+            'resources/css/faculty.css',
             'resources/js/app.js'],
             refresh: true,
         }),

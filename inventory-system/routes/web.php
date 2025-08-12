@@ -25,6 +25,10 @@ Route::get('/gym', function () {
     return view('settings.gym');
 });
 
+Route::get('/facultyDashboard', function () {
+    return view('faculty.facultyDashboard');
+});
+
 Route::get('/personnel_dashboard', [UserController::class, 'index'])->name('personnel.personnel_dashboard');
 Route::post('/personnel_dashboard', [UserController::class, 'store'])->name('users.store');
 Route::get('/personnel_dashboard', [UserController::class, 'search'])->name('users.search');
