@@ -8,6 +8,15 @@
     @vite(['resources/css/faculty.css', 'resources/js/app.js'])
 </head>
 <body>
-    
+    <div class="faculty-main-container">
+        <div class="left-side-container">
+            <div class="side-bar-header">
+                
+            </div>
+        </div>
+        <div class="right-side-container">
+            <div class="right-header"></div>
+        </div>
+    </div>
 </body>
 </html>
