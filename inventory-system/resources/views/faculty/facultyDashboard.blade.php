@@ -39,14 +39,14 @@
                 <span class="link-title">MANAGE</span>
                 <a href="#">
                     <div class="link-item">
-                        <i class="fi fi-rs-home"></i>
+                        <i class="fa-solid fa-box-open"></i>
                         <span>Request Supplies</span>
                     </div>
                 </a>
                 <a href="#">
                     <div class="link-item">
-                        <i class="fa-solid fa-house"></i>
-                        <span>Gym Reservation</span>
+                        <i class="fa-solid fa-file-lines"></i>
+                        <span>My Request</span>
                     </div>
                 </a>
             </div>
@@ -54,6 +54,9 @@
 
         <div class="right-side-container">
             <div class="right-header"></div>
+            <div class="request-main-container">
+                 @yield ('content')
+            </div>
         </div>
 
     </div>

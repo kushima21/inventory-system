@@ -29,6 +29,10 @@ Route::get('/facultyDashboard', function () {
     return view('faculty.facultyDashboard');
 });
 
+Route::get('/request', function () {
+    return view('faculty.request');
+});
+
 Route::get('/personnel_dashboard', [UserController::class, 'index'])->name('personnel.personnel_dashboard');
 Route::post('/personnel_dashboard', [UserController::class, 'store'])->name('users.store');
 Route::get('/personnel_dashboard', [UserController::class, 'search'])->name('users.search');

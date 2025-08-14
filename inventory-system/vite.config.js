@@ -14,6 +14,7 @@ export default defineConfig({
             'resources/css/equipment.css',
             'resources/css/gym.css',
             'resources/css/faculty.css',
+            'resources/css/request.css',
             'resources/js/app.js'],
             refresh: true,
         }),
