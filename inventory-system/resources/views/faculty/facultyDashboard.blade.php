@@ -19,7 +19,7 @@
                 <div class="user-info">
                     <h2>Hondrada John Mark</h2>
                     <p>ID#: 0211</p>
-                </div>
+                </div>  
             </div>
             <div class="user-settings" id="userSettings">
                 <a href="#">

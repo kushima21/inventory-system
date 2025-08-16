@@ -11,9 +11,30 @@
             </form>
         </div>
     </div>
-    <div class="request-main-container-box">
-        <div class="supplies-main-container-box">
-            
+
+    <div class="request-main-container">
+        <div class="table-container">
+            <table class="table-supplies-container">
+                <thead>
+                <tr>
+                    <th>Supplies</th>
+                    <th>Available</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Bondpaper</td>
+                        <td>12</td>
+                        <td>
+                            <button class="RequestBtn" type="button">
+                                Request Supplied
+                            </button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
     </div>
+
 @endsection
