@@ -11,7 +11,18 @@ class SuppliesController extends Controller
     public function create()
     {
         $supplies = Supplies::all();  // get all supplies from DB
-        return view('settings.supplies', compact('supplies'));
+        return view('settings.supplies',  compact('supplies'));
+    }
+    public function request()
+    {
+        $supplies = Supplies::all(); // fetch supplies from DB
+        return view('faculty.request', compact('supplies'));
+    }
+
+    public function showRequest($id)
+    {
+        $supply = Supplies::findOrFail($id); // fetch specific supply
+        return view('faculty.request', compact('supply'));
     }
 
     // Save supplies to DB

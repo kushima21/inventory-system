@@ -42,3 +42,126 @@
     border-collapse: collapse;
     margin-top: 10%;
 }
+
+.table-supplies-container thead th {
+    background-color: #f4f4f4;
+    text-align: left;
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Style sa rows */
+.table-supplies-container tbody td {
+    padding: 10px;
+    border: 1px solid #ddd;
+}
+
+/* Para equal column width kung gusto nimo */
+.table-supplies-container th,
+.table-supplies-container td {
+    width: calc(100% / 3);
+    font-size: 12px;
+}
+
+/* Para nindot ang button */
+.RequestBtn {
+    padding: 6px 12px;
+    background: linear-gradient(rgb(48, 2, 2), rgb(68, 1, 1));
+    border: none;
+    color: white;
+    border-radius: 12px;
+    cursor: pointer;
+    width: 110px;
+    height: 35px;
+    margin-left: 5px;
+    font-size: 11px;
+}
+
+.RequestBtn:hover {
+    background: linear-gradient(rgb(48, 2, 2), rgb(68, 1, 1));
+    transform: scale(1.1);
+    transition: calc(2);
+}
+
+/*request-form-container*/
+.request-form-container {
+    width: 460px;
+    height: 460px;
+    box-shadow: 0px 0px 10px 0px;
+    position: fixed;
+    left: 45%;
+    margin-top: 10px;
+    border-radius: 12px;
+    display: none;
+}
+
+.request-header-form {
+    padding-top: 15px;
+    padding-left: 10px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 22px;
+}
+
+.requestForm {
+    width: 100%;
+    height: 100%;
+}
+
+
+.info-form {
+    display: flex;
+    flex-direction: column; /* label sa taas, input sa ubos */
+    margin-bottom: 15px; /* spacing kada field */
+    margin-top: 20px;
+}
+
+.info-form label {
+    font-weight: bold;
+    margin-bottom: 5px; /* agi gamay spacing sa input */
+    padding-left: 10px;
+    font-size: 14px;
+}
+
+.info-form input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+    width: 95%;
+    margin-left: 10px;
+    height: 40px;
+}
+
+.comment {
+    height: 70px;          /* adjust as needed */
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    resize: vertical;      /* user can drag to resize */
+    width: 95%;
+    margin-left: 10px;
+}
+
+.formBtn {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+}
+
+.formBtn button {
+    width: 110px;
+    height: 40px;
+    border-radius: 16px;
+    border: none;
+    background: linear-gradient(rgb(48, 2, 2), rgb(68, 1, 1));
+    font-size: 11px;
+    color: white;
+}
+
+.submitBtn {
+    margin-left: 20px;
+}
+
+.cancelBtn {
+    margin-right: 20px;
+}

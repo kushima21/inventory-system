@@ -33,6 +33,13 @@ Route::get('/request', function () {
     return view('faculty.request');
 });
 
+
+Route::get('/login', function () {
+    return view('auth.login');
+});
+
+
+
 Route::get('/personnel_dashboard', [UserController::class, 'index'])->name('personnel.personnel_dashboard');
 Route::post('/personnel_dashboard', [UserController::class, 'store'])->name('users.store');
 Route::get('/personnel_dashboard', [UserController::class, 'search'])->name('users.search');
@@ -40,6 +47,9 @@ Route::get('/personnel_dashboard', [UserController::class, 'search'])->name('use
 
 Route::get('/supplies', [SuppliesController::class, 'create'])->name('supplies.create');
 Route::post('/supplies', [SuppliesController::class, 'store'])->name('supplies.store');
+Route::get('/request', [SuppliesController::class, 'request'])->name('supplies.request');
+Route::get('/request/{id}', [SuppliesController::class, 'showRequest'])->name('supplies.request');
+
 
 Route::post('/supplies/{id}/add-more', [SuppliesController::class, 'addMore'])->name('supplies.addMore');
 Route::delete('/supplies/{id}', [SuppliesController::class, 'delete'])->name('supplies.delete');
