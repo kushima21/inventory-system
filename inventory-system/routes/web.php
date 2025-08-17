@@ -5,6 +5,10 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SuppliesController;
 use App\Http\Controllers\EquipmentController;
 
+Route::get('/', function () {
+    return view('index');
+})->name('home');
+
 Route::get('default', function () {
     return view('layout.default');
 });

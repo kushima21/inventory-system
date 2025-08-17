@@ -39,8 +39,10 @@
                                 <a href="#"><button type="button">Sign up now</button></a>
                             </div>
                             <div class="home">
+                            <a href="{{ route('home') }}" class="home-link">
                                 <i class="fa-solid fa-arrow-left"></i>
-                                <a href="#">Go back Home</a>
+                                Go back Home
+                            </a>
                             </div>
                             <div class="term-condition">
                                 <p>By clicking “Sign in”, you agree to our <span>Terms of Service</span> and <span> Statement</span> . We’ll occasionally send you account related emails.</p>

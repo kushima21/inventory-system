@@ -16,6 +16,7 @@ export default defineConfig({
             'resources/css/faculty.css',
             'resources/css/request.css',
             'resources/css/login.css',
+            'resources/css/index.css',
             'resources/js/app.js'],
             refresh: true,
         }),
