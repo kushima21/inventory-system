@@ -17,6 +17,7 @@ export default defineConfig({
             'resources/css/request.css',
             'resources/css/login.css',
             'resources/css/index.css',
+            'resources/css/responsived.css',
             'resources/js/app.js'],
             refresh: true,
         }),

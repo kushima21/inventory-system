@@ -12,6 +12,7 @@ html, body {
 .content-main-container {
     width: 100%;
     height: 100%; 
+    overflow-y: scroll;
 }
 
 .navBar-container {
@@ -22,7 +23,8 @@ html, body {
     align-items: center;
     position: fixed;
     box-shadow: 0px 0px 10px 0px rgba(77, 0, 0, 0.103);
-    z-index: 1000;
+    z-index: 10000;
+    background-color: white;
 }
 
 .nav-links ul{
@@ -88,66 +90,37 @@ html, body {
 }
 
 
+/*content container*/
 
-/*reposived*/
-@media screen and (max-width: 768px) {
-    .navBar-container {
-        flex-direction: row;
-        align-items: center;
-        justify-content: flex-start; /* icons will start from left */
-        bottom: 0;
-        top: auto;
-        height: 60px;
-        background-color: #fff;
-        box-shadow: 0px -2px 10px rgba(0,0,0,0.1);
-        position: fixed;
-        width: 100%;
-        z-index: 1000;
-        padding: 0 10px;
-    }
-
-    .nav-links ul {
-        display: flex;
-        padding: 0;
-        margin: 0;
-        gap: 15px; /* spacing between icons */
-    }
-
-    .nav-links li {
-        margin: 0;
-        display: flex;
-        justify-content: center; /* center inside each li */
-        align-items: center;
-    }
-
-    .nav-links .link, 
-    .nav-links .links {
-        display: none; /* hide text labels */
-    }
-
-
-    .nav-links video {
-        width: 35px;
-        height: 35px;
-    }
+.content-container {
+    width: 100%;
+    height: max-content;
 }
 
+.welcome-container {
+    width: 500px;
+    height: 400px;
+    box-shadow: 0px 0px 10px;
+    margin-top: 10%;
+    border-radius: 15px;
+}
 
+.offer-container {
+    max-width: 100%;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    padding-top: 120px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
 
-@media screen and (max-width: 768px) {
-    .menuBar video {
-        display: block;
-    }
-
-    .contentBtn {
-        display: none; /* hide initially sa mobile */
-        height: auto;
-        position: absolute;
-        left: 80%;
-        transform: translateX(-50%);
-        bottom: 60px; /* adjust above video */
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-    }
+.offer-box {
+    width: 380px;
+    height: 300px;
+    box-shadow: 0px 0px 10px;
+    margin-bottom: 20px;
+    border-radius: 15px;
+    margin: 15px;
 }
