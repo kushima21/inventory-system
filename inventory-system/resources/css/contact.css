@@ -1,0 +1,155 @@
+.contact-header-container {
+    width: 100%;
+    height: max-content;
+    margin-top: 6%;
+}
+
+.contact-h {
+    display: flex;
+    justify-content: center;
+    font-size: 50px;
+    color: #630005;
+
+}
+
+.icon-c {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+    gap: 12px;
+}
+
+.icon-img {
+    width: 22px;
+    height: 22px;
+}
+
+.email-form-container {
+    width: 100%;
+    margin-top: 5%;
+    display: flex;
+    gap: 0; /* Remove gap between img and form */
+}
+
+.form-img {
+    width: 35%;
+    height: auto; /* Maintain aspect ratio */
+    display: block;
+}
+
+.form-c {
+    width: 100%;
+    max-width: 400px;
+    margin: 0; /* Remove extra margin */
+    padding-left: 15px; /* Small space between image and form */
+    display: flex;
+    align-items: center;
+}
+
+.form-c form {
+    display: flex;
+    flex-direction: column;
+    gap: 12px; /* space between elements */
+}
+
+.form-c label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.form-c input,
+.form-c textarea {
+    width: 400px;
+    padding: 10px;
+    font-size: 13px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+}
+
+.form-c textarea {
+    height: 140px;
+    resize: none;
+}
+
+.form-c input:focus,
+.form-c textarea:focus {
+    border-color: #630005;
+    box-shadow: 0 0 10px rgba(75, 0, 0, 0.3);
+}
+
+
+.formBTn {
+    height: 40px;
+    width: 120px;
+    font-size: 11px;
+    border-radius: 12px;
+    margin-top: 5px;
+    color: white;
+    background-color: maroon;
+    border: none;
+}
+
+.formBTn i {
+    padding-left: 5px;
+}
+.form-details {
+    width: 100%;
+}
+.d-header {
+    font-size: 32px;
+    margin-left: 15%;
+    color: #630005;
+}
+.d-description {
+    width: 80%;
+    margin-left: 15%;
+    margin-top: 20px;
+    font-size: 21px;
+    color: rgb(63, 62, 62);
+}
+
+.f-img {
+    width: 45%;
+    height: 45%;
+    margin-left: 5%;
+    margin-top: 7%;
+}
+
+.map-main-box {
+    width: 100%;
+    height: max-content;
+    margin-top: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.map-main-container {
+    width: 100%;
+    height: max-content;
+}
+
+.o-location {
+    padding-bottom: 12px;
+    font-size:35px;
+    color: #630005;
+
+}
+
+iframe {
+  width: 700px;
+  height: 450px;
+  margin-bottom: 5%;
+  border-radius: 12px;
+}
+
+.c-img {
+    width: 20%;
+    height: 100%;
+    background-size:cover ;
+    position: relative;
+    left: 8%;
+    top: 10%;
+}

@@ -1,0 +1,47 @@
+.services-header {
+    width: 100%;
+    margin-top: 6%;
+    text-align: center; /* Ensures text alignment in center */
+}
+
+.services-H {
+    font-size: 50px;
+    margin-bottom: 15px;
+    color: #630005;
+
+}
+
+.services-P {
+    font-size: 15px;
+    line-height: 1.5; /* Better readability */
+    max-width: 800px; /* Optional: keeps text from being too wide */
+    margin: 0 auto; /* Centers the paragraph block */
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}
+
+
+.services-container {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+}
+
+.service-b {
+    width: 480px;
+    height: 300px;
+    box-shadow: 0px 0px 10px;
+    border-radius: 12px;
+}
+
+.s-img {
+    width: 30%;
+    height: 100%;
+}
+
+.ss-img {
+    width: 15%;
+    height: 100%;
+}

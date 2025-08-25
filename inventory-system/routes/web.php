@@ -42,7 +42,30 @@ Route::get('/login', function () {
     return view('auth.login');
 });
 
+Route::get('/signup', function () {
+    return view('auth.signup');
+});
 
+
+Route::get('about', function () {
+    return view('about');
+});
+
+Route::get('contact', function () {
+    return view('contact');
+});
+
+Route::get('services', function () {
+    return view('services');
+});
+
+Route::get('/home', function () {
+    return view('customers.home');
+});
+
+Route::get('/navbar', function () {
+    return view('partials.navbar');
+});
 
 Route::get('/personnel_dashboard', [UserController::class, 'index'])->name('personnel.personnel_dashboard');
 Route::post('/personnel_dashboard', [UserController::class, 'store'])->name('users.store');

@@ -15,9 +15,8 @@
         <div class="login-main-box">
             <p class="created">Just Shipped v1.2025.01 <span class="arrow">></span></p>
             <div class="login-header">
-                <h2 class="first-header">Sign in to your LSSTI</h2>
+                <h2 class="first-header">Sign in to your LSSTI Booking</h2>
                 <h2  class="second-header">Account</h2>
-                <p class="welcome">Welcome to LSSTI Network!</p>
 
                 <div class="login-form-container">
                     <div class="login-form-box">
@@ -25,18 +24,18 @@
                             @csrf 
                             <div class="form-info">
                                 <label for="email">Email</label>
-                                <input type="text" name="email" id="email" placeholder="Email">
+                                <input type="text" name="email" id="email" placeholder="Email" required>
                             </div>
                             <div class="form-info">
                                 <label for="password">Password</label>
-                                <input type="password" name="password" id="password" placeholder="Password">
+                                <input type="password" name="password" id="password" placeholder="Password" required>
                             </div>
                             <div class="formBtn">
-                                <button type="submit">Sign in now</button>
+                                <button type="submit" name="submit">Sign in now</button>
                             </div>
                             <p class="or">--------or create account--------</p>
                             <div class="createBtn">
-                                <a href="#"><button type="button">Sign up now</button></a>
+                                <a href="{{ url('/signup') }}"><button type="button">Sign up now</button></a>
                             </div>
                             <div class="home">
                             <a href="{{ route('home') }}" class="home-link">

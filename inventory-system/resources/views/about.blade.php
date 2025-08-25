@@ -6,14 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     @vite(['resources/css/index.css', 'resources/js/app.js'])
+    @vite(['resources/css/about.css', 'resources/js/app.js'])
+    @vite(['resources/css/responsived.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
-
 </head>
 <body>
-    <div class="content-main-container">
-        <div class="navBar-container">
-            <nav class="nav-links">
+     <div class="content-main-container">
+       <div class="navBar-container">
+             <nav class="nav-links">
                 <ul>
                     <a href="/">
                         <li><video autoplay loop muted playsinline>
@@ -52,7 +53,7 @@
                     </a>
                 </ul>
             </nav>
-            <div class="menuBar">
+             <div class="menuBar">
                 <video autoplay loop muted playsinline id="menuVideo">
                 <source src="{{ asset('icons/list.mp4') }}" type="video/mp4">
                 </video>
@@ -63,22 +64,27 @@
                 </a>
                 <a href="{{ url('/signup') }}"><button type="button" class="primBtn">Sign Up</button></a>
             </div>
-        </div>
-        <div class="content-container">
-             <div class="welcome-container"></div>
-            <img src="{{ asset('system-images/index.png') }}" alt="Login Image" class="i-img">
-        </div>
+       </div>
 
-        <div class="offer-container">
-            <div class="offer-box"></div>
-            <img src="{{ asset('system-images/d.png') }}" alt="Login Image" class="l-img">
-             <div class="offer-box"></div>
-            <img src="{{ asset('system-images/aaa.png') }}" alt="Login Image" class="l-img">
-            <img src="{{ asset('system-images/ccc.png') }}" alt="Login Image" class="l-img">
-            <div class="offer-box"></div>
-        </div>
+       <div class="about-main-content">
+            <img src="{{ asset('system-images/about.png') }}" alt="Login Image" class="a-img">
+            <div class="about-us-box">
+                <div class="aa-c">
+                <h2 class="header-about">About Us</h2>
+                <img src="{{ asset('system-images/aa.png') }}" alt="Login Image" class="aa-img">
+                </div>
+                <div class="a-bout-box">
+                    <div class="a-box"></div>
+                    <div class="a-box"></div>
+                    <div class="a-box"></div>
+                    <div class="a-box"></div>
+                </div>
+            </div>
+            <img src="{{ asset('system-images/bbb.png') }}" alt="Login Image" class="aa-img">
+       </div>
 
     </div>
+    
 <script>
     const menuVideo = document.getElementById('menuVideo');
     const responsiveContent = document.getElementById('responsiveContentBtn');
@@ -91,6 +97,5 @@
         }
     });
 </script>
-
 </body>
 </html>

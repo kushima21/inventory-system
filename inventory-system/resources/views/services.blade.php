@@ -6,14 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     @vite(['resources/css/index.css', 'resources/js/app.js'])
+    @vite(['resources/css/services.css', 'resources/js/app.js'])
+    @vite(['resources/css/responsived.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
-
 </head>
 <body>
     <div class="content-main-container">
+
         <div class="navBar-container">
-            <nav class="nav-links">
+             <nav class="nav-links">
                 <ul>
                     <a href="/">
                         <li><video autoplay loop muted playsinline>
@@ -52,7 +54,7 @@
                     </a>
                 </ul>
             </nav>
-            <div class="menuBar">
+             <div class="menuBar">
                 <video autoplay loop muted playsinline id="menuVideo">
                 <source src="{{ asset('icons/list.mp4') }}" type="video/mp4">
                 </video>
@@ -63,22 +65,31 @@
                 </a>
                 <a href="{{ url('/signup') }}"><button type="button" class="primBtn">Sign Up</button></a>
             </div>
-        </div>
-        <div class="content-container">
-             <div class="welcome-container"></div>
-            <img src="{{ asset('system-images/index.png') }}" alt="Login Image" class="i-img">
-        </div>
+       </div>
 
-        <div class="offer-container">
-            <div class="offer-box"></div>
-            <img src="{{ asset('system-images/d.png') }}" alt="Login Image" class="l-img">
-             <div class="offer-box"></div>
-            <img src="{{ asset('system-images/aaa.png') }}" alt="Login Image" class="l-img">
-            <img src="{{ asset('system-images/ccc.png') }}" alt="Login Image" class="l-img">
-            <div class="offer-box"></div>
-        </div>
+       <div class="services-header">
+            <h2 class="services-H">Our Services</h2>
+            <p class="services-P">
+                Our basketball gym reservation service makes it easy to book your workout schedule in advance.<br>
+                This ensures an organized experience, prevents overcrowding,<br>
+                and provides flexibility for personal training, group classes, or individual sessions.
+            </p>
+       </div>
+
+       <div class="services-container">
+            <div class="service-b"></div>
+            <img src="{{ asset('system-images/s.png') }}" alt="Login Image" class="s-img">
+            <div class="service-b"></div>
+       </div>
+       <div class="services-container">
+            <img src="{{ asset('system-images/f.png') }}" alt="Login Image" class="ss-img">
+            <div class="service-b"></div>
+            <div class="service-b"></div>
+            <img src="{{ asset('system-images/d.png') }}" alt="Login Image" class="ss-img">
+       </div>
 
     </div>
+
 <script>
     const menuVideo = document.getElementById('menuVideo');
     const responsiveContent = document.getElementById('responsiveContentBtn');
@@ -91,6 +102,5 @@
         }
     });
 </script>
-
 </body>
 </html>
