@@ -63,6 +63,18 @@ Route::get('/home', function () {
     return view('customers.home');
 });
 
+Route::get('/userAbout', function () {
+    return view('customers.userAbout');
+});
+
+Route::get('/userContact', function () {
+    return view('customers.userContact');
+});
+
+Route::get('/userServices', function () {
+    return view('customers.userServices');
+});
+
 Route::get('/navbar', function () {
     return view('partials.navbar');
 });

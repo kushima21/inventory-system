@@ -15,14 +15,14 @@
     <div class="navBar-container">
         <nav class="nav-links">
             <ul>
-                <li><a href="#">
+                <li><a href="{{ url('/home') }}">
                     <video autoplay loop muted playsinline>
                         <source src="{{ asset('icons/home.mp4') }}" type="video/mp4">
                     </video>
                     <span class="link">Home</span>
                 </a></li>
                 
-                <li><a href="#">
+                <li><a href="{{ url('/userAbout') }}">
                     <video autoplay loop muted playsinline>
                         <source src="{{ asset('icons/info.mp4') }}" type="video/mp4">
                     </video>
@@ -36,14 +36,14 @@
                     <span class="links">Booking</span>
                 </a></li>
                 
-                <li><a href="#">
+                <li><a href="{{ url('/userContact') }}">
                     <video autoplay loop muted playsinline>
                         <source src="{{ asset('icons/contact.mp4') }}" type="video/mp4">
                     </video>
                     <span class="links">Contact Us</span>
                 </a></li>
                 
-                <li><a href="#">
+                <li><a href="{{ url('/userServices') }}">
                     <video autoplay loop muted playsinline>
                         <source src="{{ asset('icons/helpdesk.mp4') }}" type="video/mp4">
                     </video>
@@ -63,8 +63,10 @@
     </div>
     <div class="modal-background">
         <div class="profile-modal">
-            <p>dad</p>
         </div>
+    </div>
+    <div class="main-content-container-box">
+        @yield ('content')
     </div>
 </div>
 
