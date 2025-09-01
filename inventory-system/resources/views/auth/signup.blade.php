@@ -18,11 +18,15 @@
                 <h2  class="second-header">Account</h2>
             </div>
             <div class="login-form-box">
-                    <form method="POST" action="">
-                        @csrf 
+                    <form method="POST" action="{{ route('signup.store') }}">
+                        @csrf
                         <div class="form-info">
                             <label for="fullname">Full Name</label>
                             <input type="text" name="name" id="name" placeholder="Enter your full name..." required>
+                        </div>
+                        <div class="form-info">
+                            <label for="phone_number">Phone Number:</label>
+                            <input type="text" name="phone_number" id="phone_number" placeholder="Enter your phone number..." maxlength="11" pattern="\d{11}" required>
                         </div>
                         <div class="form-info">
                             <label for="email">Email</label>
@@ -34,8 +38,10 @@
                         </div>
                         <div class="form-info">
                             <label for="password">Confirm Password</label>
-                            <input type="password" name="password" id="password" placeholder="Confirm password..." required> 
+                           <input type="password" name="password_confirmation" id="confirm_password" placeholder="Confirm password..." required>
+                            <p id="password-error" style="color:red; display:none; font-size:14px;">Passwords do not match</p>
                         </div>
+                        <input type="hidden" name="roles" id="roles" value="Customers">
                         <div class="formBtn">
                             <button type="submit" name="submit">Create Account</button>
                         </div>
@@ -43,6 +49,13 @@
                         <div class="createBtn">
                             <a href="{{ url('/login') }}"><button type="button">Sign in now</button></a>
                         </div>
+                        
+                        {{-- Success Message --}}
+                        @if (session('success'))
+                            <div class="success-message" style="margin-top:10px; font-size: 11px; padding:10px; color:#155724;">
+                                {{ session('success') }}
+                            </div>
+                        @endif
                         <div class="home">
                             <a href="{{ route('home') }}" class="home-link">
                             <i class="fa-solid fa-arrow-left"></i>
@@ -64,5 +77,23 @@
             <img src="{{ asset('system-images/signup.png') }}" alt="Login Image" class="sign-img">
         </div>
     </div>
+<script>
+    const password = document.getElementById("password");
+    const confirmPassword = document.getElementById("confirm_password");
+    const errorMsg = document.getElementById("password-error");
+    const submitBtn = document.getElementById("submitBtn");
+
+    confirmPassword.addEventListener("input", function () {
+        if (confirmPassword.value !== password.value) {
+            confirmPassword.style.borderColor = "red";
+            errorMsg.style.display = "block";
+            submitBtn.disabled = true;
+        } else {
+            confirmPassword.style.borderColor = "green";
+            errorMsg.style.display = "none";
+            submitBtn.disabled = false;
+        }
+    });
+</script>
 </body>
 </html>

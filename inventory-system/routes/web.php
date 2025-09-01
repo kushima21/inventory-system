@@ -81,8 +81,8 @@ Route::get('/navbar', function () {
 
 Route::get('/personnel_dashboard', [UserController::class, 'index'])->name('personnel.personnel_dashboard');
 Route::post('/personnel_dashboard', [UserController::class, 'store'])->name('users.store');
-Route::get('/personnel_dashboard', [UserController::class, 'search'])->name('users.search');
-
+Route::get('/personnel_dashboard/search', [UserController::class, 'search'])->name('users.search');
+Route::post('/signup', [UserController::class, 'signup'])->name('signup.store');
 
 Route::get('/supplies', [SuppliesController::class, 'create'])->name('supplies.create');
 Route::post('/supplies', [SuppliesController::class, 'store'])->name('supplies.store');

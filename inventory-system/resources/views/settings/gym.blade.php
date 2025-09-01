@@ -8,8 +8,12 @@
 
         <div class="gym-box-header">
             <form method="POST" action="">
-                <input type="text"></form>
+                <input type="text" class="gymSearch" placeholder="Quick Search...">
             </form>
+
+            <button class="gymBtn" type="button" onclick="openGymModal()">
+                + Create Gym Offer
+            </button>
         </div>
 
     </div> 

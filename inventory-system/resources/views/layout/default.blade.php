@@ -54,26 +54,26 @@
                     </div>
                 </a>
                 <span class="link-title">SETTINGS</span>
-                <a href="#">
+                <a href="{{ url('/supplies') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Supplies Section</span>
                     </div>
                 </a>
-                <a href="#">
+                <a href="{{ url('/gym') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Gym Section</span>
                     </div>
                 </a>
-                <a href="#">
+                <a href="{{ url('/equipment') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Equipment Section</span>
                     </div>
                 </a>
                 <span class="link-title">ACCOUNT</span>
-                <a href="#">
+                <a href="{{ url('/personnel_dashboard') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Personnels</span>

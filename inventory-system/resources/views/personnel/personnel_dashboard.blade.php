@@ -26,14 +26,18 @@
                     <input type="text" name="name" id="name" placeholder="Fullname..." required>
                 </div>
                 <div class="info-container">
-                    <label for="email">Email:</label>
-                    <input type="text" name="email" id="email" placeholder="Email" required>
+                    <label for="phone_number">Phone Number:</label>
+                    <input type="text" name="phone_number" id="phone_number" placeholder="Phone Number..." required>
                 </div>
-                 <div class="info-container">
+                <div class="info-container">
+                    <label for="email">Email:</label>
+                    <input type="email" name="email" id="email" placeholder="Email" required>
+                </div>
+                <div class="info-container">
                     <label for="password">Password:</label>
                     <input type="password" name="password" id="password" placeholder="Password" required>
                 </div>
-               <div class="info-container">
+                <div class="info-container">
                     <label for="roles">Roles:</label>
                     <input list="role-options" name="roles" id="roles" placeholder="Select role..." required>
                     <datalist id="role-options">
@@ -48,8 +52,8 @@
                     <button type="submit" name="submit">Create</button>
                     <button type="button" name="cancel" onclick="closeAddPersonnelModal()">Cancel</button>
                 </div>
-
             </form>
+
         </div>
    </div>
 
@@ -67,23 +71,26 @@
         </tr>
     </thead>
     <tbody id="personnelTableBody">
-        @forelse ($users as $user)
-          @include('personnel.partials.personnel_table_rows')
-            <tr>
-                <td>{{ $user->name }}</td>
-                <td>{{ $user->email }}</td>
-                <td>{{ $user->roles }}</td>
-                <td>{{ $user->created_at->format('Y-m-d') }}</td>
-                <td>
-                    <button>Edit</button>
-                    <button>Delete</button>
-                </td>
-            </tr>
+       @forelse ($users as $user)
+            @if($user->roles !== 'Customers')
+                @include('personnel.partials.personnel_table_rows')
+                <tr>
+                    <td>{{ $user->name }}</td>
+                    <td>{{ $user->email }}</td>
+                    <td>{{ $user->roles }}</td>
+                    <td>{{ $user->created_at->format('Y-m-d') }}</td>
+                    <td>
+                        <button>Edit</button>
+                        <button>Delete</button>
+                    </td>
+                </tr>
+            @endif
         @empty
             <tr>
                 <td colspan="5">No personnel found.</td>
             </tr>
         @endforelse
+
     </tbody>
 </table>
 

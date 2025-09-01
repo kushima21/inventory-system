@@ -40,6 +40,10 @@
         width: 35px;
         height: 35px;
     }
+
+    .content-container {
+        margin-top: 20%;
+    }
 }
 
 
