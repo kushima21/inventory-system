@@ -34,7 +34,6 @@
                         <option value="Fan">
                         <option value="Gameboard">
                         <option value="Speaker">
-                        <option value="Fan">
                     </datalist>
                 </div>
 

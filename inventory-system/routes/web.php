@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\SuppliesController;
 use App\Http\Controllers\EquipmentController;
+use App\Http\Controllers\GymController;
 
 Route::get('/', function () {
     return view('index');
@@ -97,3 +98,7 @@ Route::get('/equipment', [EquipmentController::class, 'create'])->name('equipmen
 Route::post('/equipment', [EquipmentController::class, 'store'])->name('equipment.store');
 Route::post('/equipment/{id}/add-more', [EquipmentController::class, 'addMore'])->name('equipment.addMore');
 Route::delete('/equipment/{id}', [EquipmentController::class, 'delete'])->name('equipment.delete');
+Route::get('/gym', [EquipmentController::class, 'gym'])->name('settings.gym');
+
+Route::post('/gym/store', [GymController::class, 'store'])->name('gym.store');
+Route::get('/gym', [GymController::class, 'index'])->name('gym.index');

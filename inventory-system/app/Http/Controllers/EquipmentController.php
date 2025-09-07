@@ -52,4 +52,10 @@ class EquipmentController extends Controller
 
         return redirect()->back()->with('success', 'Equipment deleted!');
     }
+
+        public function gym()
+        {
+            $equipmentList = Equipment::all();
+            return view('settings.gym', compact('equipmentList'));
+        }
 }
