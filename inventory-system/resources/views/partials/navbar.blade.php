@@ -62,8 +62,7 @@
         </nav>
     </div>
     <div class="modal-background">
-        <div class="profile-modal">
-        </div>
+        <div class="profile-modal"></div>
     </div>
     <div class="main-content-container-box">
         @yield ('content')

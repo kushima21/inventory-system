@@ -32,7 +32,7 @@
                         <span class="links">About Us</span>
                         <li>
                     </a>
-                    <a href="#">
+                    <a href="{{ url('/book') }}">
                         <li><video autoplay loop muted playsinline>
                         <source src="{{ asset('icons/book-now.mp4') }}" type="video/mp4">
                         </video>

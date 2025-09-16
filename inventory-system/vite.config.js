@@ -19,6 +19,7 @@ export default defineConfig({
             'resources/css/signup.css',
             'resources/css/index.css',
             'resources/css/about.css',
+            'resources/css/book.css',
             'resources/css/contact.css',
             'resources/css/services.css',
             'resources/css/responsived.css',

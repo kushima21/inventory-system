@@ -34,6 +34,7 @@
     height: 280px;
     box-shadow: 0px 0px 10px;
     border-radius: 12px;
+    z-index: 1000;
 }
 .service-b h3 {
     font-size: 22px;
@@ -56,4 +57,6 @@
 .ss-img {
     width: 15%;
     height: 100%;
+    background-size: cover;
+    background-position: center;
 }
