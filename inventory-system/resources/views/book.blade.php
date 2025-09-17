@@ -7,6 +7,7 @@
     <title>Document</title>
     @vite(['resources/css/index.css', 'resources/js/app.js'])
     @vite(['resources/css/book.css', 'resources/js/app.js'])
+    @vite(['resources/css/responsived.css', 'resources/js/app.js'])
 
 </head>
 <body>
@@ -77,16 +78,53 @@
             </h2>
 
             <div class="booking-box-container">
-                <div class="booking-box"></div>
-                <div class="booking-box"></div>
-                <div class="booking-box"></div>
-                <div class="booking-box"></div>
-                <div class="booking-box"></div>
+               <div class="booking-box">
+                    <h2 class="book-h">All Star Premium Packages</h2>
+                    <h3 class="list-item">List of Items Offer :</h3>
+                    <ul class="items-list">
+                        <li>LED - <span>10 pieces</span></li>
+                        <li>Table - <span>10 pieces</span></li>
+                        <li>Chairs - <span>10 pieces</span></li>
+                        <li>Speaker - <span>10 pieces</span></li>
+                        <li>Fan - <span>10 pieces</span></li>
+                        <li>GameBoard - <span>10 pieces</span></li>
+                    </ul>
+                    <div class="book-btn">
+                        <button type="button">Book Now</button>
+                    </div>
+                </div>
+                <div class="booking-box">
+                    <h2 class="book-h">All Star Premium Packages</h2>
+                    <h3 class="list-item">List of Items Offer :</h3>
+                    <ul class="items-list">
+                        <li>LED - <span>10 pieces</span></li>
+                        <li>Table - <span>10 pieces</span></li>
+                        <li>Chairs - <span>10 pieces</span></li>
+                        <li>Speaker - <span>10 pieces</span></li>
+                        <li>Fan - <span>10 pieces</span></li>
+                        <li>GameBoard - <span>10 pieces</span></li>
+                    </ul>
+                    <div class="book-btn">
+                        <button type="button">Book Now</button>
+                    </div>
+                </div>
             </div>
        </div>
 
 
 
     </div>
+<script>
+    const menuVideo = document.getElementById('menuVideo');
+    const responsiveContent = document.getElementById('responsiveContentBtn');
+
+    menuVideo.addEventListener('click', () => {
+        if (responsiveContent.style.display === "flex") {
+            responsiveContent.style.display = "none";
+        } else {
+            responsiveContent.style.display = "flex";
+        }
+    });
+</script>
 </body>
 </html>

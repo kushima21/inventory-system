@@ -94,9 +94,9 @@
                     <li class="e-list">2 LED</li>
                     <li class="e-list">4 Fan</li>
                     <li class="e-list">2 speaker</li>
-                    <li class="e-list">8 Gameboard</li>
-                    <li class="e-list">3 Table</li>
-                    <li class="e-list">100 Chairs</li>
+                    <li class="e-list">2 speaker</li>
+                    <li class="e-list">2 speaker</li>
+                    <li class="e-list">2 speaker</li>
                 </ul>
             <div class="b-p-container">
                 <h3 class="p-header">Total Price: </h3>
