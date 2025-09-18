@@ -106,3 +106,4 @@ Route::get('/gym', [EquipmentController::class, 'gym'])->name('settings.gym');
 
 Route::post('/gym/store', [GymController::class, 'store'])->name('gym.store');
 Route::get('/gym', [GymController::class, 'index'])->name('gym.index');
+Route::delete('/gym/{id}', [GymController::class, 'destroy'])->name('gym.destroy');

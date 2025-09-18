@@ -49,4 +49,14 @@ class GymController extends Controller
         return view('settings.gym', compact('gyms', 'equipmentList'));
     }
 
+    public function destroy($id)
+    {
+        $gym = Gym::findOrFail($id);
+        $gym->delete();
+
+        return redirect()->back()->with('success', 'Package deleted successfully!');
+    }
+
+    
+
 }

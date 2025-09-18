@@ -15,4 +15,5 @@ class Gym extends Model
                     ->withPivot('quantity')
                     ->withTimestamps();
     }
+    
 }

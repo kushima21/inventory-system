@@ -87,51 +87,60 @@
 
     <div class="gym-offer-box-container">
 
-        <div class="box-gym-offer-modal" id="offerModal">
-            <h2 class="m-g-header">All-Star Premium Package</h2>
-            <h3 class="e-header">Includes:</h3>
-                <ul class="u-list">
-                    <li class="e-list">2 LED</li>
-                    <li class="e-list">4 Fan</li>
-                    <li class="e-list">2 speaker</li>
-                    <li class="e-list">2 speaker</li>
-                    <li class="e-list">2 speaker</li>
-                    <li class="e-list">2 speaker</li>
-                </ul>
-            <div class="b-p-container">
-                <h3 class="p-header">Total Price: </h3>
-                <h3 class="p-amount">₱ 5,000.00</h3>
-                <button class="closeBtn" onclick="closeModal()">Close</button>
-            </div>
-        </div>
+      <div class="box-gym-offer-modal" id="offerModal" style="display:none;">
+    <h2 class="m-g-header" id="modalPackage"></h2>
+    <h3 class="e-header">Includes:</h3>
+    <ul class="u-list" id="modalEquipmentList"></ul>
 
-        <table class="product-table">
-            <thead>
-                <tr>
-                <th>Package Name</th>
-                <th>Package Price</th>
-                <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr>
-                <td>All Star Premium Package</td>
-                <td>₱ 5,000.00</td>
+    <div class="b-p-container">
+        <h3 class="p-header">Total Price: </h3>
+        <h3 class="p-amount" id="modalPrice"></h3>
+        <button class="closeBtn" onclick="closeModal()">Close</button>
+    </div>
+</div>
+
+       <table class="product-table">
+    <thead>
+        <tr>
+            <th>Package Name</th>
+            <th>Package Price</th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse ($gyms as $gym)
+            <tr>
+                <td>{{ $gym->package }}</td>
+                <td>₱ {{ number_format($gym->price, 2) }}</td>
                 <td>
-                    <button class="action-btn" type="button" onclick="openModal()">View More</button>
-                    <button class="action-btn delete">Delete</button>
+                    <button class="action-btn"
+                        type="button"
+                        onclick="openModal({{ $gym->id }})"
+                        data-id="{{ $gym->id }}"
+                        data-package="{{ $gym->package }}"
+                        data-price="{{ number_format($gym->price, 2) }}"
+                        data-equipment='@json($gym->equipment->map(fn($e) => [
+                            "name" => $e->equipment,
+                            "qty"  => $e->pivot->quantity
+                        ]))'>
+                        View More
+                    </button>
+
+                    <form action="{{ route('gym.destroy', $gym->id) }}" method="POST" style="display:inline;">
+                        @csrf
+                        @method('DELETE')
+                        <button class="action-btn delete" type="submit">Delete</button>
+                    </form>
                 </td>
-                </tr>
-                <tr>
-                <td>Basic Play Package</td>
-                <td>₱ 3,500.00</td>
-                <td>
-                    <button class="action-btn" type="button" onclick="openModal()">View More</button>
-                    <button class="action-btn delete">Delete</button>
-                </td>
-                </tr>
-            </tbody>
-        </table>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="3">No packages available.</td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
+
 
     </div>  
 
@@ -207,13 +216,42 @@ document.querySelectorAll('input[type="checkbox"][name="equipment[]"]').forEach(
 });
 </script>
 <script>
-    function openModal() {
+function openModal(gymId) {
+    let btn = document.querySelector(`button[onclick="openModal(${gymId})"]`);
+    
+    // kuhaon data gikan sa button
+    let packageName = btn.getAttribute("data-package");
+    let price = btn.getAttribute("data-price");
+    let equipment = JSON.parse(btn.getAttribute("data-equipment"));
+
+    // butang sa modal
+    document.getElementById("modalPackage").textContent = packageName;
+    document.getElementById("modalPrice").textContent = "₱ " + price;
+
+    let ul = document.getElementById("modalEquipmentList");
+    ul.innerHTML = ""; // clear old list
+
+    if (equipment.length > 0) {
+        equipment.forEach(item => {
+            let li = document.createElement("li");
+            li.classList.add("e-list");
+            li.textContent = item.qty + " " + item.name;
+            ul.appendChild(li);
+        });
+    } else {
+        let li = document.createElement("li");
+        li.classList.add("e-list");
+        li.textContent = "No equipment included.";
+        ul.appendChild(li);
+    }
+
     document.getElementById("offerModal").style.display = "block";
 }
 
 function closeModal() {
     document.getElementById("offerModal").style.display = "none";
 }
+
 </script>
 
 
