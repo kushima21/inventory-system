@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Gym extends Model
 {
     protected $table = 'gym_table'; // kung mao ni imong table name
-    protected $fillable = ['package', 'price'];
+    protected $fillable = ['package','days', 'price'];
 
     public function equipment()
     {

@@ -78,6 +78,7 @@
             </h2>
 
             <div class="booking-box-container">
+
                <div class="booking-box">
                     <h2 class="book-h">All Star Premium Packages</h2>
                     <h3 class="list-item">List of Items Offer :</h3>
@@ -89,9 +90,11 @@
                         <li>Fan - <span>10 pieces</span></li>
                         <li>GameBoard - <span>10 pieces</span></li>
                     </ul>
+                    <a href="{{ url('/login') }}">
                     <div class="book-btn">
                         <button type="button">Book Now</button>
                     </div>
+                    </a>
                 </div>
                 <div class="booking-box">
                     <h2 class="book-h">All Star Premium Packages</h2>
@@ -104,9 +107,11 @@
                         <li>Fan - <span>10 pieces</span></li>
                         <li>GameBoard - <span>10 pieces</span></li>
                     </ul>
+                    <a href="{{ url('/login') }}">
                     <div class="book-btn">
                         <button type="button">Book Now</button>
                     </div>
+                    </a>
                 </div>
             </div>
        </div>

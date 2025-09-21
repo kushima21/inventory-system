@@ -130,7 +130,7 @@
       .info-btn {
         display: flex;
         justify-content: space-between;
-         margin: 25px;
+        margin: 10px;
     }
 
     .info-btn button{

@@ -22,7 +22,7 @@
                         @csrf
                         <div class="form-info">
                             <label for="fullname">Full Name</label>
-                            <input type="text" name="name" id="name" placeholder="Enter your full name..." required>
+                            <input type="text" name="fname" id="fname" placeholder="Enter your full name..." required>
                         </div>
                         <div class="form-info">
                             <label for="phone_number">Phone Number:</label>

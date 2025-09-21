@@ -10,8 +10,11 @@ return new class extends Migration
     {
         Schema::create('gym_equipment', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('gym_id')->constrained('gym_table')->onDelete('cascade');
+
+            // Make sure the table names match your database tables
+            $table->foreignId('gym_id')->constrained('gyms')->onDelete('cascade');
             $table->foreignId('equipment_id')->constrained('equipment')->onDelete('cascade');
+
             $table->integer('quantity')->default(1);
             $table->timestamps();
         });

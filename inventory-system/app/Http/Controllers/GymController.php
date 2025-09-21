@@ -8,55 +8,62 @@ use App\Models\Equipment;
 
 class GymController extends Controller
 {
+    /**
+     * Store a new gym reservation/package.
+     */
     public function store(Request $request)
     {
-        // validate inputs
+        // Validate inputs
         $request->validate([
-            'packages' => 'required|string',
+            'package' => 'required|string',
+            'days' => 'required|numeric|min:0',
             'price' => 'required|numeric|min:0',
             'equipment' => 'nullable|array',
             'equipment.*' => 'exists:equipment,id',
+            'equipment_quantity' => 'nullable|array',
         ]);
 
-        // save gym reservation
+        // Create gym reservation
         $reservation = Gym::create([
-            'package' => $request->packages,
-            'price'   => $request->price,
+            'package' => $request->package,
+            'days' => $request->days,
+            'price' => $request->price,
         ]);
 
-        // save selected equipment with quantity
-        if ($request->has('equipment')) {
+        // Attach selected equipment with quantity
+        if ($request->filled('equipment')) {
             foreach ($request->equipment as $equipmentId) {
                 $quantity = $request->equipment_quantity[$equipmentId] ?? 1;
-
-                $reservation->equipment()->attach($equipmentId, [
-                    'quantity' => $quantity
-                ]);
+                $reservation->equipment()->attach($equipmentId, ['quantity' => $quantity]);
             }
         }
 
         return redirect()->back()->with('success', 'Reservation saved successfully!');
     }
 
-   public function index()
+    /**
+     * Display all gym packages with equipment.
+     */
+    public function index()
     {
-        // kuhaon tanan package with equipment
         $gyms = Gym::with('equipment')->get();
-
-        // kuhaon pud tanan available equipment para sa form
         $equipmentList = Equipment::all();
 
         return view('settings.gym', compact('gyms', 'equipmentList'));
     }
 
+    /**
+     * Delete a gym package/reservation.
+     */
     public function destroy($id)
     {
         $gym = Gym::findOrFail($id);
+
+        // Detach equipment before deleting to avoid foreign key issues
+        $gym->equipment()->detach();
+
         $gym->delete();
 
         return redirect()->back()->with('success', 'Package deleted successfully!');
     }
-
-    
-
 }

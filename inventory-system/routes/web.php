@@ -72,6 +72,10 @@ Route::get('/userAbout', function () {
     return view('customers.userAbout');
 });
 
+Route::get('/userBook', function () {
+    return view('customers.userBook');
+});
+
 Route::get('/userContact', function () {
     return view('customers.userContact');
 });

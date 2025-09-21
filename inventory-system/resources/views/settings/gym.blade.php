@@ -4,7 +4,65 @@
 @section('content')
 
     <div class="gym-header-container">
+
+
         <h2 class="gym-header">Gym Section</h2>
+
+        <div class="gymModal-container" id="gymModal" >
+            <h2 class="header-create-gym">
+            Add Basketball Gym Offer
+            </h2>
+
+            <div class="b-gym-offer-form">
+                <form action="{{ route('gym.store') }}" method="POST">
+                    @csrf
+                    <div class="info-container">
+                        <label for="packages">Suggested Packages</label>
+                        <input list="packages-list" name="package" id="packages" placeholder="Select Package..." required>
+                        <datalist id="packages-list">
+                            <option value="All-Star Premium Package">
+                            <option value="Slam Dunk Package">
+                            <option value="Standard Game Package">
+                            <option value="Basic Play Package">
+                        </datalist>
+                        <label for="days">Days</label>
+                        <input type="number" name="days" placeholder="Days Duration" required>
+                    </div>
+
+                @forelse($equipmentList as $equipment)
+                    <div class="info-container" style="display:none;" id="equipment-{{ $equipment->id }}">
+                        <label>
+                            <input type="checkbox" 
+                                name="equipment[]" 
+                                value="{{ $equipment->id }}" 
+                                data-equipment="{{ $equipment->equipment }}">
+                            {{ $equipment->equipment }} ({{ $equipment->quantity }})
+                        </label>
+
+                        {{-- Hidden quantity input (mo-show lang if Table or Chairs ang gi-check) --}}
+                        <input type="number" 
+                            name="equipment_quantity[{{ $equipment->id }}]" 
+                            id="quantity-{{ $equipment->id }}" 
+                            placeholder="Enter Quantity..." 
+                            style="display:none; margin-left:10px;" 
+                            min="1" 
+                            max="{{ $equipment->quantity }}">
+                    </div>
+                    @empty
+                        <p>No equipment added yet.</p>
+                    @endforelse
+
+                    <div class="info-container">
+                        <label for="price">Price</label>
+                        <input type="number" name="price" id="price" placeholder="Enter Price..." required>
+                    </div>
+                    <div class="info-btn">
+                        <button type="button" id="addEquipmentBtn">Add Equipment</button>
+                        <button type="button" name="cancel" onclick="closeEquipmentModal()">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <div class="gym-box-header">
             <form method="POST" action="">
@@ -23,63 +81,6 @@
         </div>
 
     </div> 
-
-    <div class="gymModal-container" id="gymModal" >
-        <h2 class="header-create-gym">
-           Add Basketball Gym Offer
-        </h2>
-
-        <div class="b-gym-offer-form">
-            <form action="{{ route('gym.store') }}" method="POST">
-                @csrf
-                <div class="info-container">
-                    <label for="packages">Suggested Packages</label>
-                    <input list="packages-list" name="packages" id="packages" placeholder="Select Package..." required>
-                    <datalist id="packages-list">
-                        <option value="All-Star Premium Package">
-                        <option value="Slam Dunk Package">
-                        <option value="Standard Game Package">
-                        <option value="Basic Play Package">
-                    </datalist>
-                </div>
-
-               @forelse($equipmentList as $equipment)
-                <div class="info-container" style="display:none;" id="equipment-{{ $equipment->id }}">
-                    <label>
-                        <input type="checkbox" 
-                            name="equipment[]" 
-                            value="{{ $equipment->id }}" 
-                            data-equipment="{{ $equipment->equipment }}">
-                        {{ $equipment->equipment }} ({{ $equipment->quantity }})
-                    </label>
-
-                    {{-- Hidden quantity input (mo-show lang if Table or Chairs ang gi-check) --}}
-                    <input type="number" 
-                        name="equipment_quantity[{{ $equipment->id }}]" 
-                        id="quantity-{{ $equipment->id }}" 
-                        placeholder="Enter Quantity..." 
-                        style="display:none; margin-left:10px;" 
-                        min="1" 
-                        max="{{ $equipment->quantity }}">
-                </div>
-                @empty
-                    <p>No equipment added yet.</p>
-                @endforelse
-
-                <div class="info-container">
-                    <label for="price">Price</label>
-                    <input type="number" name="price" id="price" placeholder="Enter Price..." required>
-                </div>
-
-                <div class="info-btn">
-                    <button type="button" id="addEquipmentBtn">Add Equipment</button>
-                    <button type="button" name="cancel" onclick="closeEquipmentModal()">Cancel</button>
-                </div>
-            </form>
-
-        </div>
-
-    </div>
 
     <h2 class="gym-offer-header">
         List of Gym Offers

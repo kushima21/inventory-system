@@ -1,94 +1,164 @@
-.main-booking-container {
-    width: 100%;
-    height: max-content;   
-}
+    .main-booking-container {
+        width: 100%;
+        height: max-content;   
+    }
 
-.book-header {
-    margin-top: 7%;
-    text-align: center;
-    justify-content: center;
-    font-size: 27px;
-}
+    .book-header {
+        margin-top: 7%;
+        text-align: center;
+        justify-content: center;
+        font-size: 27px;
+    }
 
-.book-p {
-    text-align: center;
-    justify-content: center;
-    font-size: 15px;
-    padding: 0 20%;
-    padding-top: 5px;
-}
+    .book-p {
+        text-align: center;
+        justify-content: center;
+        font-size: 15px;
+        padding: 0 20%;
+        padding-top: 5px;
+    }
 
 
-.offer-header {
-    margin-top: 5%;
-    padding: 0 20px;
-    font-size: 20px;
-}
+    .offer-header {
+        margin-top: 5%;
+        padding: 0 20px;
+        font-size: 20px;
+    }
 
-.booking-box-container {
-    width: 100%;
-    height: max-content;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 10px;
-    padding-top: 30px;
-    padding-bottom: 20px;
-}
+    .booking-box-container {
+        width: 100%;
+        height: max-content;
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        flex-wrap: wrap;
+        gap: 10px;
+        padding-top: 30px;
+        padding-bottom: 20px;
+    }
 
-.booking-box {
-    width: 400px;
-    height: 300px;
-    box-shadow: 0px 0px 10px;
-    border-radius: 20px;
-    margin: 10px;
-}
+    .booking-box {
+        width: 400px;
+        height: 300px;
+        box-shadow: 0px 0px 10px;
+        border-radius: 20px;
+        margin: 10px;
+    }
+    .booking-box a {
+        text-decoration: none;
+    }
+    .book-h {
+        text-align: center;
+        padding-top: 15px;
+        font-family: 'Times New Roman', Times, serif;
+    }
 
-.book-h {
-    text-align: center;
-    padding-top: 15px;
-    font-family: 'Times New Roman', Times, serif;
-}
+    .list-item {
+        margin: 20px;
+        font-size: 15px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    /* Plastar two-two atbang */
+    .items-list {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* duha ka column */
+        list-style: none;
+        padding: 0 30px;
+        margin-top: 5px;
+        gap: 10px 10px;
+        min-height: 100px;
+    }
 
-.list-item {
-    margin: 20px;
-    font-size: 15px;
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-/* Plastar two-two atbang */
-.items-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr; /* duha ka column */
-    list-style: none;
-    padding: 0 30px;
-    margin-top: 5px;
-    gap: 10px 10px;
-    min-height: 100px;
-}
+    .items-list li {
+        display: flex;
+        font-family: Arial, sans-serif;
+        justify-content: center;
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: bold;
+    }
 
-.items-list li {
-    display: flex;
-    font-family: Arial, sans-serif;
-    justify-content: center;
-    margin-top: 10px;
-    font-size: 14px;
-    font-weight: bold;
-}
+    .book-btn {
+        display: flex;
+        justify-content: center;
+        padding-top: 30px;
+    }
 
-.book-btn {
-    display: flex;
-    justify-content: center;
-    padding-top: 30px;
-}
+    .book-btn button {
+        width: 250px;
+        height: 40px;
+        border-radius: 12px;
+        border: none;
+        font-size: 13px;
+        background-color: maroon;
+        color: #fff;
+        cursor: pointer;
+    }
 
-.book-btn button {
-    width: 250px;
-    height: 40px;
-    border-radius: 12px;
-    border: none;
-    font-size: 13px;
-    background-color: maroon;
-    color: #fff;
-    cursor: pointer;
-}
+
+    /* user booking modal */
+
+     .booking-modal-form-box {
+        width: 100%;
+        height: 550px;
+        position: fixed;
+        top: 12%;
+        z-index: 1000;
+        border-radius: 20px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .modal-box-1 {
+        width: 450px;
+        height: 380px;
+        background: white;
+        z-index: 1000;
+        box-shadow: 0px 0px 10px;
+        border-radius: 20px;
+    }
+
+    /* package header */
+    .package-header {
+        padding: 20px;
+    }
+
+    .package-head {
+        text-align: center;
+    }
+
+    .list-header {
+        padding: 20px;
+    }
+
+    .items-list-form {
+        display: grid;
+        grid-template-columns: 1fr 1fr; /* duha ka column */
+        list-style: none;
+        padding: 0 40px;
+        margin-top: 10px;
+        gap: 10px 10px;
+        min-height: 100px;
+    }
+
+    .items-list-form li{
+       display: flex;
+        font-family: Arial, sans-serif;
+        justify-content: center;
+        margin-top: 10px;
+        font-size: 14px;
+        font-weight: bold; 
+    }
+
+
+    /*book modal form container */
+    .form-header {
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .form-m-modal-container {
+        width: 100%;
+    }
