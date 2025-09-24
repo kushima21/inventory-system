@@ -113,43 +113,11 @@
 
     .modal-box-1 {
         width: 450px;
-        height: 380px;
+        min-height: 470px;
         background: white;
         z-index: 1000;
         box-shadow: 0px 0px 10px;
         border-radius: 20px;
-    }
-
-    /* package header */
-    .package-header {
-        padding: 20px;
-    }
-
-    .package-head {
-        text-align: center;
-    }
-
-    .list-header {
-        padding: 20px;
-    }
-
-    .items-list-form {
-        display: grid;
-        grid-template-columns: 1fr 1fr; /* duha ka column */
-        list-style: none;
-        padding: 0 40px;
-        margin-top: 10px;
-        gap: 10px 10px;
-        min-height: 100px;
-    }
-
-    .items-list-form li{
-       display: flex;
-        font-family: Arial, sans-serif;
-        justify-content: center;
-        margin-top: 10px;
-        font-size: 14px;
-        font-weight: bold; 
     }
 
 
@@ -159,6 +127,70 @@
         padding-top: 20px;
     }
 
+    /* header container */
+.form-header {
+    display: flex;
+    justify-content: space-between; /* title sa left, close button sa right */
+    align-items: center;
+    padding: 15px 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.form-header h3 {
+    margin: 0;
+    font-size: 18px;
+    padding-left: 120px;
+}
+
+/* close button */
+.close-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #555;
+    transition: color 0.2s;
+}
+
     .form-m-modal-container {
         width: 100%;
     }
+
+    .f-container {
+    display: flex;
+    flex-direction: column; /* label sa taas, input sa ubos */
+    margin-bottom: 15px;   /* spacing kada field */
+    padding: 2px;
+}
+
+.f-container label {
+    margin-bottom: 5px;   /* gap tali sa label ug input */
+    font-weight: 500;
+}
+
+.f-container input,
+.f-container textarea {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+}
+
+.f-btn-form {
+    display: flex;
+    justify-content: space-around;
+}
+
+.f-btn-form {
+    padding-bottom: 10px;
+}
+
+.f-btn-form button {
+    width: 100px;
+    height: 35px;
+    border-radius: 9px;
+    border: none;
+    background: linear-gradient(rgba(119, 1, 1, 0.932), rgba(156, 2, 2, 0.979));
+    color: white;
+    font-size: 12px;
+}
