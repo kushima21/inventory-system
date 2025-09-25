@@ -6,7 +6,26 @@
     <div class="content-main-container">
 
          <div class="booking-modal-form-box">
-                
+                <div class="m-view-modal">
+                    <h2 class="m-view-header">
+                        All Star Premium Packages
+                    </h2>
+                    <h3 class="m-list-header">
+                        List of Item Includes:
+                    </h3>
+                     <ul class="items-list">
+                        <li>LED - <span>10 pieces</span></li>
+                        <li>Table - <span>10 pieces</span></li>
+                        <li>Chairs - <span>10 pieces</span></li>
+                        <li>Speaker - <span>10 pieces</span></li>
+                        <li>Fan - <span>10 pieces</span></li>
+                        <li>GameBoard - <span>10 pieces</span></li>
+                    </ul>
+                    <h3 class="m-item-add">
+                        /*Additional*/
+                    </h3>
+                </div>
+
                <div class="modal-box-1">
                     <div class="form-header">
                         <h3>Gym Booking Form</h3>
@@ -14,7 +33,6 @@
                     </div>
                    <form action="" method="POST">
                         <div class="form-m-modal-container">
-
                             <div class="f-container">
                                 <label for="name">Name</label>
                                 <input 
@@ -68,17 +86,17 @@
                             </div>
 
                             <div class="f-btn-form">
-                                <button type="submit" name="v-btn">
+                                <button type="button" name="v-btn">
                                     View Packages..
                                 </button>
-                                <button type="button" name="s-btn">
+                                <button type="submit" name="submit" class="s-btn">
                                     Submit
                                 </button>
                             </div>
-
                         </div>
                     </form>
                </div>
+
          </div>
 
          <div class="main-booking-container">
