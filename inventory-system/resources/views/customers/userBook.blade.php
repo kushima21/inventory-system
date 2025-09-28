@@ -5,25 +5,45 @@
 @section('content')
     <div class="content-main-container">
 
-         <div class="booking-modal-form-box">
+         <div class="booking-modal-form-box" >
                 <div class="m-view-modal">
-                    <h2 class="m-view-header">
+                    <div class="form-header">
+                        <h2 class="m-view-header">
                         All Star Premium Packages
-                    </h2>
+                        </h2>
+                        <button class="close-view-btn" type="button">&times;</button>
+                    </div>
+                    <h3 class="m-list-header">
+                        Day(s) offer : 4 Days
+                    </h3>
                     <h3 class="m-list-header">
                         List of Item Includes:
                     </h3>
                      <ul class="items-list">
-                        <li>LED - <span>10 pieces</span></li>
-                        <li>Table - <span>10 pieces</span></li>
-                        <li>Chairs - <span>10 pieces</span></li>
-                        <li>Speaker - <span>10 pieces</span></li>
-                        <li>Fan - <span>10 pieces</span></li>
-                        <li>GameBoard - <span>10 pieces</span></li>
+                        <li>10 LED</li>
+                        <li>10 Table</li>
+                        <li>10 Chairs</li>
+                        <li>20 Speaker</li>
+                        <li>20 Fan</li>
+                        <li>20 GameBoard</li>
                     </ul>
+                    <div class="additional">
                     <h3 class="m-item-add">
                         /*Additional*/
                     </h3>
+                        <ul>
+                            <li>20 chairs</li>
+                            <li>20 Table</li>
+                            <li>50 LED</li>
+                            <li>50 chairs</li>
+                        </ul>
+                    </div>
+                    <div class="h-btn-container">
+                        <h3 class="b-price">
+                            Total Php: 3000.00
+                        </h3>
+                        <button class="add-more" type="button">Add More</button>
+                    </div>
                 </div>
 
                <div class="modal-box-1">
@@ -112,29 +132,35 @@
 
                <div class="booking-box">
                     <h2 class="book-h">All Star Premium Packages</h2>
+                    <h3 class="b-h">
+                        Day(s) offer : 4 Days
+                    </h3>
                     <h3 class="list-item">List of Items Offer :</h3>
                     <ul class="items-list">
-                        <li>LED - <span>10 pieces</span></li>
-                        <li>Table - <span>10 pieces</span></li>
-                        <li>Chairs - <span>10 pieces</span></li>
-                        <li>Speaker - <span>10 pieces</span></li>
-                        <li>Fan - <span>10 pieces</span></li>
-                        <li>GameBoard - <span>10 pieces</span></li>
+                        <li>2 LED</li>
+                        <li>2 Table</li>
+                        <li>2 Chairs</li>
+                        <li>2 Speaker</li>
+                        <li>2 Fan</li>
+                        <li>2 GameBoard</li>
                     </ul>
                     <div class="book-btn">
-                        <button type="button">Book Now</button>
+                        <button type="button" id="openBookingBtn">Book Now</button>
                     </div>
                 </div>
                 <div class="booking-box">
                     <h2 class="book-h">All Star Premium Packages</h2>
+                    <h3 class="b-h">
+                        Day(s) offer : 4 Days
+                    </h3>
                     <h3 class="list-item">List of Items Offer :</h3>
                     <ul class="items-list">
-                        <li>LED - <span>10 pieces</span></li>
-                        <li>Table - <span>10 pieces</span></li>
-                        <li>Chairs - <span>10 pieces</span></li>
-                        <li>Speaker - <span>10 pieces</span></li>
-                        <li>Fan - <span>10 pieces</span></li>
-                        <li>GameBoard - <span>10 pieces</span></li>
+                        <li>2 LED</li>
+                        <li>2 Table</li>
+                        <li>2 Chairs</li>
+                        <li>2 Speaker</li>
+                        <li>2 Fan</li>
+                        <li>2 GameBoard</li>
                     </ul>
                     <div class="book-btn">
                         <button type="button">Book Now</button>
@@ -142,4 +168,54 @@
                 </div>
         </div>
     </div>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const viewBtn = document.querySelector('button[name="v-btn"]');
+    const modal = document.querySelector('.m-view-modal');
+    const closeBtn = document.querySelector('.close-view-btn');
+
+    // show modal
+    viewBtn.addEventListener("click", () => {
+        modal.style.display = "block";
+    });
+
+    // hide modal
+    closeBtn.addEventListener("click", () => {
+        modal.style.display = "none";
+    });
+
+    // optional: hide kung i-click outside modal
+    window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+            modal.style.display = "none";
+        }
+    });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const openBtn = document.getElementById("openBookingBtn");
+    const modalBox = document.querySelector(".booking-modal-form-box");
+    const closeBtns = modalBox.querySelectorAll(".close-view-btn, .close-btn");
+
+    // I-open ang modal
+    openBtn.addEventListener("click", function () {
+        modalBox.style.display = "flex";
+    });
+
+    // I-close ang modal kung i-click ang mga close buttons
+    closeBtns.forEach(btn => {
+        btn.addEventListener("click", function () {
+            modalBox.style.display = "none";
+        });
+    });
+
+    // Optional: i-close kung mo-click sa gawas sa modal
+    window.addEventListener("click", function (e) {
+        if (e.target === modalBox) {
+            modalBox.style.display = "none";
+        }
+    });
+});
+</script>
 @endsection
