@@ -7,8 +7,6 @@
     <title>Document</title>
     @vite(['resources/css/login.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-
 </head>
 <body>
     <div class="login-main-container">
@@ -20,7 +18,7 @@
 
                 <div class="login-form-container">
                     <div class="login-form-box">
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ route('login.post') }}">
                             @csrf 
                             <div class="form-info">
                                 <label for="email">Email</label>

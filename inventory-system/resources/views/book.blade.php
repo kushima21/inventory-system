@@ -11,6 +11,7 @@
 
 </head>
 <body>
+    
     <div class="content-main-container">
         <div class="navBar-container">
              <nav class="nav-links">
@@ -69,50 +70,48 @@
        <!-- Nav close -->
 
        <div class="main-booking-container">
-            <h2 class="book-header">
+            <div class="ball-image">
+                <img src="{{ asset('icons/basket-ball.png') }}" alt="basket Image" class="ball-img">
+                <h2 class="book-header">
                 " Basketball Court Reservations Made Easy "
-            </h2>
-            <p class="book-p">Find the perfect time to play and secure your slot in just a few clicks.</p>
-            <h2 class="offer-header">
-                Play & Book Packages:
-            </h2>
+                </h2>
+                <p class="book-p">Find the perfect time to play and secure your slot in just a few clicks.</p>
+                <h2 class="offer-header">
+                    Play & Book Packages:
+                </h2>
+            </div>
 
-            <div class="booking-box-container">
+                <div class="booking-box-container">
 
-               <div class="booking-box">
-                    <h2 class="book-h">All Star Premium Packages</h2>
-                    <h3 class="list-item">List of Items Offer :</h3>
-                    <ul class="items-list">
-                        <li>LED - <span>10 pieces</span></li>
-                        <li>Table - <span>10 pieces</span></li>
-                        <li>Chairs - <span>10 pieces</span></li>
-                        <li>Speaker - <span>10 pieces</span></li>
-                        <li>Fan - <span>10 pieces</span></li>
-                        <li>GameBoard - <span>10 pieces</span></li>
-                    </ul>
-                    <a href="{{ url('/login') }}">
-                    <div class="book-btn">
-                        <button type="button">Book Now</button>
+                @foreach($gyms as $gym)
+                        <div class="booking-box">
+                            <h2 class="book-h">{{ $gym->package }}</h2>
+                            <h3 class="b-h">
+                                Day(s) offer : {{ $gym->days }} Day(s)
+                            </h3>
+                            <h3 class="b-h">
+                                Price : ₱{{ number_format($gym->price, 2) }}
+                        </h3>
+                        <h3 class="list-item">List of Items Offer :</h3>
+                        <ul class="items-list">
+                            @forelse($gym->equipment as $equipment)
+                                <li>
+                                    {{ $equipment->pivot->quantity }}
+                                    <span>-</span>
+                                    {{ $equipment->equipment }}
+                                </li>
+                            @empty
+                                <li>No equipment included in this packa ge.</li>
+                            @endforelse
+                        </ul>
+                        <a href="{{ url('/login') }}">
+                            <div class="b-btn">
+                                <button type="button">Book Now</button>
+                            </div>
+                        </a>
                     </div>
-                    </a>
-                </div>
-                <div class="booking-box">
-                    <h2 class="book-h">All Star Premium Packages</h2>
-                    <h3 class="list-item">List of Items Offer :</h3>
-                    <ul class="items-list">
-                        <li>LED - <span>10 pieces</span></li>
-                        <li>Table - <span>10 pieces</span></li>
-                        <li>Chairs - <span>10 pieces</span></li>
-                        <li>Speaker - <span>10 pieces</span></li>
-                        <li>Fan - <span>10 pieces</span></li>
-                        <li>GameBoard - <span>10 pieces</span></li>
-                    </ul>
-                    <a href="{{ url('/login') }}">
-                    <div class="book-btn">
-                        <button type="button">Book Now</button>
-                    </div>
-                    </a>
-                </div>
+                @endforeach
+
             </div>
        </div>
 

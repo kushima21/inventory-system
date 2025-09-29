@@ -1,0 +1,77 @@
+.sideBar-main-Container {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.main-bar-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin-top: 3.20%;
+    gap: 20px;
+}
+
+ .left-b-container {
+    width: 20%;
+}
+
+.l-h-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+
+.ball-img {
+    width: 70px;
+}
+.l-header {
+    font-size: 22px;
+    color: maroon;
+    padding-left: 20px;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.l-m-container {
+    width: 100%;
+    padding: 10px;
+}
+
+.link-c {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-top: 20px;  
+}
+
+.link-c a {
+    text-decoration: none;
+    color: black;
+}
+
+.link-box {
+    width: 360px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    border-radius: 7px;
+}
+
+.user-image {
+    width: 30px;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.link-box h3 {
+    font-size: 15px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+/*close */
+.right-b-container {
+    width: 78%;
+}

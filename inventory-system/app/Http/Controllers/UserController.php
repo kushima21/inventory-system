@@ -74,5 +74,47 @@ public function signup(Request $request)
     return redirect('/signup')->with('success', 'Account created successfully! Please log in.');
 }
 
+public function login(Request $request)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'password' => 'required|string|min:6',
+    ]);
+
+    $user = User::where('email', $request->email)->first();
+
+    if (!$user || !Hash::check($request->password, $user->password)) {
+        return back()->withErrors([
+            'email' => 'Invalid credentials.',
+        ]);
+    }
+
+    // Store session (simple auth)
+    $request->session()->put('user_id', $user->id);
+    $request->session()->put('user_role', $user->roles);
+
+    // Redirect based on roles
+    switch ($user->roles) {
+        case 'Customers':
+            return redirect()->route('customers.home');
+        case 'Admin':
+            return redirect()->route('admin.dashboard');
+        case 'Personnel':
+            return redirect()->route('personnel.dashboard');
+        default:
+            return redirect()->route('home');
+    }
 }
+
+public function logout(Request $request)
+{
+    // Clear all session data
+    $request->session()->flush();
+
+    // Redirect to login page
+    return redirect()->route('login'); // now it works ✅
+}
+
+}
+
 

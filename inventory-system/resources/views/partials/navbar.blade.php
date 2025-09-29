@@ -15,35 +15,35 @@
     <div class="navBar-container">
         <nav class="nav-links">
             <ul>
-                <li><a href="{{ url('/home') }}">
+                <li><a href="{{ url('/customers/home') }}">
                     <video autoplay loop muted playsinline>
                         <source src="{{ asset('icons/home.mp4') }}" type="video/mp4">
                     </video>
                     <span class="link">Home</span>
                 </a></li>
                 
-                <li><a href="{{ url('/userAbout') }}">
+                <li><a href="{{ url('/customers/userAbout') }}">
                     <video autoplay loop muted playsinline>
                         <source src="{{ asset('icons/info.mp4') }}" type="video/mp4">
                     </video>
                     <span class="links">About Us</span>
                 </a></li>
                 
-                <li><a href="{{ url('/userBook') }}">
+                <li><a href="{{ url('/customers/userBook') }}">
                     <video autoplay loop muted playsinline>
                         <source src="{{ asset('icons/book-now.mp4') }}" type="video/mp4">
                     </video>
                     <span class="links">Booking</span>
                 </a></li>
                 
-                <li><a href="{{ url('/userContact') }}">
+                <li><a href="{{ url('/customers/userContact') }}">
                     <video autoplay loop muted playsinline>
                         <source src="{{ asset('icons/contact.mp4') }}" type="video/mp4">
                     </video>
                     <span class="links">Contact Us</span>
                 </a></li>
                 
-                <li><a href="{{ url('/userServices') }}">
+                <li><a href="{{ url('/customers/userServices') }}">
                     <video autoplay loop muted playsinline>
                         <source src="{{ asset('icons/helpdesk.mp4') }}" type="video/mp4">
                     </video>
@@ -52,7 +52,6 @@
                 
                 <li>
                     <img src="{{ asset('icons/notification.png') }}" alt="Notif Image" class="notif-img">
-                    <div class="notif-modal"></div>
                 </li>
                 
                 <li>
@@ -61,8 +60,33 @@
             </ul>
         </nav>
     </div>
+    <div class="notif-modal-container">
+        <div class="notif-modal">
+            <h2>dadad</h2>
+        </div>
+    </div>
     <div class="modal-background">
-        <div class="profile-modal"></div>
+        <div class="profile-modal">
+            <div class="profile-container">
+                <ul class="p-list">
+                    <li>
+                        <a href="{{ url('/customers/profile') }}">
+                            Profile Modification
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ url('/customers/bookRequest') }}">
+                            Booking Request
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#">
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
     <div class="main-content-container-box">
         @yield ('content')
@@ -71,23 +95,48 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const profileImg = document.querySelector(".profile-img");
-    const profileModal = document.querySelector(".profile-modal");
+    const notifImg = document.querySelector(".profile-img");
+    const notifModal = document.querySelector(".modal-background");
 
-    // Toggle modal on profile image click
-    profileImg.addEventListener("click", function (e) {
-        e.stopPropagation();
-        const isVisible = profileModal.style.display === "block";
-        profileModal.style.display = isVisible ? "none" : "block";
+    notifImg.addEventListener("click", function () {
+        // toggle display
+        if (notifModal.style.display === "flex") {
+            notifModal.style.display = "none";
+        } else {
+            notifModal.style.display = "flex";
+        }
     });
 
-    // Hide modal when clicking outside
-    document.addEventListener("click", function (e) {
-        if (!profileModal.contains(e.target) && !profileImg.contains(e.target)) {
-            profileModal.style.display = "none";
+    // i-close kung mo-click sa gawas sa modal
+    window.addEventListener("click", function (e) {
+        if (e.target === notifModal) {
+            notifModal.style.display = "none";
         }
     });
 });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const notifImg = document.querySelector(".notif-img");
+    const notifModal = document.querySelector(".notif-modal-container");
+
+    notifImg.addEventListener("click", function () {
+        // toggle display
+        if (notifModal.style.display === "flex") {
+            notifModal.style.display = "none";
+        } else {
+            notifModal.style.display = "flex";
+        }
+    });
+
+    // i-close kung mo-click sa gawas sa modal
+    window.addEventListener("click", function (e) {
+        if (e.target === notifModal) {
+            notifModal.style.display = "none";
+        }
+    });
+});
+</script>
+
 </body>
 </html>

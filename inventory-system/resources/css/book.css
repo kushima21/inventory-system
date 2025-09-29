@@ -3,27 +3,37 @@
         height: max-content;   
     }
 
-    .book-header {
-        margin-top: 7%;
-        text-align: center;
-        justify-content: center;
-        font-size: 27px;
-    }
+ .ball-image {
+    width: 100%;
+    display: flex;
+    flex-direction: column; /* stack items top to bottom */
+    align-items: center;    /* center horizontally */
+    justify-content: center;
+    text-align: center;     /* make text centered */
+    margin-top: 5%;
+}
 
-    .book-p {
-        text-align: center;
-        justify-content: center;
-        font-size: 15px;
-        padding: 0 20%;
-        padding-top: 5px;
-    }
+.ball-img {
+    width: 120px;
+    margin-bottom: 15px; /* space below image */
+}
 
+.book-header {
+    font-size: 27px;
+    margin: 10px 0;  /* spacing above and below */
+}
 
-    .offer-header {
-        margin-top: 5%;
-        padding: 0 20px;
-        font-size: 20px;
-    }
+.book-p {
+    font-size: 15px;
+    padding: 0 20%;
+    margin: 5px 0 15px 0; /* space around paragraph */
+}
+
+.offer-header {
+    font-size: 20px;
+    margin-top: 10px;
+}
+
 
     .booking-box-container {
         width: 100%;
@@ -38,8 +48,8 @@
     }
 
     .booking-box {
-        width: 400px;
-        height: 300px;
+        width: 450px;
+        height: max-content;
         box-shadow: 0px 0px 10px;
         border-radius: 20px;
         margin: 50px;
@@ -54,10 +64,10 @@
     }
 
     .b-h {
-        padding-top: 10px;
+        padding: 10px;
     }
     .list-item {
-        margin: 20px;
+        margin: 10px;
         font-size: 15px;
         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
@@ -83,12 +93,33 @@
 
     .book-btn {
         display: flex;
-        justify-content: center;
-        padding-top: 30px;
+        justify-content: space-between;
+        padding-top: 15px;
+        padding-bottom: 10px;
+        margin: 0 20px;
     }
 
     .book-btn button {
-        width: 250px;
+        width: 120px;
+        height: 40px;
+        border-radius: 12px;
+        border: none;
+        font-size: 13px;
+        background-color: maroon;
+        color: #fff;
+        cursor: pointer;
+    }
+
+     .b-btn {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        padding-top: 15px;
+        padding-bottom: 10px;
+    }
+
+    .b-btn button {
+        width: 80%;
         height: 40px;
         border-radius: 12px;
         border: none;

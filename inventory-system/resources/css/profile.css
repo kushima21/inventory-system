@@ -1,0 +1,107 @@
+
+    .profile-header {
+        margin: 10px;
+        font-size: 25px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+    .profile-information-c {
+        width: 100%;
+    }
+
+     .profile-head-c {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 20px;
+    }
+
+
+    .p-header-m-container {
+        display: flex;
+    }
+
+    .p-edit-image {
+        width: 80px;
+    }
+
+    .f-email-container {
+        margin: 15px;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    }
+
+    .f-email-container p {
+        font-size: 14px;
+        padding-top: 10px;
+    }
+
+    .edit-Btn {
+        width: 120px;
+        height: 40px;
+        border: none;
+        border-radius: 12px;
+         background: linear-gradient(rgba(119, 1, 1, 0.932), rgba(156, 2, 2, 0.979));
+        color: white;
+        font-size: 14px;
+    }
+
+   .form-modification-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.f-m-container {
+    width: 80%;
+    margin: 20px;
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* duha ka column */
+    gap: 20px; /* espasyo sa tunga */
+}
+
+.info-user {
+    display: flex;
+    flex-direction: column; /* para ang label naa sa ibabaw, input sa ubos */
+}
+
+.info-user label {
+    margin-bottom: 5px;
+    font-weight: 500;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.info-user input {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    width: 500px;
+    height: 40px;
+}
+
+.my-email {
+    margin: 0 0 10px 20px; /* spacing sa ibabaw ug left */
+    font-size: 20px;
+    font-weight: 600;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.m-email-c {
+    display: flex;
+    align-items: center;
+    margin-left: 20px; /* para align sa title */
+    gap: 10px; /* espasyo sa video ug text */
+}
+
+.m-email-c h3 {
+    font-size: 15px;
+    color: maroon;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.email-g {
+    width: 50px;
+    height: auto;
+    background: white;
+    border-radius: 8px;
+}

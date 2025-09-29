@@ -11,7 +11,7 @@
                     enjoying the sport you love. Whether for practice, friendly matches, or tournaments, 
                     LSSTI makes your hoop sessions smooth and hassle-free.
                 </p>
-                <a href="{{ url('/login') }}">
+                <a href="{{ url('/userBook') }}">
                     <button type="button" class="w-btn">Book Now</button>
                 </a>
         </div>
@@ -23,7 +23,7 @@
             <h3>🏀 Easy Court Reservation</h3>
                 <p>* Reserve the gym for practice sessions, tournaments, or fun games with friends anytime.</p>
                 <p>* Enjoy a fast and convenient booking process so you can focus more on the game and less on the hassle.</p>
-        </div>
+        </div>  
             <img src="{{ asset('system-images/d.png') }}" alt="Login Image" class="l-img">
         <div class="offer-box">
             <h3>📅 Hassle-Free Scheduling</h3>

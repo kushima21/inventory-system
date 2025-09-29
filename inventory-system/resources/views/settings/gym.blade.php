@@ -104,6 +104,7 @@
     <thead>
         <tr>
             <th>Package Name</th>
+            <th>Days</th>
             <th>Package Price</th>
             <th>Action</th>
         </tr>
@@ -112,6 +113,7 @@
         @forelse ($gyms as $gym)
             <tr>
                 <td>{{ $gym->package }}</td>
+                <td>{{ $gym->days }} Days</td>
                 <td>₱ {{ number_format($gym->price, 2) }}</td>
                 <td>
                     <button class="action-btn"

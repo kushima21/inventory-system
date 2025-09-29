@@ -64,28 +64,40 @@ Route::get('services', function () {
     return view('services');
 });
 
-Route::get('/home', function () {
+Route::get('/customers/home', function () {
     return view('customers.home');
 });
 
-Route::get('/userAbout', function () {
+Route::get('/customers/userAbout', function () {
     return view('customers.userAbout');
 });
 
-Route::get('/userBook', function () {
+Route::get('/customers/userBook', function () {
     return view('customers.userBook');
 });
 
-Route::get('/userContact', function () {
+Route::get('/customers/userContact', function () {
     return view('customers.userContact');
 });
 
-Route::get('/userServices', function () {
+Route::get('/customers/userServices', function () {
     return view('customers.userServices');
+});
+
+Route::get('/customers/profile', function () {
+    return view('customers.profile');
+});
+
+Route::get('/customers/bookRequest', function () {
+    return view('customers.bookRequest');
 });
 
 Route::get('/navbar', function () {
     return view('partials.navbar');
+});
+
+Route::get('/sideBar', function () {
+    return view('partials.sideBar');
 });
 
 Route::get('/personnel_dashboard', [UserController::class, 'index'])->name('personnel.personnel_dashboard');
@@ -111,3 +123,32 @@ Route::get('/gym', [EquipmentController::class, 'gym'])->name('settings.gym');
 Route::post('/gym/store', [GymController::class, 'store'])->name('gym.store');
 Route::get('/gym', [GymController::class, 'index'])->name('gym.index');
 Route::delete('/gym/{id}', [GymController::class, 'destroy'])->name('gym.destroy');
+
+
+Route::get('/book', [GymController::class, 'BookIndex'])->name('book.BookIndex');
+// Sakto nga route for Customers home
+Route::get('/customers/userBook', [GymController::class, 'userBook'])->name('customers.userBook');
+
+// Wala na ni — ayaw i-overwrite
+// Route::get('/home', fn() => view('customers.home'))->name('customers.home');
+
+
+
+Route::get('/login', function () {
+    return view('auth.login');
+})->name('login');
+
+Route::post('/login', [UserController::class, 'login'])->name('login.post');
+
+// Example role routes
+Route::get('/home', fn() => view('customers.home'))->name('customers.home');
+Route::get('/admin/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
+Route::get('/personnel/dashboard', fn() => view('personnel.personnel_dashboard'))->name('personnel.dashboard');
+
+
+Route::get('/home', function () {
+    $user = \App\Models\User::find(session('user_id'));
+    return view('customers.home', compact('user'));
+})->name('customers.home');
+
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');

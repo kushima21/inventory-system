@@ -1,219 +1,165 @@
 @extends('partials.navbar') 
-
 @vite(['resources/css/book.css', 'resources/js/app.js'])
 
 @section('content')
-    <div class="content-main-container">
+<div class="content-main-container">
 
-         <div class="booking-modal-form-box" >
-                <div class="m-view-modal">
-                    <div class="form-header">
-                        <h2 class="m-view-header">
-                        All Star Premium Packages
-                        </h2>
-                        <button class="close-view-btn" type="button">&times;</button>
+    {{-- Booking modal (default hidden) --}}
+    <div class="booking-modal-form-box" style="display:none;">
+        {{-- Package view modal --}}
+        <div class="m-view-modal" style="display:none;">
+            <div class="form-header">
+                <h2 class="m-view-header" id="modalPackage">All Star Premium Packages</h2>
+                <button class="close-view-btn" type="button">&times;</button>
+            </div>
+            <h3 class="m-list-header" id="modalDays">Day(s) offer : 4 Days</h3>
+            <h3 class="m-list-header">List of Item Includes:</h3>
+            <ul class="items-list" id="modalItems">
+                <li>No equipment</li>
+            </ul>
+            <div class="h-btn-container">
+                <h3 class="b-price" id="modalPrice">Total Php: 0.00</h3>
+                <button class="add-more" type="button">Add More</button>
+            </div>
+        </div>
+
+        {{-- Booking form modal --}}
+        <div class="modal-box-1">
+            <div class="form-header">
+                <h3>Gym Booking Form</h3>
+                <button class="close-btn" type="button">&times;</button>
+            </div>
+            <form action="" method="POST">
+                <div class="form-m-modal-container">
+                    <div class="f-container">
+                        <label for="name">Name</label>
+                        <input type="text" name="name" id="name" placeholder="Enter your name..." readonly>
                     </div>
-                    <h3 class="m-list-header">
-                        Day(s) offer : 4 Days
-                    </h3>
-                    <h3 class="m-list-header">
-                        List of Item Includes:
-                    </h3>
-                     <ul class="items-list">
-                        <li>10 LED</li>
-                        <li>10 Table</li>
-                        <li>10 Chairs</li>
-                        <li>20 Speaker</li>
-                        <li>20 Fan</li>
-                        <li>20 GameBoard</li>
-                    </ul>
-                    <div class="additional">
-                    <h3 class="m-item-add">
-                        /*Additional*/
-                    </h3>
-                        <ul>
-                            <li>20 chairs</li>
-                            <li>20 Table</li>
-                            <li>50 LED</li>
-                            <li>50 chairs</li>
-                        </ul>
+                    <div class="f-container">
+                        <label for="contact_number">Contact Number</label>
+                        <input type="tel" name="contact_number" id="contact_number" placeholder="Enter your phone number..." required>
                     </div>
-                    <div class="h-btn-container">
-                        <h3 class="b-price">
-                            Total Php: 3000.00
-                        </h3>
-                        <button class="add-more" type="button">Add More</button>
+                    <div class="f-container">
+                        <label for="address">Address</label>
+                        <textarea name="address" id="address" placeholder="Enter your address..." required></textarea>
                     </div>
-                </div>
-
-               <div class="modal-box-1">
-                    <div class="form-header">
-                        <h3>Gym Booking Form</h3>
-                        <button class="close-btn" type="button">&times;</button>
+                    <div class="f-container">
+                        <label for="starting_date">Starting Date</label>
+                        <input type="date" name="starting_date" id="starting_date" required>
                     </div>
-                   <form action="" method="POST">
-                        <div class="form-m-modal-container">
-                            <div class="f-container">
-                                <label for="name">Name</label>
-                                <input 
-                                    type="text" 
-                                    name="name" 
-                                    id="name" 
-                                    placeholder="Enter your name..." 
-                                    readonly
-                                >
-                            </div>
-
-                            <div class="f-container">
-                                <label for="contact_number">Contact Number</label>
-                                <input 
-                                    type="tel" 
-                                    name="contact_number" 
-                                    id="contact_number" 
-                                    placeholder="Enter your phone number..." 
-                                    required
-                                >
-                            </div>
-
-                            <div class="f-container">
-                                <label for="address">Address</label>
-                                <textarea 
-                                    name="address" 
-                                    id="address" 
-                                    placeholder="Enter your address..." 
-                                    required
-                                ></textarea>
-                            </div>
-
-                            <div class="f-container">
-                                <label for="starting_date">Starting Date</label>
-                                <input 
-                                    type="date" 
-                                    name="starting_date" 
-                                    id="starting_date" 
-                                    required
-                                >
-                            </div>
-
-                            <div class="f-container">
-                                <label for="end_date">End Date</label>
-                                <input 
-                                    type="date" 
-                                    name="end_date" 
-                                    id="end_date" 
-                                    required
-                                >
-                            </div>
-
-                            <div class="f-btn-form">
-                                <button type="button" name="v-btn">
-                                    View Packages..
-                                </button>
-                                <button type="submit" name="submit" class="s-btn">
-                                    Submit
-                                </button>
-                            </div>
-                        </div>
-                    </form>
-               </div>
-
-         </div>
-
-         <div class="main-booking-container">
-             <h2 class="book-header">
-                " Basketball Court Reservations Made Easy "
-             </h2>
-             <p class="book-p">Find the perfect time to play and secure your slot in just a few clicks.</p>
-             <h2 class="offer-header">
-                Play & Book Packages:
-             </h2>
-         </div>
-        <div class="booking-box-container">
-
-               <div class="booking-box">
-                    <h2 class="book-h">All Star Premium Packages</h2>
-                    <h3 class="b-h">
-                        Day(s) offer : 4 Days
-                    </h3>
-                    <h3 class="list-item">List of Items Offer :</h3>
-                    <ul class="items-list">
-                        <li>2 LED</li>
-                        <li>2 Table</li>
-                        <li>2 Chairs</li>
-                        <li>2 Speaker</li>
-                        <li>2 Fan</li>
-                        <li>2 GameBoard</li>
-                    </ul>
-                    <div class="book-btn">
-                        <button type="button" id="openBookingBtn">Book Now</button>
+                    <div class="f-container">
+                        <label for="end_date">End Date</label>
+                        <input type="date" name="end_date" id="end_date" required>
+                    </div>
+                    <div class="f-btn-form">
+                        <button type="button" name="v-btn">View Packages..</button>
+                        <button type="submit" name="submit" class="s-btn">Submit</button>
                     </div>
                 </div>
-                <div class="booking-box">
-                    <h2 class="book-h">All Star Premium Packages</h2>
-                    <h3 class="b-h">
-                        Day(s) offer : 4 Days
-                    </h3>
-                    <h3 class="list-item">List of Items Offer :</h3>
-                    <ul class="items-list">
-                        <li>2 LED</li>
-                        <li>2 Table</li>
-                        <li>2 Chairs</li>
-                        <li>2 Speaker</li>
-                        <li>2 Fan</li>
-                        <li>2 GameBoard</li>
-                    </ul>
-                    <div class="book-btn">
-                        <button type="button">Book Now</button>
-                    </div>
-                </div>
+            </form>
         </div>
     </div>
-<script>
-document.addEventListener("DOMContentLoaded", function() {
-    const viewBtn = document.querySelector('button[name="v-btn"]');
-    const modal = document.querySelector('.m-view-modal');
-    const closeBtn = document.querySelector('.close-view-btn');
 
-    // show modal
-    viewBtn.addEventListener("click", () => {
-        modal.style.display = "block";
-    });
+    {{-- Displaying packages --}}
+    <div class="main-booking-container">
+        <div class="ball-image">
+            <img src="{{ asset('icons/basket-ball.png') }}" alt="basket Image" class="ball-img">
+            <h2 class="book-header">" Basketball Court Reservations Made Easy "</h2>
+            <p class="book-p">Find the perfect time to play and secure your slot in just a few clicks.</p>
+            <h2 class="offer-header">Play & Book Packages:</h2>
+        </div>
+    </div>
 
-    // hide modal
-    closeBtn.addEventListener("click", () => {
-        modal.style.display = "none";
-    });
+    <div class="booking-box-container">
+        @if(isset($gyms) && $gyms->count())
+            @foreach($gyms as $gym)
+                <div class="booking-box">
+                    <h2 class="book-h">{{ $gym->package }}</h2>
+                    <h3 class="b-h">Day(s) offer : {{ $gym->days }} Day(s)</h3>
+                    <h3 class="list-item">List of Items Offer :</h3>
+                    <ul class="items-list">
+                        @forelse($gym->equipment as $equipment)
+                            <li>{{ $equipment->pivot->quantity }} {{ $equipment->equipment }}</li>
+                        @empty
+                            <li>No equipment included.</li>
+                        @endforelse
+                    </ul>
+                    <div class="book-btn">
+                        <h3 class="b-h">Price Php: {{ number_format($gym->price, 2) }}</h3>
+                        {{-- Pass data via attributes --}}
+                        <button 
+                            type="button" 
+                            class="openBookingBtn"
+                            data-package="{{ $gym->package }}"
+                            data-days="{{ $gym->days }}"
+                            data-price="{{ number_format($gym->price, 2) }}"
+                            data-items='@json($gym->equipment->map(fn($e) => $e->pivot->quantity . " " . $e->equipment))'
+                        >
+                            Book Now
+                        </button>
+                    </div>
+                </div>
+            @endforeach
+        @else
+            <p>No packages available.</p>
+        @endif
+    </div>
+</div>
 
-    // optional: hide kung i-click outside modal
-    window.addEventListener("click", (e) => {
-        if (e.target === modal) {
-            modal.style.display = "none";
-        }
-    });
-});
-</script>
+{{-- JS --}}
 <script>
 document.addEventListener("DOMContentLoaded", function () {
-    const openBtn = document.getElementById("openBookingBtn");
     const modalBox = document.querySelector(".booking-modal-form-box");
+    const packageModal = document.querySelector(".m-view-modal");
+    const viewBtn = document.querySelector('button[name="v-btn"]');
     const closeBtns = modalBox.querySelectorAll(".close-view-btn, .close-btn");
 
-    // I-open ang modal
-    openBtn.addEventListener("click", function () {
-        modalBox.style.display = "flex";
-    });
-
-    // I-close ang modal kung i-click ang mga close buttons
-    closeBtns.forEach(btn => {
+    // Buttons for each package
+    document.querySelectorAll(".openBookingBtn").forEach(btn => {
         btn.addEventListener("click", function () {
-            modalBox.style.display = "none";
+            // Fill modal with related data
+            document.getElementById("modalPackage").innerText = this.dataset.package;
+            document.getElementById("modalDays").innerText = "Day(s) offer : " + this.dataset.days + " Day(s)";
+            document.getElementById("modalPrice").innerText = "Total Php: " + this.dataset.price;
+
+            // Parse items array
+            const items = JSON.parse(this.dataset.items);
+            const itemsList = document.getElementById("modalItems");
+            itemsList.innerHTML = "";
+            if(items.length){
+                items.forEach(i => {
+                    const li = document.createElement("li");
+                    li.textContent = i;
+                    itemsList.appendChild(li);
+                });
+            } else {
+                itemsList.innerHTML = "<li>No equipment included.</li>";
+            }
+
+            // Show booking form first
+            modalBox.style.display = "flex";
+            packageModal.style.display = "none";
         });
     });
 
-    // Optional: i-close kung mo-click sa gawas sa modal
-    window.addEventListener("click", function (e) {
+    // When View Packages button clicked → show package modal
+    viewBtn.addEventListener("click", () => {
+        packageModal.style.display = "block";
+    });
+
+    // Close modals
+    closeBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+            modalBox.style.display = "none";
+            packageModal.style.display = "none";
+        });
+    });
+
+    // Optional: click outside to close
+    window.addEventListener("click", (e) => {
         if (e.target === modalBox) {
             modalBox.style.display = "none";
+            packageModal.style.display = "none";
         }
     });
 });

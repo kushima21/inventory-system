@@ -66,4 +66,21 @@ class GymController extends Controller
 
         return redirect()->back()->with('success', 'Package deleted successfully!');
     }
+
+    public function BookIndex()
+    {
+        $gyms = Gym::with('equipment')->get();
+        $equipmentList = Equipment::all();
+
+        // ibalik ang book.blade.php
+        return view('book', compact('gyms', 'equipmentList'));
+    }
+
+    public function userBook()
+    {
+        $gyms = Gym::with('equipment')->get();
+        $equipmentList = Equipment::all();
+
+        return view('customers.userBook', compact('gyms', 'equipmentList'));
+    }
 }
