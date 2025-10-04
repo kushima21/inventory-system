@@ -87,9 +87,6 @@
                         <div class="booking-box">
                             <h2 class="book-h">{{ $gym->package }}</h2>
                             <h3 class="b-h">
-                                Day(s) offer : {{ $gym->days }} Day(s)
-                            </h3>
-                            <h3 class="b-h">
                                 Price : ₱{{ number_format($gym->price, 2) }}
                         </h3>
                         <h3 class="list-item">List of Items Offer :</h3>

@@ -16,7 +16,6 @@ class GymController extends Controller
         // Validate inputs
         $request->validate([
             'package' => 'required|string',
-            'days' => 'required|numeric|min:0',
             'price' => 'required|numeric|min:0',
             'equipment' => 'nullable|array',
             'equipment.*' => 'exists:equipment,id',

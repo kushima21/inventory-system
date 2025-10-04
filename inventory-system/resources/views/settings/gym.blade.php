@@ -25,8 +25,6 @@
                             <option value="Standard Game Package">
                             <option value="Basic Play Package">
                         </datalist>
-                        <label for="days">Days</label>
-                        <input type="number" name="days" placeholder="Days Duration" required>
                     </div>
 
                 @forelse($equipmentList as $equipment)

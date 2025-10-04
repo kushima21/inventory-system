@@ -12,7 +12,6 @@
                 <h2 class="m-view-header" id="modalPackage">All Star Premium Packages</h2>
                 <button class="close-view-btn" type="button">&times;</button>
             </div>
-            <h3 class="m-list-header" id="modalDays">Day(s) offer : 4 Days</h3>
             <h3 class="m-list-header">List of Item Includes:</h3>
             <ul class="items-list" id="modalItems">
                 <li>No equipment</li>
@@ -75,7 +74,6 @@
             @foreach($gyms as $gym)
                 <div class="booking-box">
                     <h2 class="book-h">{{ $gym->package }}</h2>
-                    <h3 class="b-h">Day(s) offer : {{ $gym->days }} Day(s)</h3>
                     <h3 class="list-item">List of Items Offer :</h3>
                     <ul class="items-list">
                         @forelse($gym->equipment as $equipment)
@@ -119,7 +117,6 @@ document.addEventListener("DOMContentLoaded", function () {
         btn.addEventListener("click", function () {
             // Fill modal with related data
             document.getElementById("modalPackage").innerText = this.dataset.package;
-            document.getElementById("modalDays").innerText = "Day(s) offer : " + this.dataset.days + " Day(s)";
             document.getElementById("modalPrice").innerText = "Total Php: " + this.dataset.price;
 
             // Parse items array
