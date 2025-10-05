@@ -1,5 +1,10 @@
-@extends('partials.navbar') 
+@extends('partials.navbar')
 @vite(['resources/css/book.css', 'resources/js/app.js'])
+
+@php
+    $user = \App\Models\User::find(session('user_id'));
+@endphp
+
 
 @section('content')
 <div class="content-main-container">
@@ -28,28 +33,42 @@
                 <h3>Gym Booking Form</h3>
                 <button class="close-btn" type="button">&times;</button>
             </div>
-            <form action="" method="POST">
+            <form action="{{ route('booking.store') }}" method="POST">
+                @csrf
                 <div class="form-m-modal-container">
+                    {{-- Hidden IDs --}}
+                    <input type="hidden" name="user_id" value="{{ $user ? $user->id : '' }}">
+                    <input type="hidden" name="gym_id" id="gym_id">
+                    <input type="hidden" name="equipment_id" id="equipment_id">
+
                     <div class="f-container">
                         <label for="name">Name</label>
-                        <input type="text" name="name" id="name" placeholder="Enter your name..." readonly>
+                        <input type="text" name="name" id="name"
+                            value="{{ $user ? $user->name : '' }}" readonly>
                     </div>
+
                     <div class="f-container">
                         <label for="contact_number">Contact Number</label>
-                        <input type="tel" name="contact_number" id="contact_number" placeholder="Enter your phone number..." required>
+                        <input type="tel" name="contact_number" id="contact_number"
+                            placeholder="Enter your phone number..." required>
                     </div>
+
                     <div class="f-container">
                         <label for="address">Address</label>
-                        <textarea name="address" id="address" placeholder="Enter your address..." required></textarea>
+                        <textarea name="address" id="address"
+                            placeholder="Enter your address..." required></textarea>
                     </div>
+
                     <div class="f-container">
                         <label for="starting_date">Starting Date</label>
                         <input type="date" name="starting_date" id="starting_date" required>
                     </div>
+
                     <div class="f-container">
                         <label for="end_date">End Date</label>
                         <input type="date" name="end_date" id="end_date" required>
                     </div>
+
                     <div class="f-btn-form">
                         <button type="button" name="v-btn">View Packages..</button>
                         <button type="submit" name="submit" class="s-btn">Submit</button>
@@ -84,15 +103,15 @@
                     </ul>
                     <div class="book-btn">
                         <h3 class="b-h">Price Php: {{ number_format($gym->price, 2) }}</h3>
-                        {{-- Pass data via attributes --}}
                         <button 
                             type="button" 
                             class="openBookingBtn"
+                            data-gym-id="{{ $gym->id }}"
+                            data-equipment-id="{{ optional($gym->equipment->first())->id }}"
                             data-package="{{ $gym->package }}"
                             data-days="{{ $gym->days }}"
                             data-price="{{ number_format($gym->price, 2) }}"
-                            data-items='@json($gym->equipment->map(fn($e) => $e->pivot->quantity . " " . $e->equipment))'
-                        >
+                            data-items='@json($gym->equipment->map(fn($e) => $e->pivot->quantity . " " . $e->equipment))'>
                             Book Now
                         </button>
                     </div>
@@ -112,18 +131,27 @@ document.addEventListener("DOMContentLoaded", function () {
     const viewBtn = document.querySelector('button[name="v-btn"]');
     const closeBtns = modalBox.querySelectorAll(".close-view-btn, .close-btn");
 
-    // Buttons for each package
+    // Open Booking Modal and populate hidden inputs
     document.querySelectorAll(".openBookingBtn").forEach(btn => {
         btn.addEventListener("click", function () {
-            // Fill modal with related data
-            document.getElementById("modalPackage").innerText = this.dataset.package;
-            document.getElementById("modalPrice").innerText = "Total Php: " + this.dataset.price;
+            const packageName = this.dataset.package || "Unknown Package";
+            const price = this.dataset.price || "0";
+            const items = JSON.parse(this.dataset.items || "[]");
+            const gymId = this.dataset.gymId;
+            const equipmentId = this.dataset.equipmentId;
 
-            // Parse items array
-            const items = JSON.parse(this.dataset.items);
+            // ✅ Set modal info
+            document.getElementById("modalPackage").innerText = packageName;
+            document.getElementById("modalPrice").innerText = "Total Php: " + price;
+
+            // ✅ Save hidden IDs for submission
+            document.getElementById("gym_id").value = gymId;
+            document.getElementById("equipment_id").value = equipmentId;
+
+            // ✅ List items
             const itemsList = document.getElementById("modalItems");
             itemsList.innerHTML = "";
-            if(items.length){
+            if (items.length) {
                 items.forEach(i => {
                     const li = document.createElement("li");
                     li.textContent = i;
@@ -133,28 +161,26 @@ document.addEventListener("DOMContentLoaded", function () {
                 itemsList.innerHTML = "<li>No equipment included.</li>";
             }
 
-            // Show booking form first
+            // ✅ Show booking modal
             modalBox.style.display = "flex";
             packageModal.style.display = "none";
         });
     });
 
-    // When View Packages button clicked → show package modal
+    // View Packages
     viewBtn.addEventListener("click", () => {
         packageModal.style.display = "block";
     });
 
-    // Close modals
-    closeBtns.forEach(btn => {
-        btn.addEventListener("click", () => {
-            modalBox.style.display = "none";
-            packageModal.style.display = "none";
-        });
-    });
+    // Close modal
+    closeBtns.forEach(btn => btn.addEventListener("click", () => {
+        modalBox.style.display = "none";
+        packageModal.style.display = "none";
+    }));
 
-    // Optional: click outside to close
+    // Click outside to close
     window.addEventListener("click", (e) => {
-        if (e.target === modalBox) {
+        if (e.target === modalBox || e.target === packageModal) {
             modalBox.style.display = "none";
             packageModal.style.display = "none";
         }

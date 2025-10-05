@@ -5,6 +5,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\SuppliesController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\GymController;
+use App\Http\Controllers\BookingController;
+
 
 Route::get('/', function () {
     return view('index');
@@ -134,21 +136,18 @@ Route::get('/customers/userBook', [GymController::class, 'userBook'])->name('cus
 
 
 
-Route::get('/login', function () {
-    return view('auth.login');
-})->name('login');
-
+Route::get('/login', fn() => view('auth.login'))->name('login');
 Route::post('/login', [UserController::class, 'login'])->name('login.post');
+Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
-// Example role routes
-Route::get('/home', fn() => view('customers.home'))->name('customers.home');
-Route::get('/admin/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
-Route::get('/personnel/dashboard', fn() => view('personnel.personnel_dashboard'))->name('personnel.dashboard');
-
-
+// Role-based redirects
 Route::get('/home', function () {
     $user = \App\Models\User::find(session('user_id'));
     return view('customers.home', compact('user'));
 })->name('customers.home');
 
-Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+Route::get('/admin/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
+Route::get('/personnel/dashboard', fn() => view('personnel.personnel_dashboard'))->name('personnel.dashboard');
+
+// ✅ Booking route WITHOUT auth middleware
+Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');

@@ -3,6 +3,7 @@
 @php
     $user = \App\Models\User::find(session('user_id'));
 @endphp
+
 @section('Sidecontent')
                 <h2 class="profile-header">
                     Profile Modification
@@ -13,10 +14,13 @@
                                 <img src="{{ asset('icons/profile.png') }}" alt="Profile Image" class="p-edit-image">
 
                                 <div class="f-email-container">
-                                    <h3 class="f-header">
-                                        {{ $user->name }}
-                                    </h3>
+                                    @if($user)
+                                    <h3 class="f-header">{{ $user->name }}</h3>
                                     <p>{{ $user->email }}</p>
+                                    @else
+                                        <h3 class="f-header">Guest</h3>
+                                        <p>No account info available</p>
+                                    @endif
                                 </div>
                             </div>
                             <button type="submit" name="submit" class="edit-Btn">Edit</button>
@@ -26,11 +30,11 @@
                                 <div class="f-m-container">
                                     <div class="info-user">
                                         <label for="name">Fullname</label>
-                                        <input type="text" name="name" id="name" placeholder="Name" value="{{ $user->name }}">
+                                        <input type="text" name="name" id="name" placeholder="Name" value="{{ $user->name ?? '' }}">
                                     </div>
                                     <div class="info-user">
                                         <label for="phone_number">Phone Number</label>
-                                        <input type="number" name="phone_number" id="phone_number" placeholder="Phone Number" value="{{ $user->phone_number }}">
+                                        <input type="text" name="name" id="name" placeholder="Name" value="{{ $user->phone_number ?? '' }}">
                                     </div>
                                     <div class="info-user">
                                         <label for="address">Address</label>
@@ -38,11 +42,12 @@
                                     </div>
                                     <div class="info-user">
                                         <label for="email">Email</label>
-                                        <input type="text" name="email" id="email" placeholder="Email" value="{{ $user->email }}">
+                                        <input type="text" name="name" id="name" placeholder="Name" value="{{ $user->email ?? '' }}">
+
                                     </div>
                                     <div class="info-user">
                                         <label for="password">Password</label>
-                                        <input type="password" name="password" id="password" placeholder="Password" value="{{ $user->password }}">
+                                        <input type="text" name="name" id="name" placeholder="Name" value="{{ $user->password ?? '' }}">
                                     </div>
                                 </div>
                             </form>
@@ -54,7 +59,7 @@
                              <video autoplay loop muted playsinline class="email-g">
                                 <source src="{{ asset('icons/email.mp4') }}" type="video/mp4">
                              </video>
-                             <h3>{{ $user->email }}</h3>
+                             <h3>{{ $user->password ?? '' }}</h3>
                         </div>
                 </div>
 @endsection

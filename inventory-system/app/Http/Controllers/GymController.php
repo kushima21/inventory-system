@@ -25,7 +25,6 @@ class GymController extends Controller
         // Create gym reservation
         $reservation = Gym::create([
             'package' => $request->package,
-            'days' => $request->days,
             'price' => $request->price,
         ]);
 

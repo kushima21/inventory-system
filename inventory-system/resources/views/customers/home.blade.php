@@ -1,6 +1,8 @@
 @extends('partials.navbar')
 @vite(['resources/css/index.css', 'resources/js/app.js'])
-
+@php
+$user = \App\Models\User::find(session('user_id'));
+@endphp
 @section('content')
     <div class="content-container">
         <div class="welcome-container">
