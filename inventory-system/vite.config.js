@@ -28,6 +28,7 @@ export default defineConfig({
             'resources/css/sideBar.css',
             'resources/css/profile.css',
             'resources/css/bookRequest.css',
+            'resources/css/dashboard.css',
             'resources/js/app.js'],
             refresh: true,
         }),

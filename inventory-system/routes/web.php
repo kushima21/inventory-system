@@ -20,6 +20,10 @@ Route::get('/personnel_dashboard', function () {
     return view('personnel.personnel_dashboard');
 });
 
+Route::get('/dashboard', function () {
+    return view('settings.dashboard');
+});
+
 Route::get('/supplies', function () {
     return view('settings.supplies');
 });
