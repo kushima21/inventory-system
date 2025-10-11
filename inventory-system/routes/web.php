@@ -24,6 +24,14 @@ Route::get('/dashboard', function () {
     return view('settings.dashboard');
 });
 
+Route::get('/gym_reservation', function () {
+    return view('settings.gym_reservation');
+});
+
+Route::get('/reports', function () {
+    return view('settings.reports');
+});
+
 Route::get('/supplies', function () {
     return view('settings.supplies');
 });

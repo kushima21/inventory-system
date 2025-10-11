@@ -29,6 +29,8 @@ export default defineConfig({
             'resources/css/profile.css',
             'resources/css/bookRequest.css',
             'resources/css/dashboard.css',
+            'resources/css/gym_reservation.css',
+            'resources/css/reports.css',
             'resources/js/app.js'],
             refresh: true,
         }),
