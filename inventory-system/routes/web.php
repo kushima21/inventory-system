@@ -130,9 +130,6 @@ Route::get('/request/{id}', [SuppliesController::class, 'showRequest'])->name('s
 Route::post('/supplies/{id}/add-more', [SuppliesController::class, 'addMore'])->name('supplies.addMore');
 Route::delete('/supplies/{id}', [SuppliesController::class, 'delete'])->name('supplies.delete');
 
-Route::get('/equipment', [EquipmentController::class, 'create'])->name('equipment.create');
-Route::post('/equipment', [EquipmentController::class, 'store'])->name('equipment.store');
-
 Route::post('/equipment/{id}/add-more', [EquipmentController::class, 'addMore'])->name('equipment.addMore');
 Route::delete('/equipment/{id}', [EquipmentController::class, 'delete'])->name('equipment.delete');
 Route::get('/gym', [EquipmentController::class, 'gym'])->name('settings.gym');
@@ -169,5 +166,13 @@ Route::post('/booking/store', [BookingController::class, 'store'])->name('bookin
 
 
 // Inventory Section
-Route::get('/inventory', [SuppliesController::class, 'create'])->name('inventory.create');
+// ✅ Unified Inventory Display Route
+Route::get('/inventory', [SuppliesController::class, 'inventory'])->name('inventory.create');
+
+// ✅ Supplies Routes
 Route::post('/inventory', [SuppliesController::class, 'store'])->name('supplies.store');
+Route::delete('/supplies/{id}', [SuppliesController::class, 'delete'])->name('supplies.delete');
+
+// ✅ Equipment Routes
+Route::post('/equipment', [EquipmentController::class, 'store'])->name('equipment.store');
+Route::delete('/equipment/{id}', [EquipmentController::class, 'delete'])->name('equipment.delete');

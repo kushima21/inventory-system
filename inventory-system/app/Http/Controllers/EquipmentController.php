@@ -7,14 +7,6 @@ use App\Models\Equipment;
 
 class EquipmentController extends Controller
 {
-    // Show the form + list of equipment
-    public function create()
-    {
-        $equipmentList = Equipment::all();
-        return view('settings.inventory', compact('equipmentList'));
-    }
-
-    // Store new equipment
     public function store(Request $request)
     {
         $request->validate([
@@ -23,14 +15,13 @@ class EquipmentController extends Controller
         ]);
 
         Equipment::create([
-            'equipment' => $request->input('equipment'),  // or 'name' if that is your column name
-            'quantity' => $request->input('quantity'),
+            'equipment' => $request->equipment,
+            'quantity' => $request->quantity,
         ]);
 
-        return redirect()->route('inventory.create')->with('success', 'Equipment created successfully!');
+        return redirect()->back()->with('success', 'Equipment created successfully!');
     }
 
-    // Add more quantity to existing equipment
     public function addMore(Request $request, $id)
     {
         $request->validate([
@@ -44,7 +35,6 @@ class EquipmentController extends Controller
         return redirect()->back()->with('success', 'Quantity updated!');
     }
 
-    // Delete equipment
     public function delete($id)
     {
         $equipment = Equipment::findOrFail($id);
@@ -52,10 +42,4 @@ class EquipmentController extends Controller
 
         return redirect()->back()->with('success', 'Equipment deleted!');
     }
-
-        public function inventoryEquipment()
-        {
-            $equipmentList = Equipment::all();
-            return view('settings.inventory', compact('equipmentList'));
-        }
 }

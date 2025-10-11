@@ -151,7 +151,7 @@
                         Add Equipment
                     </h3>
                     <div class="equipment-form-container">
-                        <form method="POST" action="">
+                        <form method="POST" action="{{ route('equipment.store') }}">
                             @csrf 
                             <div class="info-container">
                                 <label for="">Equipment</label>
@@ -193,15 +193,24 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>2025-12-20</td>
-                                <td>Table</td>
-                                <td>2</td>
-                                <td>
-                                    <button type="button" class="editBTn">Edit</button>
-                                    <button class="deleteBtn">Delete</button>
-                                </td>
-                            </tr>
+                            @forelse ($equipmentList as $equipment)
+                                <tr>
+                                    <td>{{ $equipment->created_at->format('Y-m-d') }}</td>
+                                    <td>{{ $equipment->equipment }}</td>
+                                    <td>{{ $equipment->quantity }}</td>
+                                    <td>
+                                        <form action="{{ route('equipment.delete', $equipment->id) }}" method="POST" style="display:inline;">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="deleteBtn" onclick="return confirm('Delete this equipment?')">Delete</button>
+                                        </form>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="4" style="text-align:center;">No equipment available</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
                 </div>

@@ -1,31 +1,28 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use App\Models\Equipment;
 use Illuminate\Http\Request;
 use App\Models\Supplies;  // Import the model here
 
 class SuppliesController extends Controller
 {
-    // Show the form view
+    // ✅ Unified inventory display for both supplies and equipment
+    public function inventory()
+    {
+        $supplies = Supplies::all();
+        $equipmentList = Equipment::all();
+        return view('settings.inventory', compact('supplies', 'equipmentList'));
+    }
+
+    // existing create() method (optional, can be removed)
     public function create()
     {
-        $supplies = Supplies::all();  // get all supplies from DB
-        return view('settings.inventory',  compact('supplies'));
-    }
-    public function request()
-    {
-        $supplies = Supplies::all(); // fetch supplies from DB
-        return view('faculty.request', compact('supplies'));
+        $supplies = Supplies::all();
+        return view('settings.inventory', compact('supplies'));
     }
 
-    public function showRequest($id)
-    {
-        $supply = Supplies::findOrFail($id); // fetch specific supply
-        return view('faculty.request', compact('supply'));
-    }
-
-    // Save supplies to DB
+    // Save supplies
     public function store(Request $request)
     {
         $request->validate([
@@ -41,26 +38,24 @@ class SuppliesController extends Controller
         return redirect()->back()->with('success', 'Supplies added successfully!');
     }
 
+    public function addMore(Request $request, $id)
+    {
+        $request->validate([
+            'quantity_to_add' => 'required|integer|min:1',
+        ]);
 
-public function addMore(Request $request, $id)
-{
-    $request->validate([
-        'quantity_to_add' => 'required|integer|min:1',
-    ]);
+        $supply = Supplies::findOrFail($id);
+        $supply->quantity += $request->quantity_to_add;
+        $supply->save();
 
-    $supply = Supplies::findOrFail($id);
-    $supply->quantity += $request->quantity_to_add; // add the input quantity
-    $supply->save();
+        return redirect()->back()->with('success', 'Quantity updated!');
+    }
 
-    return redirect()->back()->with('success', 'Quantity updated!');
-}
+    public function delete($id)
+    {
+        $supply = Supplies::findOrFail($id);
+        $supply->delete();
 
-public function delete($id)
-{
-    $supply = Supplies::findOrFail($id);
-    $supply->delete();
-
-    return redirect()->back()->with('success', 'Supply deleted!');
-}
-
+        return redirect()->back()->with('success', 'Supply deleted!');
+    }
 }
