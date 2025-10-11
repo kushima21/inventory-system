@@ -1,6 +1,7 @@
 @extends('layout.default')
 @vite(['resources/css/reports.css', 'resources/js/app.js'])
  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
  @section('content')
     <div class="main-reports-container">
         <h2 class="reports-header">
@@ -9,19 +10,64 @@
 
         <div class="reports-container-box">
             <!-- Report content will go here -->
-            <div class="report-box"></div>
-            <div class="report-box"></div>
-            <div class="report-box"></div>
-            <div class="report-box"></div>
+            <div class="report-box">
+                 <img src="{{ asset('icons/chart-mixed-up-circle-dollar.png') }}" alt="Login Image" class="report-image">
+                 <h3 class="report-subheader">Total Revenue</h3>
+                 <div class="report-number">
+                    <img src="{{ asset('icons/peso-sign.png') }}" alt="Login Image" class="peso-image">
+                    <h3 class="number">2500.00</h3>
+                 </div>
+            </div>
+            <div class="report-box">
+                <img src="{{ asset('icons/newspaper.png') }}" alt="Login Image" class="report-image">
+                <h3 class="report-subheader">Total Booking</h3>
+                 <div class="report-number">
+                    <img src="{{ asset('icons/career-growth.png') }}" alt="Login Image" class="peso-image">
+                    <h3 class="number">50</h3>
+                 </div>
+            </div>
+            <div class="report-box">
+                 <img src="{{ asset('icons/delete-user.png') }}" alt="Login Image" class="report-image">
+                 <h3 class="report-subheader">Cancelled Booking</h3>
+                 <div class="report-number">
+                    <img src="{{ asset('icons/document-circle-wrong.png') }}" alt="Login Image" class="peso-image">
+                    <h3 class="number">50</h3>
+                 </div>
+            </div>
+            <div class="report-box">
+                <img src="{{ asset('icons/users-medical.png') }}" alt="Login Image" class="report-image">
+                 <h3 class="report-subheader">Total Supplies Request</h3>
+                <div class="report-number">
+                    <img src="{{ asset('icons/team-check-alt.png') }}" alt="Login Image" class="peso-image">
+                    <h3 class="number">50</h3>
+                 </div>
+            </div>
         </div>
 
         <div class="chart-top-package-container">
-            <div class="chart-container"></div>
+            <div class="chart-container">
+                <h3 class="chart-title">Monthly Revenue Overview</h3>
+                <canvas id="revenueChart"></canvas>
+            </div>
+
             <div class="top-package-container">
                 <h3 class="top-package-header">
                     Top Packages
                 </h3>
-
+                <div class="top-package-box">
+                    <div class="package-item">
+                        <span class="package-name">All Star Premium Package</span>
+                        <span class="package-count">150 Booked</span>
+                    </div>
+                    <div class="package-item">
+                        <span class="package-name">All Star Basic Package</span>
+                        <span class="package-count">120 Booked</span>
+                    </div>
+                    <div class="package-item">
+                        <span class="package-name">All Star Standard Package</span>
+                        <span class="package-count">100 Booked</span>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -226,4 +272,70 @@ nextMonthBtn.addEventListener("click", () => {
 
 renderCalendar(currentDate);
 </script>
+<script>
+const ctx = document.getElementById('revenueChart').getContext('2d');
+
+new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        datasets: [{
+            label: 'Revenue (₱)',
+            data: [12000, 15000, 9000, 18000, 22000, 25000, 20000, 27000, 23000, 29000, 31000, 35000],
+            backgroundColor: 'rgba(128, 0, 0, 0.7)',   // maroon (semi-transparent)
+            borderColor: 'rgba(128, 0, 0, 1)',         // solid maroon border
+            borderWidth: 2,
+            borderRadius: 6,
+            hoverBackgroundColor: 'rgba(101, 0, 0, 0.9)', // darker maroon when hovered
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                grid: {
+                    color: 'rgba(0, 0, 0, 0.05)'
+                },
+                ticks: {
+                    color: '#333'
+                }
+            },
+            x: {
+                grid: {
+                    display: false
+                },
+                ticks: {
+                    color: '#333'
+                }
+            }
+        },
+        plugins: {
+            legend: {
+                display: true,
+                position: 'bottom',
+                labels: {
+                    color: '#5a0000', // maroon text for legend
+                    font: {
+                        size: 13,
+                        weight: 'bold'
+                    }
+                }
+            },
+            title: {
+                display: false
+            },
+            tooltip: {
+                backgroundColor: '#5a0000', // maroon tooltip background
+                titleColor: '#fff',
+                bodyColor: '#fff',
+                cornerRadius: 8,
+                padding: 10
+            }
+        }
+    }
+});
+</script>
+
  @endsection

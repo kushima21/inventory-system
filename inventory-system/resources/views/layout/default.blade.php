@@ -41,7 +41,7 @@
                         <span>Gym Reservation</span>
                     </div>
                 </a>
-                 <a href="#">
+                 <a href="{{ url('/inventory') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Inventory</span>

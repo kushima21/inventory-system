@@ -31,6 +31,7 @@ export default defineConfig({
             'resources/css/dashboard.css',
             'resources/css/gym_reservation.css',
             'resources/css/reports.css',
+            'resources/css/inventory.css',
             'resources/js/app.js'],
             refresh: true,
         }),

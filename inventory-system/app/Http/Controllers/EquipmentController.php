@@ -11,7 +11,7 @@ class EquipmentController extends Controller
     public function create()
     {
         $equipmentList = Equipment::all();
-        return view('settings.equipment', compact('equipmentList'));
+        return view('settings.inventory', compact('equipmentList'));
     }
 
     // Store new equipment
@@ -27,7 +27,7 @@ class EquipmentController extends Controller
             'quantity' => $request->input('quantity'),
         ]);
 
-        return redirect()->route('equipment.create')->with('success', 'Equipment created successfully!');
+        return redirect()->route('inventory.create')->with('success', 'Equipment created successfully!');
     }
 
     // Add more quantity to existing equipment
@@ -53,9 +53,9 @@ class EquipmentController extends Controller
         return redirect()->back()->with('success', 'Equipment deleted!');
     }
 
-        public function gym()
+        public function inventoryEquipment()
         {
             $equipmentList = Equipment::all();
-            return view('settings.gym', compact('equipmentList'));
+            return view('settings.inventory', compact('equipmentList'));
         }
 }

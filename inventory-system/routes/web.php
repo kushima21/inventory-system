@@ -44,6 +44,10 @@ Route::get('/gym', function () {
     return view('settings.gym');
 });
 
+Route::get('/inventory', function () {
+    return view('settings.inventory');
+});
+
 Route::get('/facultyDashboard', function () {
     return view('faculty.facultyDashboard');
 });
@@ -119,8 +123,6 @@ Route::post('/personnel_dashboard', [UserController::class, 'store'])->name('use
 Route::get('/personnel_dashboard/search', [UserController::class, 'search'])->name('users.search');
 Route::post('/signup', [UserController::class, 'signup'])->name('signup.store');
 
-Route::get('/supplies', [SuppliesController::class, 'create'])->name('supplies.create');
-Route::post('/supplies', [SuppliesController::class, 'store'])->name('supplies.store');
 Route::get('/request', [SuppliesController::class, 'request'])->name('supplies.request');
 Route::get('/request/{id}', [SuppliesController::class, 'showRequest'])->name('supplies.request');
 
@@ -130,6 +132,7 @@ Route::delete('/supplies/{id}', [SuppliesController::class, 'delete'])->name('su
 
 Route::get('/equipment', [EquipmentController::class, 'create'])->name('equipment.create');
 Route::post('/equipment', [EquipmentController::class, 'store'])->name('equipment.store');
+
 Route::post('/equipment/{id}/add-more', [EquipmentController::class, 'addMore'])->name('equipment.addMore');
 Route::delete('/equipment/{id}', [EquipmentController::class, 'delete'])->name('equipment.delete');
 Route::get('/gym', [EquipmentController::class, 'gym'])->name('settings.gym');
@@ -163,3 +166,8 @@ Route::get('/personnel/dashboard', fn() => view('personnel.personnel_dashboard')
 
 // ✅ Booking route WITHOUT auth middleware
 Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
+
+
+// Inventory Section
+Route::get('/inventory', [SuppliesController::class, 'create'])->name('inventory.create');
+Route::post('/inventory', [SuppliesController::class, 'store'])->name('supplies.store');
