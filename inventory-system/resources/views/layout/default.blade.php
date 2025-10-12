@@ -54,12 +54,6 @@
                     </div>
                 </a>
                 <span class="link-title">SETTINGS</span>
-                <a href="{{ url('/supplies') }}">
-                    <div class="link-item">
-                        <i class="fa-solid fa-house"></i>
-                        <span>Supplies Section</span>
-                    </div>
-                </a>
                 <a href="{{ url('/gym') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>

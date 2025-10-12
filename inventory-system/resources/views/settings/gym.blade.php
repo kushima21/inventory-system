@@ -1,7 +1,7 @@
 @extends('layout.default')
 @vite(['resources/css/gym.css', 'resources/js/app.js'])
 
-@section('content')
+    @section('content')
     <div class="gym-main-container">
         <h2 class="gym-header">
             Gym Section

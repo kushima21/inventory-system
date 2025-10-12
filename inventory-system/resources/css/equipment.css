@@ -1,170 +1,170 @@
-.ict-header-container {
+.additional-equipment-main-container {
     width: 100%;
-    height: auto;
-    box-sizing: border-box;
-    margin-top: 60px;
+    height: 100%;
+    overflow: auto;
 }
 
-.ict-header {
-     font-size: clamp(18px, 2vw, 22px); /* Mo-scale depende sa screen */
-        padding-top: 10px;
+.additional-equipment-header {
+    font-size: 25px;
+        color: #690404;
+        margin-top: 6%;
         padding-left: 20px;
 }
 
-.ict-box-header {
+.list-equipment-bundle {
+    font-size: 18px;
+    padding: 25px;
+    padding-top: 25px;
+}
+
+.addtional-container-box {
+    width: 100%;
+}
+
+.additional-subheader-container {
     display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap; /* Para if gamay ang screen, mo-wrap ang sulod */
-        width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.additional-subheader-container input{
+    width: 300px;
+    height: 35px;
+    margin: 20px;
+    padding-left: 5px;
+    border: none;
+    box-shadow: 0px 0px 5px 0px;
+    border-radius: 8px;
+}
+
+.createBundle {
+    margin-right: 20px;
+    width: 220px;
+    height: 38px;
+    border: none;
+    background: linear-gradient(#690404, #690404);
+    color: white;
+    border-radius: 12px;
+    font-size: 12px;
+}
+
+/*additional-modal*/
+.additional-modal {
+    width: 40%;
+    height: auto; /* auto para mo-adjust sa content */
+    box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed;
+    top: 20%;
+    left: 37%;
+    z-index: 1000;
+    background: white;
+    border-radius: 15px;
+    padding: 20px;
+    display: none;
+}
+
+.additional-header-modal {
+    text-align: center;
+    font-size: 24px;
+    padding-bottom: 15px;
+    color: #690404;
+}
+
+.additional-form-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* space between each input group */
+}
+
+.additional-modal-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.additional-modal-info label {
+    margin-bottom: 5px; /* space between label and input/select */
+    font-size: 13px;
+    color: #690404;
+}
+
+.additional-modal-info input,
+.additional-modal-info select {
+    padding: 8px 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 12px;
+}
+
+.additional-button-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    margin-top: 15px;
+}
+
+.additional-button-container button {
+    padding: 8px 15px;
+    border: none;
+    cursor: pointer;
+    font-size: 12px;
+    width: 120px;
+    height: 40px;
+    color: white;
+    border-radius: 15px;
+    background: linear-gradient(#690404, #690404);
+}
+
+/*close*/
+
+
+.addtional-wrapper-container-equipment {
+      flex: 1;
+        overflow-y: auto;
         padding: 20px;
 }
 
-.equipmentSearch {
-     width: 240px;
-        height: 35px;
-        border-radius: 5px;
-        padding-left: 5px;
-}
-
-.equipmentBtn {
-      width: 140px;
-    height: 38px;
-    border-radius: 12px;
-    font-size: 11px;
-    background: linear-gradient(rgb(48, 2, 2), rgb(68, 1, 1));
-    border: none;
-    color: white;
-}
-
-.equipment-modal-container {
-      width: 450px;
-        height: 300px;
-        box-shadow: 0px 0px 10px black;
-        position: fixed;
-        left: 40%;
-        border-radius: 12px;
-        background-color: white;
-        z-index: 1000;
-        display: none;
-}
-
-.header-create-equipment {
-    padding-top: 10px;
-    font-size: 18px;
-    color: #7e0000;
-    text-align: center;
-}
-
-.equipment-form-container {
-     display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 30px;
-    width: 100%;
-}
-
-
-  form {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-        width: 100%;
-        max-width: 400px; /* Optional: limit width sa form */
-        box-sizing: border-box;
-    }
-
-          .info-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center; /* Center horizontally */
-        width: 100%;
-    }
-
-
-       .info-container label {
-        margin-bottom: 1px;
-        font-weight: bold;
-        text-align: left; /* changed from center to left */
-        width: 100%;
-        font-size: 13px;
-        margin-bottom: 8px;
-        color: #b30101;
-    }
-
-    
-    .info-container input {
-        width: 100%;
-        max-width: 300px;
-        padding: 10px;
-        border: 1px solid #180a0a;
-        border-radius: 5px;
-        box-sizing: border-box;
-    }
-
-    input[list] {
-        cursor: pointer;
-    }
-
-        .info-btn {
-        display: flex;
-        justify-content: space-between;
-         margin: 25px;
-    }
-
-    .info-btn button{
-       width: 120px;
-       height: 35px;
-       border-radius: 10px;
-       font-size: 11px;
-       border: none;
-       color: white;
-       background: linear-gradient(rgb(48, 2, 2), rgb(68, 1, 1));
-    }
-
-    .equipment-header-list {
-         font-size: 18px;
-        padding-left: 20px;
-    }
-
-    .equipment-list-container {
-        width: 100%;
-        max-height: 70%;
-        overflow-y: auto;
-        margin-top: 10px;
-    }
-
-    .equipment-list-table {
-        width: 100%;
+.additional-equipment-table {
+    margin-top: 20px;
+     width: 100%;
         border-collapse: collapse;
-    }
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+}
 
-     .equipment-list-table th,
-      .equipment-list-table td{
-        padding: 12px;
-        text-align: left;
-     }
-
-       .equipment-list-table th {
-        position: sticky;
+.additional-equipment-table th {
+        color: gray;
         top: 0;
-        z-index: 500;
-        font-size: 14px;
-        text-align: left;
-        border:  1px solid #ccc;
+        z-index: 1;
+        font-size: 11px;
+        padding-bottom: 20px;
     }
 
-    .equipment-list-table td {
-        font-size: 13px;
-        border:  1px solid #ccc;
-     }
+    .additional-equipment-table td {
+        font-size: 12px;
+        text-align: center;
+        margin-top: 10px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+.additional-equipment-table tr {
+        border-bottom: #7876765d 1px solid;
+        height: 50px;
+    }
 
-      .equipment-list-table button {
-        width: 100px;
-        height: 35px;
-        margin: 5px;
-        border-radius: 13px;
-        border: none;
+    .editBTn {
+        width: 110px;
+        height: 32px;
+         border: none;
+        border-radius: 12px;
         font-size: 11px;
-       background: linear-gradient(rgb(48, 2, 2), rgb(68, 1, 1));
-       color: white;
-     }
+        color: white;
+        background: linear-gradient(#690404,#690404);
+    }
+    .deleteBTn {
+        width: 110px;
+        height: 32px;
+        border: none;
+        border-radius: 12px;
+        color: white;
+        background: linear-gradient(#690404,#690404);
+        font-size: 11px;
+    }

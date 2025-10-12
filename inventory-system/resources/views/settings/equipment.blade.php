@@ -1,144 +1,114 @@
 @extends('layout.default')
 @vite(['resources/css/equipment.css', 'resources/js/app.js'])
 @section('content')
-
-    <div class="ict-header-container">
-        <h2 class="ict-header">Equipment Section</h2>
-
-        <div class="ict-box-header">
-            <form method="POST" action="">
-                <input type="text" name="equipment" class="equipmentSearch"  id="searchEquipment" placeholder="Search Equipment...">
-            </form>
-
-            <button class="equipmentBtn" type="button" onclick="openEquipmentModal()">
-                + Equipment
-            </button>
-        </div>
-    </div>
-
-    <div class="equipment-modal-container" id="equipment-modal-container">
-        <h2 class="header-create-equipment">
-            Create Equipment
+    <div class="additional-equipment-main-container">
+        <h2 class="additional-equipment-header">
+            Add Equipment Bundle
         </h2>
+        <h3 class="list-equipment-bundle">
+            List of Equipment Bundled
+        </h3>
+        <div class="addtional-container-box">
+            <div class="additional-subheader-container">
+                <input type="text" name="search" id="search-equipment" placeholder="Quick Search...">
+                <button type="button" class="createBundle">
+                    + Create Equipment Bundle
+                </button>
+            </div>
+            <div class="additional-modal">
+                <h3 class="additional-header-modal">
+                    Add Equipment Bundle
+                </h3>
+                <div class="additional-form-container">
+                    <form method="POST" action="{{ route('equipment.bundle.store') }}">
+                        @csrf
+                        <div class="additional-modal-info">
+                            <label for="equipment">Select Equipment</label>
+                            <select name="equipment" id="equipment">
+                                <option value="">Select Equipment</option>
+                                @foreach($equipmentList as $equipment)
+                                    <option value="{{ $equipment->id }}">
+                                        {{ $equipment->equipment }} — {{ $equipment->quantity }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
 
-        <div class="equipment-form-container">
-            <form method="POST" action="{{ route('equipment.store') }}">
-                @csrf 
-                <div class="info-container">
-                    <label for="">Equipment</label>
-                    <input list="equipment-list" name="equipment" id="equipment" placeholder="Select Equipment..." required>
-                    <datalist id="equipment-list">
-                        <option value="LED">
-                        <option value="Chairs">
-                        <option value="Table">
-                        <option value="Fan">
-                        <option value="Gameboard">
-                        <option value="Speaker">
-                    </datalist>
+                        <div class="additional-modal-info">
+                            <label for="quantity">Quantity</label>
+                            <input type="number" name="quantity" id="quantity" required>
+                        </div>
+                        <div class="additional-modal-info">
+                            <label for="price">Price</label>
+                            <input type="number" name="price" id="price" required>
+                        </div>
+                        <div class="additional-button-container">
+                            <button type="submit" name="submit">Submit</button>
+                            <button type="button" class="closeModal">Close</button>
+                        </div>
+                    </form>
                 </div>
+            </div>
 
-                <div class="info-container">
-                  <label for="quantity">Quantity:</label>
-                  <input type="number" name="quantity" id="quantity" placeholder="Quantity..." required>
-                </div>
-
-                 <div class="info-btn">
-                    <button type="submit" name="submit">Create</button>
-                    <button type="button" name="cancel" onclick="closeEquipmentModal()">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div class="equipment-modal-container" id="addMoreModal">
-        <h2 class="header-create-equipment">
-            Add More Equipment Quantity
-        </h2>
-
-        <div class="equipment-form-container">
-            <form method="POST" action="" id="addMoreForm">
-                @csrf
-                <div class="info-container">
-                    <label for="equipment_name">Equipment</label>
-                    <input type="text" name="equipment" id="equipment_name" readonly>
-                </div>
-
-                <div class="info-container">
-                    <label for="quantity">Quantity:</label>
-                    <input type="number" name="quantity_to_add" id="quantity" placeholder="Quantity..." min="1" required>
-                </div>
-
-                <div class="info-btn">
-                    <button type="submit" name="submit">+ Add</button>
-                    <button type="button" name="cancel" onclick="closeAddMoreModal()">Cancel</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <h2 class="equipment-header-list">Equipment List</h2>
-
-    <div class="equipment-list-container">
-        <table class="equipment-list-table">
-            <thead>
+            <div class="additional-wrapper-container-equipment">
+    <table class="additional-equipment-table">
+        <thead>
+            <tr>
+                <th>Created</th>
+                <th>Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($bundles as $bundle)
                 <tr>
-                    <th>Equipment</th>
-                    <th>Quantity</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                @forelse ($equipmentList as $equipment)
-                <tr>
-                    <td>{{ $equipment->equipment }}</td>
-                    <td>{{ $equipment->quantity }}</td>
+                    <td>{{ $bundle->created_at->format('Y-m-d') }}</td>
+                    <td>{{ $bundle->equipment->equipment ?? 'N/A' }}</td>
+                    <td>{{ $bundle->quantity }} Pieces</td>
+                    <td>{{ number_format($bundle->price, 2) }}</td>
                     <td>
-                        <button type="button" onclick="openAddMoreModal('{{ $equipment->id }}', '{{ $equipment->equipment }}', {{ $equipment->quantity }})">+ Add More</button>
-                        <span>or</span>
-                       <form action="{{ route('equipment.delete', $equipment->id) }}" method="POST" style="display:inline;">
+                        <button class="editBTn" type="button">Edit</button>
+                        <form action="{{ route('equipment.bundle.delete', $bundle->id) }}" method="POST" style="display:inline;">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" onclick="return confirm('Are you sure to delete this equipment?')">Delete</button>
+                            <button type="submit" class="deleteBTn" onclick="return confirm('Are you sure you want to delete this bundle?')">Delete</button>
                         </form>
                     </td>
                 </tr>
-                @empty
+            @empty
                 <tr>
-                    <td colspan="3">No equipment found.</td>
+                    <td colspan="5" style="text-align: center;">No bundles found.</td>
                 </tr>
-                @endforelse
-            </tbody>
-        </table>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
+        </div>
     </div>
+    <script>
+    // Get the buttons and modal
+    const openBtn = document.querySelector('.createBundle');
+    const closeBtn = document.querySelector('.closeModal');
+    const modal = document.querySelector('.additional-modal');
 
-    
+    // Show modal on button click
+    openBtn.addEventListener('click', () => {
+        modal.style.display = 'block';
+    });
 
+    // Hide modal on close button click
+    closeBtn.addEventListener('click', () => {
+        modal.style.display = 'none';
+    });
+
+    // Optional: hide modal if click outside the modal content
+    window.addEventListener('click', (e) => {
+        if (e.target === modal) {
+            modal.style.display = 'none';
+        }
+    });
+</script>
 @endsection
-<script>
-  function openEquipmentModal() {
-    document.getElementById('equipment-modal-container').style.display = 'block';
-  }
-
-  function closeEquipmentModal() {
-    document.getElementById('equipment-modal-container').style.display = 'none';
-  }
-</script>
-<script>
-function openAddMoreModal(id, equipmentName, currentQuantity) {
-    // Show modal
-    document.getElementById('addMoreModal').style.display = 'block';
-
-    // Set equipment name in readonly input
-    document.getElementById('equipment_name').value = equipmentName;
-
-    // Clear quantity input
-    document.getElementById('quantity').value = '';
-
-    // Set form action URL dynamically with the equipment id
-    document.getElementById('addMoreForm').action = `/equipment/${id}/add-more`;
-}
-
-function closeAddMoreModal() {
-    document.getElementById('addMoreModal').style.display = 'none';
-}
-</script>

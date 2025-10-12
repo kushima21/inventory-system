@@ -176,3 +176,7 @@ Route::delete('/supplies/{id}', [SuppliesController::class, 'delete'])->name('su
 // ✅ Equipment Routes
 Route::post('/equipment', [EquipmentController::class, 'store'])->name('equipment.store');
 Route::delete('/equipment/{id}', [EquipmentController::class, 'delete'])->name('equipment.delete');
+
+Route::get('/equipment', [EquipmentController::class, 'index'])->name('equipment.index');
+Route::post('/equipment-bundle/store', [EquipmentController::class, 'storeBundle'])->name('equipment.bundle.store');
+Route::delete('/equipment-bundle/delete/{id}', [EquipmentController::class, 'deleteBundle'])->name('equipment.bundle.delete');
