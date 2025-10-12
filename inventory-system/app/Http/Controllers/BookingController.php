@@ -62,7 +62,7 @@ class BookingController extends Controller
                     $itemTotal = isset($item['total']) ? floatval($item['total']) : 0;
 
                     \App\Models\AdditionalEquipment::create([
-                        'booking_id' => $booking->booking_id, // ✅ FIXED HERE
+                        'booking_id' => $booking->booking_id,
                         'equipment_name' => $item['name'],
                         'quantity' => $item['quantity'],
                         'price' => $item['price'],
@@ -76,12 +76,16 @@ class BookingController extends Controller
         // ✅ Add additional total to booking total
         $grandTotal = $totalPrice + $additionalTotal;
 
-        // ✅ Update booking total (use JS total if provided)
+        // ✅ Update booking total and save additional_total
         if (!empty($validated['final_total'])) {
             $grandTotal = $validated['final_total'];
+            $additionalTotal = $validated['final_total'] - $totalPrice; // compute additional from JS total
         }
 
-        $booking->update(['total_price' => $grandTotal]);
+        $booking->update([
+            'total_price' => $grandTotal,
+            'additional_total' => $additionalTotal, // 🆕 save additional total
+        ]);
 
         return redirect()->back()->with('success', 'Booking submitted successfully!');
     }

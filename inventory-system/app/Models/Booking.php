@@ -27,6 +27,7 @@ class Booking extends Model
         'equipment_id',
         'total_days',
         'total_price',
+        'additional_total',
         'booking_status',
     ];
 }
