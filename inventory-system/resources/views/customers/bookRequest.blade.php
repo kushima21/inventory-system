@@ -59,49 +59,46 @@
                 </form>
             </div>
     </div>
-    <div class="request-box-container">
-        <div class="request-box">
-            <div class="r-box-details">
-                <h3 class="r-h">All-Star Premium Package</h3>
-                <div class="list-item-c">
-                    <h3 class="m-list-header">
-                        List of Item Includes:
-                    </h3>
-                    <ul class="items-list">
-                        <li>10 LED</li>
-                        <li>10 Table</li>
-                        <li>10 Chairs</li>
-                        <li>20 Speaker</li>
-                        <li>20 Fan</li>
-                        <li>20 GameBoard</li>
-                    </ul>
-                </div>
-                <div class="additional">
-                    <h3 class="m-item-add">
-                        /*Additional*/
-                    </h3>
-                    <ul>
-                        <li>20 chairs</li>
-                        <li>20 Table</li>
-                        <li>50 LED</li>
-                        <li>50 chairs</li>
-                    </ul>
-                </div>
+    @foreach($bookings as $booking)
+<div class="request-box-container">
+    <div class="request-box">
+        <div class="r-box-details">
+            {{-- Gym Package --}}
+            <h3 class="r-h">{{ $booking->gym->package ?? 'N/A' }}</h3>
+
+            {{-- Default Equipment List --}}
+            <div class="list-item-c">
+                <h3 class="m-list-header">List of Item Includes:</h3>
+                <ul class="items-list">
+                    @if(!empty($booking->gym->equipment))
+                        @foreach($booking->gym->equipment as $equip)
+                            <li>{{ $equip->equipment }} <span>{{ $equip->pivot->quantity ?? 1 }}</span></li>
+                        @endforeach
+                    @endif
+                </ul>
             </div>
-            <div class="r-bottom-container">
-                <h3 class="b-list-header">
-                    Day(s) offer : 4 Days
-                </h3>
-                <h3 class="b-status">
-                    Status Request : (Pending)
-                </h3>
-                <h3 class="b-price">
-                    Total Php: 3000.00
-                </h3>
-                <button type="button" class="cancelBtn">Cancel Request</button>
+
+            {{-- Additional Equipments --}}
+            <div class="additional">
+                <h3 class="m-item-add">Additional</h3>
+                <ul>
+                    @foreach($booking->additionalEquipments as $additional)
+                        <li>{{ $additional->equipment_name }} <span>{{ $additional->quantity }}</span></li>
+                    @endforeach
+                </ul>
             </div>
         </div>
+
+        {{-- Bottom details --}}
+        <div class="r-bottom-container">
+            <h3 class="b-list-header">Day(s) offer: {{ $booking->total_days }} Day(s)</h3>
+            <h3 class="b-status">Status Request: ({{ $booking->booking_status }})</h3>
+            <h3 class="b-price">Total Php: {{ number_format($booking->total_price, 2) }}</h3>
+            <button type="button" class="cancelBtn" data-id="{{ $booking->booking_id }}">Cancel Request</button>
+        </div>
     </div>
+</div>
+@endforeach
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const cancelBtn = document.querySelector(".cancelBtn");

@@ -106,9 +106,6 @@ Route::get('/customers/profile', function () {
     return view('customers.profile');
 });
 
-Route::get('/customers/bookRequest', function () {
-    return view('customers.bookRequest');
-});
 
 Route::get('/navbar', function () {
     return view('partials.navbar');
@@ -140,8 +137,11 @@ Route::delete('/gym/{id}', [GymController::class, 'destroy'])->name('gym.destroy
 
 
 Route::get('/book', [GymController::class, 'BookIndex'])->name('book.BookIndex');
-// Sakto nga route for Customers home
-Route::get('/customers/userBook', [GymController::class, 'userBook'])->name('customers.userBook');
+Route::get('/customers/userRequest', [BookingController::class, 'showUserBookings'])->name('bookings.list');
+Route::get('/customers/bookRequest', function() {
+    return redirect()->route('bookings.list');
+});
+
 
 // Wala na ni — ayaw i-overwrite
 // Route::get('/home', fn() => view('customers.home'))->name('customers.home');
@@ -163,7 +163,7 @@ Route::get('/personnel/dashboard', fn() => view('personnel.personnel_dashboard')
 
 // ✅ Booking route WITHOUT auth middleware
 Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
-
+Route::get('/customers/userRequest', [BookingController::class, 'showUserBookings'])->name('bookings.list');
 
 // Inventory Section
 // ✅ Unified Inventory Display Route

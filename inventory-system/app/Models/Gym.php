@@ -15,5 +15,8 @@ class Gym extends Model
                     ->withPivot('quantity')
                     ->withTimestamps();
     }
+    protected $casts = [
+    'default_items' => 'array', // make sure this column exists in DB
+];
     
 }

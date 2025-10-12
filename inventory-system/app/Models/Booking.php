@@ -30,4 +30,24 @@ class Booking extends Model
         'additional_total',
         'booking_status',
     ];
+
+    public function gym()
+{
+    return $this->belongsTo(Gym::class, 'gym_id');
+}
+
+public function additionalEquipments()
+{
+    return $this->hasMany(AdditionalEquipment::class, 'booking_id');
+}
+
+public function selectedEquipment()
+{
+    // Assuming you save equipment IDs as JSON array in booking_tbl.equipment_id
+    $equipmentIds = json_decode($this->equipment_id, true);
+
+    if (!$equipmentIds || !is_array($equipmentIds)) return collect();
+
+    return \App\Models\Equipment::whereIn('id', $equipmentIds)->get();
+}
 }

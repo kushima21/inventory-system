@@ -9,6 +9,27 @@ use Carbon\Carbon;
 
 class BookingController extends Controller
 {
+public function showUserBookings()
+    {
+        // Get user ID from session or auth
+        $userId = auth()->check() ? auth()->id() : session('user_id');
+
+        if (!$userId) {
+            return redirect('/login')->with('error', 'Please log in to view bookings.');
+        }
+
+        // Fetch bookings with gym and additional equipments
+        $bookings = Booking::with('gym', 'additionalEquipments')
+            ->where('user_id', $userId)
+            ->orderBy('created_at', 'desc')
+            ->get();
+
+        // Debug: check if bookings exist
+        // dd($bookings->toArray());
+
+        return view('customers.bookRequest', compact('bookings'));
+    }
+
     public function store(Request $request)
     {
         // ✅ Validate booking form
