@@ -19,6 +19,16 @@ class EquipmentController extends Controller
         return view('settings.equipment', compact('equipmentList', 'bundles'));
     }
 
+    public function showUserBook()
+{
+    $bundles = EquipmentBundle::with('equipment')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return view('customers.userBook', compact('bundles'));
+}
+
+    
     // ✅ Store equipment
     public function store(Request $request)
     {

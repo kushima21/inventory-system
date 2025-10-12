@@ -11,7 +11,7 @@ class BookingController extends Controller
 {
     public function store(Request $request)
     {
-        // ✅ Validate incoming booking data
+        // ✅ Validate booking form
         $validated = $request->validate([
             'name' => 'required|string|max:255',
             'contact_number' => 'required|string|max:20',
@@ -20,24 +20,26 @@ class BookingController extends Controller
             'end_date' => 'required|date|after_or_equal:starting_date',
             'gym_id' => 'required|integer|exists:gym_table,id',
             'equipment_id' => 'nullable|integer|exists:gym_equipment,id',
+            'additional_equipments' => 'nullable|string',
+            'final_total' => 'nullable|numeric',
         ]);
 
-        // ✅ Get gym details (to calculate total price)
-        $gym = Gym::find($validated['gym_id']);
+        // ✅ Get gym and compute total days
+        $gym = \App\Models\Gym::find($validated['gym_id']);
         if (!$gym) {
             return back()->with('error', 'Invalid gym selection.');
         }
 
-        // ✅ Compute total days (include start and end)
-        $start = Carbon::parse($validated['starting_date']);
-        $end = Carbon::parse($validated['end_date']);
+        $start = \Carbon\Carbon::parse($validated['starting_date']);
+        $end = \Carbon\Carbon::parse($validated['end_date']);
         $totalDays = $start->diffInDays($end) + 1;
 
-        // ✅ Compute total price
+        // ✅ Base total from gym
         $totalPrice = $gym->price * $totalDays;
+        $additionalTotal = 0;
 
-        // ✅ Create booking record
-        Booking::create([
+        // ✅ Create booking first
+        $booking = \App\Models\Booking::create([
             'user_id' => auth()->check() ? auth()->id() : session('user_id'),
             'name' => $validated['name'],
             'contact_number' => $validated['contact_number'],
@@ -51,7 +53,36 @@ class BookingController extends Controller
             'booking_status' => 'Pending',
         ]);
 
-        // ✅ Redirect with success message
+        // ✅ Save Additional Equipments (if any)
+        if (!empty($validated['additional_equipments'])) {
+            $equipments = json_decode($validated['additional_equipments'], true);
+
+            if (is_array($equipments)) {
+                foreach ($equipments as $item) {
+                    $itemTotal = isset($item['total']) ? floatval($item['total']) : 0;
+
+                    \App\Models\AdditionalEquipment::create([
+                        'booking_id' => $booking->booking_id, // ✅ FIXED HERE
+                        'equipment_name' => $item['name'],
+                        'quantity' => $item['quantity'],
+                        'price' => $item['price'],
+                    ]);
+
+                    $additionalTotal += $itemTotal;
+                }
+            }
+        }
+
+        // ✅ Add additional total to booking total
+        $grandTotal = $totalPrice + $additionalTotal;
+
+        // ✅ Update booking total (use JS total if provided)
+        if (!empty($validated['final_total'])) {
+            $grandTotal = $validated['final_total'];
+        }
+
+        $booking->update(['total_price' => $grandTotal]);
+
         return redirect()->back()->with('success', 'Booking submitted successfully!');
     }
 }

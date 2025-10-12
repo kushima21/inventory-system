@@ -74,11 +74,15 @@ class GymController extends Controller
         return view('book', compact('gyms', 'equipmentList'));
     }
 
-    public function userBook()
-    {
-        $gyms = Gym::with('equipment')->get();
-        $equipmentList = Equipment::all();
+  public function userBook()
+{
+    // Fetch gym packages
+    $gyms = \App\Models\Gym::with('equipment')->orderBy('created_at', 'desc')->get();
 
-        return view('customers.userBook', compact('gyms', 'equipmentList'));
-    }
+    // Fetch equipment bundles
+    $bundles = \App\Models\EquipmentBundle::with('equipment')->orderBy('created_at', 'desc')->get();
+
+    // Return both to your userBook view
+    return view('customers.userBook', compact('gyms', 'bundles'));
+}
 }

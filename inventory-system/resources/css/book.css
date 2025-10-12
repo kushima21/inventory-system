@@ -37,7 +37,6 @@
 
     .booking-box-container {
         width: 100%;
-        height: max-content;
         display: flex;
         align-items: center;
         justify-content: space-around;
@@ -230,16 +229,133 @@
     font-size: 12px;
 }
 
+/* additional modal container */
+.additonal-modal-container {
+    width: 30%;
+    height: 450px;
+    box-shadow: 0px 0px 10px;
+    position: fixed;
+    top: 20%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 20000;
+    background: white;
+    border-radius: 12px;
+    display: none;
+    overflow: hidden; /* prevents child overflow outside border radius */
+}
+
+.close-additional-btn {
+    background: none;
+    border: none;
+    font-size: 22px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #555;
+    transition: color 0.2s;
+}
+
+.close-additional-btn:hover {
+    color: #000;
+}
+
+.add-subheader {
+    font-size: 18px;
+    padding: 15px 20px 0 20px;
+    margin-bottom: 5px;
+}
+
+/* Make list scrollable inside modal */
+.list-of-equipment-bundle-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: space-between;
+    padding: 15px 20px;
+    max-height: 280px; /* fits within 400px modal height */
+    overflow-y: auto;  /* enables scroll if content exceeds height */
+    box-sizing: border-box;
+}
+
+/* Custom scrollbar (optional aesthetic) */
+.list-of-equipment-bundle-container::-webkit-scrollbar {
+    width: 6px;
+}
+.list-of-equipment-bundle-container::-webkit-scrollbar-thumb {
+    background: #ccc;
+    border-radius: 3px;
+}
+.list-of-equipment-bundle-container::-webkit-scrollbar-thumb:hover {
+    background: #aaa;
+}
+
+.list-bundle-box {
+    width: 48%;
+    background: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 10px 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box;
+}
+
+.list-bundle-box label {
+    font-weight: bold;
+    font-size: 16px;
+    color: #333;
+    display: block;
+    margin-bottom: 5px;
+}
+
+.list-bundle-box p {
+    margin: 0 0 10px 0;
+    font-size: 14px;
+    color: #555;
+}
+
+.list-bundle-box input[type="number"] {
+    width: 100%;
+    padding: 6px 8px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.total-list-equipment-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+}
+
+.total-additional {
+    font-size: 22px;
+}
+
+.total-list-equipment-container button {
+    width: 130px;
+    height: 38px;
+    border: none;
+    border-radius: 12px;
+     background: linear-gradient(rgba(119, 1, 1, 0.932), rgba(156, 2, 2, 0.979));
+    color: white;
+    font-size: 11px;
+}
+
+
 /* m- view- modal*/
 
 .m-view-modal {
-    width: 400px;
+    width: 500px;
     height: max-content;
     box-shadow: 0px 0px 10px;
-    z-index: 1000;
+    z-index: 10000;
     background: white;
     border-radius: 14px;
     display: none;
+    position: fixed;
+    top: 17%;
     
 }
 
@@ -306,6 +422,10 @@
     font-size: 11px;
 }
 
+.additional-list {
+    padding: 20px;
+}
+
 .close-view-btn {
     background: none;
     border: none;
@@ -314,4 +434,43 @@
     cursor: pointer;
     color: #555;
     transition: color 0.2s;
+}
+
+.additional-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* duha ka column (atbang) */
+    gap: 8px 30px; /* spacing between rows and columns */
+    width: 300px; /* optional: adjust width as needed */
+}
+
+.additional-list li {
+    display: flex;
+    justify-content: space-between; /* para ang text ug number mag atbang */
+    padding: 6px 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+.additional-list span.additional-list {
+    grid-column: 1 / -1; /* span the title across both columns */
+    font-weight: bold;
+    font-size: 18px;
+    margin-bottom: 8px;
+    display: block;
+    text-align: center;
+}
+
+
+.additional-list-head {
+    padding: 20px;
+}
+
+.additional-payment {
+    padding: 10px;
+}
+
+.total-add-pay {
+    padding-left: 10px;
 }

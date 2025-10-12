@@ -22,7 +22,7 @@
                 </div>
             </div>
             <div class="overview-container">
-                <a href="#">
+                <a href="{{ url('/dashboard') }}">
                     <h2>Dashboard Overview</h2>
                 </a>
             </div>
@@ -35,7 +35,7 @@
                         <span>Request Supplies</span>
                     </div>
                 </a>
-                <a href="#">
+                <a href="{{ url('/gym_reservation') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Gym Reservation</span>
@@ -47,7 +47,7 @@
                         <span>Inventory</span>
                     </div>
                 </a>
-                <a href="#">
+                <a href="{{ url('/reports') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Reports</span>
