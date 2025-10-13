@@ -17,11 +17,25 @@ $user = \App\Models\User::find(session('user_id'));
             <div class="sidebar-header">
                 <h2>Inventory Booking System</h2>
             </div>
-            <div class="user-container">
+            <div class="user-container" id="userContainer">
                 <img src="{{ asset('system-images/user.png') }}" alt="" class="user-image">
                 <div class="user-info">
                     <h2>Hondrada John Mark</h2>
                     <p>ID#: 0211</p>
+                </div>
+            </div>
+            <div class="user-modified-modal" id="userModal">
+                <div class="user-box-m">
+                    <a href="#">
+                        <div class="user-box">
+                            <p>Profile Modification</p>
+                        </div>
+                    </a>
+                    <form method="POST" action="">
+                        <div class="user-box">
+                            <p>Logouts</p>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="overview-container">
@@ -88,5 +102,23 @@ $user = \App\Models\User::find(session('user_id'));
         </div>
         
     </div>
+    <script>
+document.addEventListener('DOMContentLoaded', () => {
+    const userContainer = document.getElementById('userContainer');
+    const userModal = document.getElementById('userModal');
+
+    // Toggle modal visibility on click
+    userContainer.addEventListener('click', () => {
+        userModal.classList.toggle('active');
+    });
+
+    // Optional: hide modal when clicking outside
+    document.addEventListener('click', (event) => {
+        if (!userContainer.contains(event.target) && !userModal.contains(event.target)) {
+            userModal.classList.remove('active');
+        }
+    });
+});
+</script>
 </body>
 </html>

@@ -24,6 +24,7 @@ html, body {
     box-sizing: border-box; /* include padding, border in width/height */
     overflow-y: auto;       /* scroll if content overflow */
     box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.164);
+    background: rgb(20, 0, 0);
 
 }
 
@@ -32,6 +33,12 @@ html, body {
     width: 100%;
     height: 60px;
     box-sizing: border-box;
+    color: #ffffff36;
+}
+
+.sidebar-header h2 {
+    font-size: 20px;
+    padding: 10px;
 }
 
 /* User container */
@@ -42,6 +49,7 @@ html, body {
     align-items: center;
     margin-top: 10px;
     box-sizing: border-box;
+    cursor: pointer;
 }
 
 .user-image {
@@ -57,19 +65,69 @@ html, body {
 }
 
 .user-info h2 {
-    font-size: 14px;
+    font-size: 12px;
     margin: 0; /* remove default margin */
+    color: rgb(119, 117, 117);
 }
 
 .user-info p {
     font-size: 13px;
-    margin: 0;
+    margin-top: 5px;
+    color: rgb(144, 138, 138);
+
 }
+
+/*user-modified-modal*/
+.user-modified-modal {
+    width: 220px;
+    height: 100px;
+    box-shadow: 0px 0px 4px black;
+    position: fixed;
+    margin-left: 7px;
+    margin-top: 3px;
+    z-index: 1000;
+    background: rgb(21, 0, 0);
+    border-radius: 12px;
+    display: none;
+    cursor: pointer;
+}
+.user-box-m {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    padding-top: 10px;
+    gap: 10px;
+}
+
+.user-box-m a {
+    text-decoration: none;
+    color: black;
+}
+
+.user-box {
+    width: 210px;
+    height: 38px;
+    display: flex;
+    align-items: center;
+    border-radius: 7px;
+}
+
+.user-box  p {
+    font-size: 13px;
+    padding-left: 5px;
+    color: rgba(177, 175, 175, 0.872);
+
+}
+
+.user-modified-modal.active {
+    display: block;
+}
+/*close */
 
 .overview-container {
     width: 100%;
     height: 50px;
-
     margin-top: 25px;
     display: flex;
     align-items: center;
@@ -85,6 +143,8 @@ html, body {
     font-size: 15px;
     padding-left: 10px;
     margin: 0;
+    color: rgb(144, 138, 138);
+
 }
 
 .sidebar-links {
@@ -97,12 +157,18 @@ html, body {
     overflow: auto;
 }
 
+.sidebar-links a {
+    text-decoration: none;
+}
+
 .link-title {
     font-weight: bold;
     padding-top: 10px;
     padding-left: 10px;
-    font-size: 14px;
+    font-size: 11px;
     font-family: Arial, sans-serif;
+    color: rgb(144, 138, 138);
+
 }
 
 .link-item {
@@ -116,7 +182,8 @@ html, body {
 
 .link-item span {
     padding-left: 5px;
-    font-size: 14px;
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.73);
 }
 
 /*content-container*/
