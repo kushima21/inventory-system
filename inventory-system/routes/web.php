@@ -20,31 +20,27 @@ Route::get('/personnel_dashboard', function () {
     return view('personnel.personnel_dashboard');
 });
 
-Route::get('/dashboard', function () {
-    return view('settings.dashboard');
-});
-
-Route::get('/gym_reservation', function () {
+Route::get('/settings/gym_reservation', function () {
     return view('settings.gym_reservation');
 });
 
-Route::get('/reports', function () {
+Route::get('/settings/reports', function () {
     return view('settings.reports');
 });
 
-Route::get('/supplies', function () {
+Route::get('/settings/supplies', function () {
     return view('settings.supplies');
 });
 
-Route::get('/equipment', function () {
+Route::get('/settings/equipment', function () {
     return view('settings.equipment');
 });
 
-Route::get('/gym', function () {
+Route::get('/settings/gym', function () {
     return view('settings.gym');
 });
 
-Route::get('/inventory', function () {
+Route::get('/settings/inventory', function () {
     return view('settings.inventory');
 });
 
@@ -115,28 +111,29 @@ Route::get('/sideBar', function () {
     return view('partials.sideBar');
 });
 
-Route::get('/personnel_dashboard', [UserController::class, 'index'])->name('personnel.personnel_dashboard');
-Route::post('/personnel_dashboard', [UserController::class, 'store'])->name('users.store');
-Route::get('/personnel_dashboard/search', [UserController::class, 'search'])->name('users.search');
+Route::get('/settings/personnel_dashboard', [UserController::class, 'index'])->name('personnel.personnel_dashboard');
+Route::post('/settings/personnel_dashboard', [UserController::class, 'store'])->name('users.store');
+Route::get('/settings/personnel_dashboard/search', [UserController::class, 'search'])->name('users.search');
 Route::post('/signup', [UserController::class, 'signup'])->name('signup.store');
 
-Route::get('/request', [SuppliesController::class, 'request'])->name('supplies.request');
-Route::get('/request/{id}', [SuppliesController::class, 'showRequest'])->name('supplies.request');
+Route::get('/settings/request', [SuppliesController::class, 'request'])->name('supplies.request');
+Route::get('/settings/request/{id}', [SuppliesController::class, 'showRequest'])->name('supplies.request');
 
 
-Route::post('/supplies/{id}/add-more', [SuppliesController::class, 'addMore'])->name('supplies.addMore');
-Route::delete('/supplies/{id}', [SuppliesController::class, 'delete'])->name('supplies.delete');
+Route::post('/settings/supplies/{id}/add-more', [SuppliesController::class, 'addMore'])->name('supplies.addMore');
+Route::delete('/settings/supplies/{id}', [SuppliesController::class, 'delete'])->name('supplies.delete');
 
-Route::post('/equipment/{id}/add-more', [EquipmentController::class, 'addMore'])->name('equipment.addMore');
-Route::delete('/equipment/{id}', [EquipmentController::class, 'delete'])->name('equipment.delete');
-Route::get('/gym', [EquipmentController::class, 'gym'])->name('settings.gym');
+Route::post('/settings/equipment/{id}/add-more', [EquipmentController::class, 'addMore'])->name('equipment.addMore');
+Route::delete('/settings/equipment/{id}', [EquipmentController::class, 'delete'])->name('equipment.delete');
+Route::get('/settings/gym', [EquipmentController::class, 'gym'])->name('settings.gym');
 
-Route::post('/gym/store', [GymController::class, 'store'])->name('gym.store');
-Route::get('/gym', [GymController::class, 'index'])->name('gym.index');
-Route::delete('/gym/{id}', [GymController::class, 'destroy'])->name('gym.destroy');
+Route::post('/settings/gym/store', [GymController::class, 'store'])->name('gym.store');
+Route::get('/settings/gym', [GymController::class, 'index'])->name('gym.index');
+Route::delete('/settings/gym/{id}', [GymController::class, 'destroy'])->name('gym.destroy');
 
 
 Route::get('/book', [GymController::class, 'BookIndex'])->name('book.BookIndex');
+Route::get('/settings/gym_reservation', [GymController::class, 'bookRequest'])->name('book.BookIndex');
 Route::get('/customers/userRequest', [BookingController::class, 'showUserBookings'])->name('bookings.list');
 Route::get('/customers/bookRequest', function() {
     return redirect()->route('bookings.list');
@@ -150,33 +147,56 @@ Route::get('/customers/bookRequest', function() {
 
 Route::get('/login', fn() => view('auth.login'))->name('login');
 Route::post('/login', [UserController::class, 'login'])->name('login.post');
-Route::get('/logout', [UserController::class, 'logout'])->name('logout');
 
-// Role-based redirects
+// 🔹 Logout route (POST only)
+Route::post('/logout', [UserController::class, 'logout'])->name('logout');
+
+// 🔹 Role-based redirects
 Route::get('/home', function () {
     $user = \App\Models\User::find(session('user_id'));
     return view('customers.home', compact('user'));
 })->name('customers.home');
 
-Route::get('/admin/dashboard', fn() => view('admin.dashboard'))->name('admin.dashboard');
-Route::get('/personnel/dashboard', fn() => view('personnel.personnel_dashboard'))->name('personnel.dashboard');
+// 🔹 Custodian dashboard
+Route::get('/settings/dashboard', function () {
+    return view('settings.dashboard'); // Blade file at resources/views/settings/dashboard.blade.php
+})->name('settings.dashboard');
+
+// 🔹 Personnel dashboard
+Route::get('/personnel/dashboard', function () {
+    return view('personnel.personnel_dashboard');
+})->name('personnel.dashboard');
+
 
 // ✅ Booking route WITHOUT auth middleware
 Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
 Route::get('/customers/userRequest', [BookingController::class, 'showUserBookings'])->name('bookings.list');
+Route::get('/settings/gym_reservation', [BookingController::class, 'showRequestBooking'])->name('bookings.list');
+Route::get('/settings/reports', [BookingController::class, 'showRequestReports'])->name('bookings.list');
+Route::get('/settings/dashboard', [BookingController::class, 'showRequestDashboard'])->name('bookings.list');
+Route::post('/booking/{id}/approve', [BookingController::class, 'approveBooking'])->name('booking.approve');
+Route::post('/booking/{id}/complete', [BookingController::class, 'completeBooking'])->name('booking.complete');
 
 // Inventory Section
 // ✅ Unified Inventory Display Route
-Route::get('/inventory', [SuppliesController::class, 'inventory'])->name('inventory.create');
+Route::get('/settings/inventory', [SuppliesController::class, 'inventory'])->name('inventory.create');
 
 // ✅ Supplies Routes
-Route::post('/inventory', [SuppliesController::class, 'store'])->name('supplies.store');
-Route::delete('/supplies/{id}', [SuppliesController::class, 'delete'])->name('supplies.delete');
+Route::post('/settings/inventory', [SuppliesController::class, 'store'])->name('supplies.store');
+Route::delete('/settings/supplies/{id}', [SuppliesController::class, 'delete'])->name('supplies.delete');
 
 // ✅ Equipment Routes
-Route::post('/equipment', [EquipmentController::class, 'store'])->name('equipment.store');
-Route::delete('/equipment/{id}', [EquipmentController::class, 'delete'])->name('equipment.delete');
+Route::post('/settings/equipment', [EquipmentController::class, 'store'])->name('equipment.store');
+Route::delete('/settings/equipment/{id}', [EquipmentController::class, 'delete'])->name('equipment.delete');
 
-Route::get('/equipment', [EquipmentController::class, 'index'])->name('equipment.index');
-Route::post('/equipment-bundle/store', [EquipmentController::class, 'storeBundle'])->name('equipment.bundle.store');
-Route::delete('/equipment-bundle/delete/{id}', [EquipmentController::class, 'deleteBundle'])->name('equipment.bundle.delete');
+Route::get('/settings/equipment', [EquipmentController::class, 'index'])->name('equipment.index');
+Route::post('/settings/equipment-bundle/store', [EquipmentController::class, 'storeBundle'])->name('equipment.bundle.store');
+Route::delete('/settings/equipment-bundle/delete/{id}', [EquipmentController::class, 'deleteBundle'])->name('equipment.bundle.delete');
+
+Route::get('/customers/userBook', [EquipmentController::class, 'showUserBook'])->name('equipment.showUserBook');
+Route::get('/customers/userBook', [GymController::class, 'userBook'])->name('customers.userBook');
+
+
+    
+Route::get('/settings/dashboard', [BookingController::class, 'showRequestDashboard'])
+    ->name('settings.dashboard');

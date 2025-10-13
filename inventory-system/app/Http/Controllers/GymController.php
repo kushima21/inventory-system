@@ -43,7 +43,10 @@ class GymController extends Controller
      * Display all gym packages with equipment.
      */
     public function index()
+
     {
+
+        
         $gyms = Gym::with('equipment')->get();
         $equipmentList = Equipment::all();
 
@@ -74,15 +77,31 @@ class GymController extends Controller
         return view('book', compact('gyms', 'equipmentList'));
     }
 
-  public function userBook()
-{
-    // Fetch gym packages
-    $gyms = \App\Models\Gym::with('equipment')->orderBy('created_at', 'desc')->get();
+      public function BookRequest()
+    {
+        $gyms = Gym::with('equipment')->get();
+        $equipmentList = Equipment::all();
 
-    // Fetch equipment bundles
+        // ibalik ang book.blade.php
+        return view('settings.gym_resevations', compact('gyms', 'equipmentList'));
+    }
+
+      public function BookReserved()
+    {
+        $gyms = Gym::with('equipment')->get();
+        $equipmentList = Equipment::all();
+
+        // ibalik ang book.blade.php
+        return view('customers.userBook', compact('gyms', 'equipmentList'));
+    }
+
+    
+
+public function userBook()
+{
+    $gyms = Gym::with('equipment')->orderBy('created_at', 'desc')->get();
     $bundles = \App\Models\EquipmentBundle::with('equipment')->orderBy('created_at', 'desc')->get();
 
-    // Return both to your userBook view
     return view('customers.userBook', compact('gyms', 'bundles'));
 }
 }

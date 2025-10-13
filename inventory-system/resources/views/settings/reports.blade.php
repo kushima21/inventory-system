@@ -15,7 +15,7 @@
                  <h3 class="report-subheader">Total Revenue</h3>
                  <div class="report-number">
                     <img src="{{ asset('icons/peso-sign.png') }}" alt="Login Image" class="peso-image">
-                    <h3 class="number">2500.00</h3>
+                    <h3 class="number">{{ number_format($totalRevenue, 2) }}</h3>
                  </div>
             </div>
             <div class="report-box">
@@ -23,7 +23,7 @@
                 <h3 class="report-subheader">Total Booking</h3>
                  <div class="report-number">
                     <img src="{{ asset('icons/career-growth.png') }}" alt="Login Image" class="peso-image">
-                    <h3 class="number">50</h3>
+                    <h3 class="number">{{ number_format($completedCount, 2) }}</h3>
                  </div>
             </div>
             <div class="report-box">
@@ -31,7 +31,7 @@
                  <h3 class="report-subheader">Cancelled Booking</h3>
                  <div class="report-number">
                     <img src="{{ asset('icons/document-circle-wrong.png') }}" alt="Login Image" class="peso-image">
-                    <h3 class="number">50</h3>
+                    <h3 class="number">{{ number_format($cancelledCount, 2) }}</h3>
                  </div>
             </div>
             <div class="report-box">
@@ -39,7 +39,7 @@
                  <h3 class="report-subheader">Total Supplies Request</h3>
                 <div class="report-number">
                     <img src="{{ asset('icons/team-check-alt.png') }}" alt="Login Image" class="peso-image">
-                    <h3 class="number">50</h3>
+                    <h3 class="number">{{ number_format($cancelledCount, 2) }}</h3>
                  </div>
             </div>
         </div>
@@ -55,18 +55,12 @@
                     Top Packages
                 </h3>
                 <div class="top-package-box">
-                    <div class="package-item">
-                        <span class="package-name">All Star Premium Package</span>
-                        <span class="package-count">150 Booked</span>
-                    </div>
-                    <div class="package-item">
-                        <span class="package-name">All Star Basic Package</span>
-                        <span class="package-count">120 Booked</span>
-                    </div>
-                    <div class="package-item">
-                        <span class="package-name">All Star Standard Package</span>
-                        <span class="package-count">100 Booked</span>
-                    </div>
+                    @foreach($packageCounts as $package)
+                        <div class="package-item">
+                            <span class="package-name">{{ $package->gym->package ?? 'N/A' }}</span>
+                            <span class="package-count">{{ $package->total }} Booked</span>
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </div>
@@ -101,7 +95,7 @@
                     </div>
                 </div>
                 <div class="booked-summary-wrapper">
-                    <table class="booked-summary-table">
+                   <table class="booked-summary-table">
                         <thead>
                             <tr>
                                 <th>Customer Name</th>
@@ -114,17 +108,28 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>John Mark Hondrada</td>
-                                <td>09073387882</td>
-                                <td>All Star Premium Package</td>
-                                <td>2025-25-01</td>
-                                <td>4 Day's</td>
-                                <td>Php: 2,500.00</td>
-                                <td><span class="status Completed">Completed</span></td>
-                            </tr>
+                            @forelse($bookings as $booking)
+                                <tr>
+                                    <td>{{ $booking->name }}</td>
+                                    <td>{{ $booking->contact_number }}</td>
+                                    <td>{{ $booking->gym->package ?? 'N/A' }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($booking->created_at)->format('Y-m-d') }}</td>
+                                    <td>{{ $booking->total_days }} Day's</td>
+                                    <td>Php: {{ number_format($booking->total_price, 2) }}</td>
+                                    <td>
+                                        <span class="status {{ $booking->booking_status }}">
+                                            {{ $booking->booking_status }}
+                                        </span>
+                                    </td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="7" class="text-center">No bookings found.</td>
+                                </tr>
+                            @endforelse
                         </tbody>
                     </table>
+
                 </div>
             </div>
         </div>
@@ -274,19 +279,20 @@ renderCalendar(currentDate);
 </script>
 <script>
 const ctx = document.getElementById('revenueChart').getContext('2d');
+const monthlyRevenueData = @json(array_values($revenues)); // Laravel -> JS
 
 new Chart(ctx, {
     type: 'bar',
     data: {
-        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
         datasets: [{
             label: 'Revenue (₱)',
-            data: [12000, 15000, 9000, 18000, 22000, 25000, 20000, 27000, 23000, 29000, 31000, 35000],
-            backgroundColor: 'rgba(128, 0, 0, 0.7)',   // maroon (semi-transparent)
-            borderColor: 'rgba(128, 0, 0, 1)',         // solid maroon border
+            data: monthlyRevenueData,
+            backgroundColor: 'rgba(128, 0, 0, 0.7)',
+            borderColor: 'rgba(128, 0, 0, 1)',
             borderWidth: 2,
             borderRadius: 6,
-            hoverBackgroundColor: 'rgba(101, 0, 0, 0.9)', // darker maroon when hovered
+            hoverBackgroundColor: 'rgba(101, 0, 0, 0.9)',
         }]
     },
     options: {
@@ -295,20 +301,12 @@ new Chart(ctx, {
         scales: {
             y: {
                 beginAtZero: true,
-                grid: {
-                    color: 'rgba(0, 0, 0, 0.05)'
-                },
-                ticks: {
-                    color: '#333'
-                }
+                grid: { color: 'rgba(0,0,0,0.05)' },
+                ticks: { color: '#333' }
             },
             x: {
-                grid: {
-                    display: false
-                },
-                ticks: {
-                    color: '#333'
-                }
+                grid: { display: false },
+                ticks: { color: '#333' }
             }
         },
         plugins: {
@@ -316,18 +314,12 @@ new Chart(ctx, {
                 display: true,
                 position: 'bottom',
                 labels: {
-                    color: '#5a0000', // maroon text for legend
-                    font: {
-                        size: 13,
-                        weight: 'bold'
-                    }
+                    color: '#5a0000',
+                    font: { size: 13, weight: 'bold' }
                 }
             },
-            title: {
-                display: false
-            },
             tooltip: {
-                backgroundColor: '#5a0000', // maroon tooltip background
+                backgroundColor: '#5a0000',
                 titleColor: '#fff',
                 bodyColor: '#fff',
                 cornerRadius: 8,

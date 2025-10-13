@@ -11,7 +11,7 @@ class BookingController extends Controller
     public function store(Request $request)
     {
         // ✅ Validate incoming data
-        $validated = $request->validate([
+       $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
             'name' => 'required|string|max:255',
             'contact_number' => 'required|string|max:20',
@@ -20,7 +20,11 @@ class BookingController extends Controller
             'end_date' => 'required|date|after_or_equal:starting_date',
             'gym_id' => 'nullable|integer',
             'equipment_id' => 'nullable|integer',
+            'date_approved' => 'nullable|date',   // default null
+            'date_completed' => 'nullable|date',  // default null
+            'date_cancelled' => 'nullable|date',  // default null
         ]);
+
 
         // ✅ Compute total days and total price
         $start = Carbon::parse($validated['starting_date']);

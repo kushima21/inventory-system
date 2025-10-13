@@ -1,6 +1,9 @@
 @extends('layout.default')
 @vite(['resources/css/dashboard.css', 'resources/js/app.js'])
  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+ @php
+$user = \App\Models\User::find(session('user_id'));
+@endphp
 @section('content')
     <div class="dashboard-main-container">
         <h2 class="dashboard-header">
@@ -15,7 +18,7 @@
               <h3 class="c-subheader">Total Revenue</h3>
               <div class="c-number">
                 <img src="{{ asset('icons/peso-sign.png') }}" alt="Login Image" class="dollar-image">
-                <h3 class="number">2500.00</h3>
+                <h3 class="number">{{ number_format($totalRevenue, 2) }}</h3>
               </div>
             </div>
             <div class="container-box">
@@ -23,7 +26,7 @@
               <h3 class="c-subheader">Awaiting Booking Confirmation</h3>
               <div class="c-number">
                 <img src="{{ asset('icons/users.png') }}" alt="Login Image" class="dollar-image">
-                <h3 class="number">50</h3>
+                <h3 class="number">{{ $awaitingCount  }}</h3>
               </div>
             </div>
             <div class="container-box">
@@ -31,7 +34,7 @@
               <h3 class="c-subheader">Unapproved Supply Requests</h3>
               <div class="c-number">
                 <img src="{{ asset('icons/users-alt.png') }}" alt="Login Image" class="dollar-image">
-                <h3 class="number">50</h3>
+                <h3 class="number">{{ $awaitingCount  }}</h3>
               </div>
             </div>
             <div class="container-box">
@@ -39,7 +42,7 @@
               <h3 class="c-subheader">Total Completed Bookings</h3>
               <div class="c-number">
                 <img src="{{ asset('icons/confirmed-user.png') }}" alt="Login Image" class="dollar-image">
-                <h3 class="number">50</h3>
+                <h3 class="number">{{ number_format($completedCount, 2) }}</h3>
             </div>
         </div>
         <div class="booking-over-container">
@@ -48,30 +51,35 @@
                 <canvas id="revenueChart"></canvas>
             </div>
             <div class="overview-booking-box">
-                <h3 class="recent-header">
-                  Recent Bookings
-                </h3>
-                <div class="overview-recent-wrapper">
-                  <table class="overview-recent-request-table">
-                    <thead>
-                      <tr>
-                        <th>Customer</th>
-                        <th>Package</th>
-                        <th>Check-in</th>
-                        <th>Status</th>
-                        <th>Total</th>
-                      </tr>
-                      <tbody>
-                        <tr>
-                          <td>Jane Smith</td>
-                          <td>Standard Package</td>
-                          <td>2025-10-15</td>
-                          <td class="status pending">Pending</td>
-                          <td>$300</td>
-                        </tr>
-                  </table>
-                </div>
-            </div>
+    <h3 class="recent-header">
+        Recent Bookings
+    </h3>
+    <div class="overview-recent-wrapper">
+        <table class="overview-recent-request-table">
+            <thead>
+                <tr>
+                    <th>Customer</th>
+                    <th>Package</th>
+                    <th>Check-in</th>
+                    <th>Status</th>
+                    <th>Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($bookings->where('booking_status', 'Pending') as $booking)
+                    <tr>
+                        <td>{{ $booking->name }}</td>
+                        <td>{{ $booking->gym->package ?? 'N/A' }}</td>
+                        <td>{{ \Carbon\Carbon::parse($booking->starting_date)->format('Y-m-d') }}</td>
+                        <td class="status pending">{{ $booking->booking_status }}</td>
+                        <td>₱{{ number_format($booking->total_price, 2) }}</td>
+                    </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
+</div>
+
         </div>
 
         <div class="recent-booking-container">
@@ -80,31 +88,36 @@
               Confirmed Bookings
             </h3>
               <div class="table-wrapper">
-                <table class="booking-table-container">
-                  <thead>
-                    <tr>
-                      <th>Customer</th>
-                      <th>Package</th>
-                      <th>Check-in</th>
-                      <th>Check-out</th>
-                      <th>Total Days</th>
-                      <th>Status</th>
-                      <th>Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>John Doe</td>
-                      <td>All Star Premium Package</td>
-                      <td>2025-10-09</td>
-                      <td>2025-10-12</td>
-                      <td>4 days</td>
-                      <td class="status completed">Completed</td>
-                      <td>$450</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+    <table class="booking-table-container">
+        <thead>
+            <tr>
+                <th>Customer</th>
+                <th>Package</th>
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Total Days</th>
+                <th>Status</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach($bookings as $booking)
+                <tr>
+                    <td>{{ $booking->name }}</td>
+                    <td>{{ $booking->gym->package ?? 'N/A' }}</td>
+                    <td>{{ \Carbon\Carbon::parse($booking->starting_date)->format('Y-m-d') }}</td>
+                    <td>{{ \Carbon\Carbon::parse($booking->end_date)->format('Y-m-d') }}</td>
+                    <td>{{ $booking->total_days }} days</td>
+                    <td class="status {{ strtolower($booking->booking_status) }}">
+                        {{ $booking->booking_status }}
+                    </td>
+                    <td>₱{{ number_format($booking->total_price, 2) }}</td>
+                </tr>
+            @endforeach
+        </tbody>
+    </table>
+</div>
+
           </div>
         </div>
         <div class="recent-supply-request-container">
@@ -169,45 +182,52 @@
     const ctx = document.getElementById('revenueChart').getContext('2d');
 
     const revenueChart = new Chart(ctx, {
-      type: 'bar', // You can change to 'line' or 'pie'
-      data: {
-        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July','August','September','October','November','December'],
-        datasets: [{
-          label: 'Revenue (₱)',
-          data: [12000, 15000, 10000, 17000, 19000, 22000, 25000],
-          backgroundColor: 'rgba(75, 192, 192, 0.6)',
-          borderColor: 'rgba(75, 192, 192, 1)',
-          borderWidth: 2,
-          borderRadius: 8
-        }]
-      },
-      options: {
-        responsive: true,
-        scales: {
-          y: {
-            beginAtZero: true,
-            title: {
-              display: true,
-              text: 'Revenue in ₱'
-            }
-          },
-          x: {
-            title: {
-              display: true,
-              text: 'Month'
-            }
-          }
+        type: 'bar', // Change to 'line' if preferred
+        data: {
+            labels: [
+                'January', 'February', 'March', 'April', 'May', 'June',
+                'July', 'August', 'September', 'October', 'November', 'December'
+            ],
+            datasets: [{
+                label: 'Revenue (₱)',
+                data: [
+                    @foreach($revenues as $month => $amount)
+                        {{ $amount }},
+                    @endforeach
+                ],
+                backgroundColor: 'rgba(75, 192, 192, 0.6)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 2,
+                borderRadius: 8
+            }]
         },
-        plugins: {
-          legend: {
-            display: true,
-            position: 'bottom'
-          },
-          tooltip: {
-            enabled: true
-          }
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    title: {
+                        display: true,
+                        text: 'Revenue in ₱'
+                    }
+                },
+                x: {
+                    title: {
+                        display: true,
+                        text: 'Month'
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'bottom'
+                },
+                tooltip: {
+                    enabled: true
+                }
+            }
         }
-      }
     });
-  </script>
+</script>
 @endsection

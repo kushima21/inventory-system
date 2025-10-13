@@ -29,6 +29,9 @@ class Booking extends Model
         'total_price',
         'additional_total',
         'booking_status',
+        'date_approved',
+        'date_completed',
+        'date_cancelled',
     ];
 
     public function gym()

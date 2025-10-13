@@ -15,6 +15,7 @@
     @php
 $user = \App\Models\User::find(session('user_id'));
 @endphp
+
     <div class="navBar-container">
         <nav class="nav-links">
             <ul>

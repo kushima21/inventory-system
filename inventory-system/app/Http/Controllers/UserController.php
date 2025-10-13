@@ -75,7 +75,7 @@ class UserController extends Controller
         return redirect('/signup')->with('success', 'Account created successfully! Please log in.');
     }
 
-    // ✅ Custom session-based login
+    // Custom session-based login
     public function login(Request $request)
     {
         $request->validate([
@@ -97,8 +97,8 @@ class UserController extends Controller
         switch ($user->roles) {
             case 'Customers':
                 return redirect()->route('customers.home');
-            case 'Admin':
-                return redirect()->route('admin.dashboard');
+            case 'Custodian':
+                return redirect()->route('settings.dashboard');
             case 'Personnel':
                 return redirect()->route('personnel.dashboard');
             default:
@@ -106,10 +106,10 @@ class UserController extends Controller
         }
     }
 
-    // ✅ Logout (clears session)
+    // Logout (clears session)
     public function logout(Request $request)
     {
         $request->session()->flush();
-        return redirect()->route('login');
+        return redirect()->route('login'); // redirect to login page
     }
 }

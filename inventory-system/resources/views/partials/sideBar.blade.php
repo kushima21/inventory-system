@@ -28,13 +28,14 @@ $user = \App\Models\User::find(session('user_id'));
                                 <h3>Booking Request</h3>
                             </div>
                         </a>
-                        <form method="POST" action="{{ route('logout') }}">
-                            @csrf
-                            <button type="submit" class="link-box" style="background:none; border:none; cursor:pointer;">
-                                <img src="{{ asset('icons/logout.png') }}" alt="Profile Image" class="user-image">
-                                <h3>Logout</h3>
-                            </button>
-                        </form>
+                       <form id="logoutForm" method="POST" action="{{ route('logout') }}">
+    @csrf
+    <button type="submit" class="link-box" style="background:none; border:none; cursor:pointer;">
+        <img src="{{ asset('icons/logout.png') }}" alt="Profile Image" class="user-image">
+        <h3>Logout</h3>
+    </button>
+</form>
+
                     </div>
                 </div>
 
@@ -44,4 +45,25 @@ $user = \App\Models\User::find(session('user_id'));
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+    const logoutBtn = document.getElementById('logoutBtn');
+    const logoutForm = document.getElementById('logoutForm');
+
+    logoutBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        Swal.fire({
+            title: 'Are you sure you want to logout?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, logout'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                logoutForm.submit(); // submit POST logout
+            }
+        });
+    });
+</script>
 @endsection

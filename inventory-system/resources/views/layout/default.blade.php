@@ -8,6 +8,9 @@
     @vite(['resources/css/default.css', 'resources/js/app.js'])
 </head>
 <body>
+     @php
+$user = \App\Models\User::find(session('user_id'));
+@endphp
     <div class="container">
 
         <div class="sidebar-container">
@@ -22,7 +25,7 @@
                 </div>
             </div>
             <div class="overview-container">
-                <a href="{{ url('/dashboard') }}">
+                <a href="{{ url('/settings/dashboard') }}">
                     <h2>Dashboard Overview</h2>
                 </a>
             </div>
@@ -35,39 +38,39 @@
                         <span>Request Supplies</span>
                     </div>
                 </a>
-                <a href="{{ url('/gym_reservation') }}">
+                <a href="{{ url('/settings/gym_reservation') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Gym Reservation</span>
                     </div>
                 </a>
-                 <a href="{{ url('/inventory') }}">
+                 <a href="{{ url('/settings/inventory') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Inventory</span>
                     </div>
                 </a>
-                <a href="{{ url('/reports') }}">
+                <a href="{{ url('/settings/reports') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Reports</span>
                     </div>
                 </a>
                 <span class="link-title">SETTINGS</span>
-                <a href="{{ url('/gym') }}">
+                <a href="{{ url('/settings/gym') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Gym Section</span>
                     </div>
                 </a>
-                <a href="{{ url('/equipment') }}">
+                <a href="{{ url('/settings/equipment') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Equipment Section</span>
                     </div>
                 </a>
                 <span class="link-title">ACCOUNT</span>
-                <a href="{{ url('/personnel_dashboard') }}">
+                <a href="{{ url('/settings/personnel_dashboard') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Personnels</span>
