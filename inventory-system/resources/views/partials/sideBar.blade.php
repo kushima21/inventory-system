@@ -29,13 +29,12 @@ $user = \App\Models\User::find(session('user_id'));
                             </div>
                         </a>
                        <form id="logoutForm" method="POST" action="{{ route('logout') }}">
-    @csrf
-    <button type="submit" class="link-box" style="background:none; border:none; cursor:pointer;">
-        <img src="{{ asset('icons/logout.png') }}" alt="Profile Image" class="user-image">
-        <h3>Logout</h3>
-    </button>
-</form>
-
+                            @csrf
+                            <button type="submit" class="link-box" style="background:none; border:none; cursor:pointer;">
+                                <img src="{{ asset('icons/logout.png') }}" alt="Profile Image" class="user-image">
+                                <h3>Logout</h3>
+                            </button>
+                        </form>
                     </div>
                 </div>
 

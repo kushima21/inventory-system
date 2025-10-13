@@ -13,11 +13,14 @@
     </div>
 </div>
 
-<div class="cancel-modal-container" id="cancelModal">
+<div class="cancel-modal-container" id="cancelModal" style="display:none;">
     <div class="cancel-form-box">
         <h3 class="cancel-header">Cancellation Form</h3>
         <h3 class="select-reason">Select a reason</h3>
-        <form>
+        <form id="cancelForm" action="{{ route('booking.cancel') }}" method="POST">
+            @csrf
+            <input type="hidden" name="booking_id" id="cancelBookingId"> <!-- ✅ booking_id holder -->
+
             <div class="checkbox-group">
                 <label><input type="checkbox" name="reason[]" value="change_of_plans"> Change of plans</label>
                 <label><input type="checkbox" name="reason[]" value="found_better_option"> Found a better option</label>
@@ -26,13 +29,15 @@
                 <label><input type="checkbox" name="reason[]" value="high_cost"> Too expensive</label>
                 <label><input type="checkbox" name="reason[]" value="other"> Other</label>
             </div>
+
             <div class="form-actions">
                 <button class="closeBtn" type="button">Cancel</button>
-                <button type="submit" class="cancel-btn">Submit Cancellation</button>
+                <button type="submit" name="submit" class="cancel-btn">Submit Cancellation</button>
             </div>
         </form>
     </div>
 </div>
+
 
 <div id="bookingContainer">
     @foreach($bookings as $booking)
@@ -84,6 +89,7 @@
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
+    // --- Filter Button Logic ---
     const buttons = {
         PendingBtn: 'Pending',
         ApprovedBtn: 'Approved',
@@ -92,38 +98,62 @@ document.addEventListener("DOMContentLoaded", function() {
     };
 
     Object.keys(buttons).forEach(btnId => {
-        document.getElementById(btnId).addEventListener('click', () => {
+        const button = document.getElementById(btnId);
+        if (!button) return; // skip if button doesn't exist
+
+        button.addEventListener('click', () => {
             const status = buttons[btnId];
-            document.querySelectorAll('#bookingContainer .request-box-container').forEach(box => {
+            const boxes = document.querySelectorAll('#bookingContainer .request-box-container');
+
+            boxes.forEach(box => {
                 box.style.display = (box.dataset.status === status) ? 'block' : 'none';
             });
 
-            // If none matches, show "No package" message
-            const visible = Array.from(document.querySelectorAll('#bookingContainer .request-box-container')).some(b => b.style.display === 'block');
-            if(!visible){
-                if(!document.getElementById('noPackageMessage')){
+            // Show message if no packages found
+            const visible = Array.from(boxes).some(b => b.style.display === 'block');
+            const messageId = 'noPackageMessage';
+            const existingMsg = document.getElementById(messageId);
+
+            if (!visible) {
+                if (!existingMsg) {
                     const msg = document.createElement('div');
-                    msg.id = 'noPackageMessage';
+                    msg.id = messageId;
                     msg.className = 'request-box-container';
                     msg.innerHTML = `<div class="request-box"><h3 class="r-h">No ${status.toLowerCase()} package</h3></div>`;
                     document.getElementById('bookingContainer').appendChild(msg);
                 }
-            } else {
-                const msg = document.getElementById('noPackageMessage');
-                if(msg) msg.remove();
+            } else if (existingMsg) {
+                existingMsg.remove();
             }
         });
     });
 
-    // Cancel modal functionality
-    document.querySelectorAll('.cancelBtn').forEach(btn => {
-        const modal = document.getElementById("cancelModal");
-        const closeBtn = document.querySelector(".closeBtn");
+    // --- Cancel Modal Logic ---
+    const cancelButtons = document.querySelectorAll(".cancelBtn");
+    const cancelModal = document.getElementById("cancelModal");
+    const closeBtn = document.querySelector(".closeBtn");
+    const bookingIdField = document.getElementById("cancelBookingId");
 
-        btn.addEventListener("click", () => { modal.style.display = "flex"; });
-        closeBtn.addEventListener("click", () => { modal.style.display = "none"; });
-        window.addEventListener("click", (e) => { if(e.target === modal) modal.style.display = "none"; });
+    cancelButtons.forEach(btn => {
+        btn.addEventListener("click", function() {
+            const bookingId = this.getAttribute("data-id");
+            bookingIdField.value = bookingId; // ✅ Pass booking_id to hidden input
+            cancelModal.style.display = "flex"; // Show modal
+        });
+    });
+
+    // Close modal on button click
+    closeBtn.addEventListener("click", () => {
+        cancelModal.style.display = "none";
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener("click", (e) => {
+        if (e.target === cancelModal) {
+            cancelModal.style.display = "none";
+        }
     });
 });
 </script>
+
 @endsection

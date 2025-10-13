@@ -112,4 +112,10 @@ class UserController extends Controller
         $request->session()->flush();
         return redirect()->route('login'); // redirect to login page
     }
+
+     public function navLogout(Request $request)
+    {
+        $request->session()->flush();
+        return redirect()->route('login'); // redirect to login page
+    }
 }

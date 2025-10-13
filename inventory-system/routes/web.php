@@ -151,6 +151,8 @@ Route::post('/login', [UserController::class, 'login'])->name('login.post');
 // 🔹 Logout route (POST only)
 Route::post('/logout', [UserController::class, 'logout'])->name('logout');
 
+Route::post('/logout', [UserController::class, 'navLogout'])->name('navLogout');
+
 // 🔹 Role-based redirects
 Route::get('/home', function () {
     $user = \App\Models\User::find(session('user_id'));
@@ -171,6 +173,8 @@ Route::get('/personnel/dashboard', function () {
 // ✅ Booking route WITHOUT auth middleware
 Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');
 Route::get('/customers/userRequest', [BookingController::class, 'showUserBookings'])->name('bookings.list');
+Route::post('/customers/userRequest', [BookingController::class, 'cancelBooking'])->name('booking.cancel');
+
 Route::get('/settings/gym_reservation', [BookingController::class, 'showRequestBooking'])->name('bookings.list');
 Route::get('/settings/reports', [BookingController::class, 'showRequestReports'])->name('bookings.list');
 Route::get('/settings/dashboard', [BookingController::class, 'showRequestDashboard'])->name('bookings.list');

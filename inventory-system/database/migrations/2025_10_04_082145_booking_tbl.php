@@ -23,6 +23,8 @@ class BookingController extends Controller
             'date_approved' => 'nullable|date',   // default null
             'date_completed' => 'nullable|date',  // default null
             'date_cancelled' => 'nullable|date',  // default null
+            'reason' => 'nullable|string|max:500',
+
         ]);
 
 

@@ -84,9 +84,12 @@ $user = \App\Models\User::find(session('user_id'));
                         </a>
                     </li>
                     <li>
-                        <a href="#">
-                            Logout
-                        </a>
+                        <form id="logoutForm" method="POST" action="{{ route('navLogout') }}">
+                        @csrf
+                        <button type="submit" class="link-box" style="background:none; border:none; cursor:pointer;">
+                            <h3>Logout</h3>
+                        </button>
+                    </form>
                     </li>
                 </ul>
             </div>
