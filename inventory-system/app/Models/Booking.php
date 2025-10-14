@@ -9,12 +9,9 @@ class Booking extends Model
 {
     use HasFactory;
 
-    protected $table = 'booking_tbl'; // ✅ your actual table name
-
-    protected $primaryKey = 'booking_id'; // ✅ your table's primary key
-
-    public $incrementing = true;
-    protected $keyType = 'int';
+    protected $table = 'booking_tbl'; // ✅ must match your DB table name
+    protected $primaryKey = 'booking_id'; // ✅ use booking_id instead of id
+    public $timestamps = true; // ✅ if you have created_at and updated_at
 
     protected $fillable = [
         'user_id',
@@ -32,26 +29,16 @@ class Booking extends Model
         'date_approved',
         'date_completed',
         'date_cancelled',
-        'reason',
+        'cancel_reason'
     ];
 
     public function gym()
-{
-    return $this->belongsTo(Gym::class, 'gym_id');
-}
+    {
+        return $this->belongsTo(Gym::class, 'gym_id', 'id');
+    }
 
-public function additionalEquipments()
-{
-    return $this->hasMany(AdditionalEquipment::class, 'booking_id');
-}
-
-public function selectedEquipment()
-{
-    // Assuming you save equipment IDs as JSON array in booking_tbl.equipment_id
-    $equipmentIds = json_decode($this->equipment_id, true);
-
-    if (!$equipmentIds || !is_array($equipmentIds)) return collect();
-
-    return \App\Models\Equipment::whereIn('id', $equipmentIds)->get();
-}
+    public function additionalEquipments()
+    {
+        return $this->hasMany(\App\Models\AdditionalEquipment::class, 'booking_id', 'booking_id');
+    }
 }

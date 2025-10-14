@@ -6,8 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Gym extends Model
 {
-    protected $table = 'gym_table'; // kung mao ni imong table name
-    protected $fillable = ['package', 'price'];
+    protected $table = 'gym_table';
+    protected $fillable = ['package', 'price', 'default_items'];
+
+    protected $casts = [
+        'default_items' => 'array',
+    ];
 
     public function equipment()
     {
@@ -15,8 +19,4 @@ class Gym extends Model
                     ->withPivot('quantity')
                     ->withTimestamps();
     }
-    protected $casts = [
-    'default_items' => 'array', // make sure this column exists in DB
-];
-    
 }

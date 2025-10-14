@@ -4,10 +4,30 @@
 @php
     $user = \App\Models\User::find(session('user_id'));
 @endphp
+@if ($errors->any())
+    <div style="background:#ffb3b3; padding:10px; margin-bottom:10px; border-radius:5px;">
+        <strong>⚠️ There are errors:</strong>
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 
+@if (session('error'))
+    <div style="background:#ffcccc; padding:10px; border-radius:5px;">
+        {{ session('error') }}
+    </div>
+@endif
+
+@if (session('success'))
+    <div style="background:#c2f0c2; padding:10px; border-radius:5px;">
+        {{ session('success') }}
+    </div>
+@endif
 @section('content')
 <div class="content-main-container">
-
     {{-- Booking modal (default hidden) --}}
     <div class="booking-modal-form-box" style="display:none;">
 
@@ -116,7 +136,7 @@
 
                     <div class="f-btn-form">
                         <button type="button" name="v-btn">View Packages..</button>
-                        <button type="submit" name="submit" class="s-btn">Submit</button>
+                        <button type="submit" name="submit" id="submit" class="s-btn">Submit</button>
                     </div>
                 </div>
             </form>
