@@ -29,7 +29,7 @@ class Booking extends Model
         'date_approved',
         'date_completed',
         'date_cancelled',
-        'cancel_reason'
+        'reason'
     ];
 
     public function gym()
