@@ -99,8 +99,8 @@ class UserController extends Controller
                 return redirect()->route('customers.home');
             case 'Custodian':
                 return redirect()->route('settings.dashboard');
-            case 'Personnel':
-                return redirect()->route('personnel.dashboard');
+            case 'Faculty':
+                return redirect()->route('faculty.facultyDashboard');
             default:
                 return redirect()->route('home');
         }

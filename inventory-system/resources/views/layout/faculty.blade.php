@@ -9,6 +9,9 @@
     @vite(['resources/css/faculty.css', 'resources/js/app.js'])
 </head>
 <body>
+    @php
+    $user = \App\Models\User::find(session('user_id'));
+    @endphp
     <div class="faculty-main-container">
         <div class="left-side-container">
             <div class="side-bar-header">
@@ -17,12 +20,17 @@
             <div class="user-container" onclick="toggleUserSettings()">
                 <img src="{{ asset('system-images/user.png') }}" alt="" class="user-image">
                 <div class="user-info">
-                    <h2>Hondrada John Mark</h2>
-                    <p>ID#: 0211</p>
+                    @if($user)
+                        <h2>{{ $user->name }}</h2>
+                        <p>#ID: {{ $user->id }}</p>
+                    @else
+                        <h3 class="f-header">Guest</h3>
+                        <p>No account info available</p>
+                    @endif
                 </div>  
             </div>
             <div class="user-settings" id="userSettings">
-                <a href="#">
+                <a href="{{ url('/faculty/facultyProfile') }}">
                     <div class="setting-info">Profile Modification</div>
                 </a>
                  <a href="#">
@@ -30,20 +38,20 @@
                 </a>
             </div>
             <div class="overview-container">
-                <a href="#">
+                <a href="{{ url('/faculty/facultyDashboard') }}">
                     <i class="fa-solid fa-house"></i>
                     <h2>Dashboard Overview</h2>
                 </a>
             </div>
             <div class="sidebar-links">
                 <span class="link-title">MANAGE</span>
-                <a href="#">
+                <a href="{{ url('/faculty/facultyRequest') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-box-open"></i>
                         <span>Request Supplies</span>
                     </div>
                 </a>
-                <a href="#">
+                <a href="{{ url('/faculty/facultyMyRequest') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-file-lines"></i>
                         <span>My Request</span>

@@ -1,108 +1,125 @@
 @extends('layout.faculty')
 @vite(['resources/css/faculty.css', 'resources/js/app.js'])
 
+@php
+$user = \App\Models\User::find(session('user_id'));
+@endphp
+
 @section('content')
-    <div class="faculty-request-main-container">
-        <h2 class="faculty-main-header">
-           Welcome, Hondrada John Mark!
-        </h2>
-        <h3 class="faculty-subheader">
-            Need something? Send a Request!
+<div class="faculty-request-main-container">
+    <h2 class="faculty-main-header">
+        Welcome, Hondrada John Mark!
+    </h2>
+    <h3 class="faculty-subheader">
+        Need something? Send a Request!
+    </h3>
+
+    <!-- MODAL -->
+    <div class="faculty-request-modal-container" id="requestModal">
+        <h3 class="request-header-form">
+            Supply Request Form
         </h3>
-        <div class="faculty-request-modal-container" id="requestModal">
-            <h3 class="request-header-form">
-                Supply Request Form
-            </h3>
-            <div class="request-form-box-container">
-                <form method="POST" action="">
-                    <div class="form-request-box-container">
-                        <div class="request-info">
-                            <label for="name">Fullname</label>
-                            <input type="text" name="name" id="name">
-                        </div>
-                         <div class="request-info">
-                            <label for="name">Contact Number</label>
-                            <input type="number" name="name" id="contact_number">
-                        </div>
-                         <div class="request-info">
-                            <label for="name">Email</label>
-                            <input type="text" name="email" id="email">
-                        </div>
-                         <div class="request-info">
-                            <label for="name">Date Needed</label>
-                            <input type="date" name="date_needed" id="date_needed">
-                        </div>
-                        <h3 class="request-subheader">
-                            Requested Supply
-                        </h3>
-                         <div class="request-info">
-                            <label for="name">Supplies Name</label>
-                            <input type="text" name="name" id="name">
-                        </div>
-                        <div class="request-info">
-                            <label for="name">Supplies Requested (Qty)</label>
-                            <input type="number" name="quantity" id="quantity">
-                        </div>
+        <div class="request-form-box-container">
+            <form method="POST" action="">
+                <div class="form-request-box-container">
+                    <div class="request-info">
+                        <label for="name">Fullname</label>
+                        <input type="text" name="name" id="name" value="{{ $user->name ?? '' }}">
                     </div>
-                    <div class="request-btn-container">
-                        <button type="submit" name="submit">
-                            Submit
-                        </button>
-                        <button type="button" class="closeBtn">
-                            Close
-                        </button>
+                    <div class="request-info">
+                        <label for="phone_number">Phone Number</label>
+                        <input type="number" name="phone_number" id="phone_number" value="{{ $user->phone_number ?? '' }}">
                     </div>
-                </form>
-            </div>
+                    <div class="request-info">
+                        <label for="email">Email</label>
+                        <input type="text" name="email" id="email" value="{{ $user->email ?? '' }}">
+                    </div>
+                    <div class="request-info">
+                        <label for="date_needed">Date Needed</label>
+                        <input type="date" name="date_needed" id="date_needed">
+                    </div>
+
+                    <h3 class="request-subheader">
+                        Requested Supply
+                    </h3>
+
+                    <div class="request-info">
+                        <label for="supply_name">Supplies Name</label>
+                        <input type="text" name="supply_name" id="supply_name" readonly>
+                    </div>
+
+                    <div class="request-info">
+                        <label for="quantity">Supplies Requested (Qty)</label>
+                        <input type="number" name="quantity" id="quantity">
+                    </div>
+                </div>
+
+                <div class="request-btn-container">
+                    <button type="submit" name="submit">Submit</button>
+                    <button type="button" class="closeBtn">Close</button>
+                </div>
+            </form>
         </div>
-        <div class="faculty-request-search-container">
-            <input type="text" name="searchSupplies" placeholder="Quick Search Supplies">
-        </div>
-        <h3 class="list-supplies-header">
-            List of Supplies
-        </h3>
-        <div class="faculty-request-wrapper-container">
-            <table class="faculty-table-container">
-                <thead>
+    </div>
+
+    <!-- SEARCH BAR -->
+    <div class="faculty-request-search-container">
+        <input type="text" name="searchSupplies" placeholder="Quick Search Supplies">
+    </div>
+
+    <h3 class="list-supplies-header">
+        List of Supplies
+    </h3>
+
+    <div class="faculty-request-wrapper-container">
+        <table class="faculty-table-container">
+            <thead>
+                <tr>
+                    <th>Supply Name</th>
+                    <th>Availability</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach ($supplies as $supply)
                     <tr>
-                        <th>Supply Name</th>
-                        <th>Availability</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Bondpaper</td>
-                        <td>12</td>
+                        <td>{{ $supply->supplies }}</td>
+                        <td>{{ $supply->quantity }}</td>
                         <td>
-                            <button type="button" class="requestBtn" >
+                            <button type="button" 
+                                    class="requestBtn" 
+                                    data-supply="{{ $supply->supplies }}">
                                 Request
                             </button>
                         </td>
                     </tr>
-                </tbody>
-            </table>
-        </div>
+                @endforeach
+            </tbody>
+        </table>
     </div>
-<!-- all your HTML elements here -->
+</div>
+
+<!-- SCRIPT SECTION -->
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    const requestBtn = document.querySelector('.requestBtn');
     const modal = document.getElementById('requestModal');
     const closeBtn = document.querySelector('.closeBtn');
+    const supplyInput = document.getElementById('supply_name');
+    const requestButtons = document.querySelectorAll('.requestBtn');
 
-    if (requestBtn && modal && closeBtn) {
-        requestBtn.addEventListener('click', () => {
-            modal.classList.add('active');
+    // open modal and set supply name
+    requestButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            const supplyName = button.getAttribute('data-supply');
+            supplyInput.value = supplyName; // display supply name in input
+            modal.classList.add('active');  // show modal
         });
+    });
 
-        closeBtn.addEventListener('click', () => {
-            modal.classList.remove('active');
-        });
-    } else {
-        console.error('⚠ Missing elements: check class or ID names');
-    }
+    // close modal
+    closeBtn.addEventListener('click', () => {
+        modal.classList.remove('active');
+    });
 });
 </script>
-
 @endsection

@@ -1,6 +1,8 @@
 @extends('layout.faculty')
 @vite(['resources/css/faculty.css', 'resources/js/app.js'])
-
+@php
+$user = \App\Models\User::find(session('user_id'));
+@endphp
 @section('content')
     <div class="faculty-profile-main-container">
         <h2 class="faculty-profile-header">
@@ -27,25 +29,25 @@
                             <div class="form-box">
                                 <div class="faculty-info">
                                     <label for="name">Full Name</label>
-                                    <input type="text" name="name" id="name">
+                                    <input type="text" name="name" id="name" value="{{ $user->name ?? '' }}">
                                 </div>
                                 <div class="faculty-info">
-                                    <label for="name">Address</label>
-                                    <input type="text" name="name" id="name">
+                                    <label for="address">Address</label>
+                                    <input type="text" name="address" id="address" value="{{ $user->address ?? '' }}">
                                 </div>
                                 <div class="faculty-info">
-                                    <label for="name">Password</label>
-                                    <input type="text" name="name" id="name">
+                                    <label for="password">Password</label>
+                                    <input type="password" name="password" id="password" value="{{ $user->password ?? '' }}">
                                 </div>
                             </div>
                             <div class="form-box">
                                 <div class="faculty-info">
-                                    <label for="name">Phone Number</label>
-                                    <input type="text" name="name" id="name">
+                                    <label for="phone_number">Phone Number</label>
+                                    <input type="text" name="phone_number" id="phone_number" value="{{ $user->phone_number ?? '' }}">
                                 </div>
                                 <div class="faculty-info">
-                                    <label for="name">Email</label>
-                                    <input type="text" name="name" id="name">
+                                    <label for="email">Email</label>
+                                    <input type="text" name="email" id="email" value="{{ $user->email ?? '' }}">
                                 </div>
                                 <div class="faculty-info">
                                     <button type="button" name="submit" >
@@ -63,7 +65,7 @@
                     <video autoplay loop muted playsinline class="email-g">
                         <source src="{{ asset('icons/email.mp4') }}" type="video/mp4">
                     </video>
-                    <h3 class="email">johnmarkhondrada@ckcm.edu.ph</h3>
+                    <h3 class="email">{{ $user->email ?? '' }}</h3>
                 </div>
             </div>
         </div>

@@ -41,7 +41,6 @@
                     <label for="roles">Roles:</label>
                     <input list="role-options" name="roles" id="roles" placeholder="Select role..." required>
                     <datalist id="role-options">
-                        <option value="Instructor">
                         <option value="Faculty">
                         <option value="Custodian">
                         <option value="Admin">

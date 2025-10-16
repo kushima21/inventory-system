@@ -22,6 +22,13 @@ class SuppliesController extends Controller
         return view('settings.inventory', compact('supplies'));
     }
 
+     public function facultySupplyDisplay()
+    {
+        $supplies = Supplies::all();
+        $equipmentList = Equipment::all();
+        return view('faculty.facultyRequest', compact('supplies', 'equipmentList'));
+    }
+
     // Save supplies
     public function store(Request $request)
     {

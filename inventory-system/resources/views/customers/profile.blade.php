@@ -59,7 +59,7 @@
                              <video autoplay loop muted playsinline class="email-g">
                                 <source src="{{ asset('icons/email.mp4') }}" type="video/mp4">
                              </video>
-                             <h3>{{ $user->password ?? '' }}</h3>
+                             <h3>{{ $user->email ?? '' }}</h3>
                         </div>
                 </div>
 @endsection

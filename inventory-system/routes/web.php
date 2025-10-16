@@ -44,15 +44,19 @@ Route::get('/settings/inventory', function () {
     return view('settings.inventory');
 });
 
-Route::get('/facultyProfile', function () {
+Route::get('/faculty/facultyDashboard', function () {
+    return view('faculty.facultyDashboard');
+});
+
+Route::get('/faculty/facultyProfile', function () {
     return view('faculty.facultyProfile');
 });
 
-Route::get('/facultyRequest', function () {
+Route::get('/faculty/facultyRequest', function () {
     return view('faculty.facultyRequest');
 });
 
-Route::get('/facultyMyRequest', function () {
+Route::get('/faculty/facultyMyRequest', function () {
     return view('faculty.facultyMyRequest');
 });
 
@@ -114,6 +118,8 @@ Route::get('/sideBar', function () {
     return view('partials.sideBar');
 });
 
+Route::get('/faculty/facultyRequest', [SuppliesController::class, 'facultySupplyDisplay'])->name('faculty.request');
+
 Route::get('/settings/personnel_dashboard', [UserController::class, 'index'])->name('personnel.personnel_dashboard');
 Route::post('/settings/personnel_dashboard', [UserController::class, 'store'])->name('users.store');
 Route::get('/settings/personnel_dashboard/search', [UserController::class, 'search'])->name('users.search');
@@ -168,9 +174,9 @@ Route::get('/settings/dashboard', function () {
 })->name('settings.dashboard');
 
 // 🔹 Personnel dashboard
-Route::get('/personnel/dashboard', function () {
-    return view('personnel.personnel_dashboard');
-})->name('personnel.dashboard');
+Route::get('/faculty/facultyDashboard', function () {
+    return view('faculty.facultyDashboard');
+})->name('faculty.facultyDashboard');
 
 
 // ✅ Booking route WITHOUT auth middleware
