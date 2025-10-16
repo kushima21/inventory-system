@@ -56,56 +56,68 @@
             </div>
 
             {{-- Request List --}}
-            <div class="my-request-box-main-container">
-                @foreach($requests as $request)
-                    <div class="request-box">
-                        <div class="r-header-container">
-                            <h3 class="r-header">{{ $request->supply_name }}</h3>
-                            <p class="date-request">
-                                Date Requested:
-                                <span>{{ $request->created_at->format('Y-m-d') }}</span>
-                            </p>
-                        </div>
+           <div class="my-request-box-main-container">
+    @foreach($requests as $request)
+        <div class="request-box">
+            <div class="r-header-container">
+                <h3 class="r-header">{{ $request->supply_name }}</h3>
 
-                        <h4 class="q-header">Supply Requested (Qty):</h4>
-
-                        <div class="q-header-container">
-                            <p class="q-subheader">x{{ $request->quantity }} Items</p>
-
-                            <div class="q-subcontainer">
-                                <h3 class="r-status">
-                                    Request Status:
-                                    <span style="color:
-                                        @if($request->request_status == 'Pending') orange
-                                        @elseif($request->request_status == 'Approved') green
-                                        @elseif($request->request_status == 'Cancelled') red
-                                        @else gray
-                                        @endif;
-                                    ">
-                                        {{ $request->request_status }}
-                                    </span>
-                                </h3>
-
-                                <div class="r-btn-container">
-                                    <button type="button" id="requestAgain" class="requestAgain">
-                                        Request Again
-                                    </button>
-
-                                    @if($request->request_status == 'Pending')
-                                        <button
-                                            type="button"
-                                            class="open-cancel-btn"
-                                            onclick="openCancelModal({{ $request->id }})"
-                                        >
-                                            Cancel Request
-                                        </button>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                @endforeach
+                {{-- ✅ Conditional display for date --}}
+                @if($request->request_status == 'Cancelled' && $request->date_cancelled)
+                    <p class="date-request">
+                        Cancelled Date:
+                        <span>{{ \Carbon\Carbon::parse($request->date_cancelled)->format('Y-m-d') }}</span>
+                    </p>
+                @else
+                    <p class="date-request">
+                        Date Requested:
+                        <span>{{ $request->created_at->format('Y-m-d') }}</span>
+                    </p>
+                @endif
             </div>
+
+            <h4 class="q-header">Supply Requested (Qty):</h4>
+
+            <div class="q-header-container">
+                <p class="q-subheader">x{{ $request->quantity }} Items</p>
+
+                <div class="q-subcontainer">
+                    <h3 class="r-status">
+                        Request Status:
+                        <span style="color:
+                            @if($request->request_status == 'Pending') orange
+                            @elseif($request->request_status == 'Approved') green
+                            @elseif($request->request_status == 'Cancelled') red
+                            @else gray
+                            @endif;
+                        ">
+                            {{ $request->request_status }}
+                        </span>
+                    </h3>
+
+                    <div class="r-btn-container">
+                        <a href="{{ url('/faculty/facultyRequest') }}">
+                            <button type="button" id="requestAgain" class="requestAgain">
+                                Request Again
+                            </button>
+                        </a>
+
+                        {{-- ✅ Show cancel button only when Pending --}}
+                        @if($request->request_status == 'Pending')
+                            <button
+                                type="button"
+                                class="open-cancel-btn"
+                                onclick="openCancelModal({{ $request->id }})"
+                            >
+                                Cancel Request
+                            </button>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+</div>
 
         </div>
     </div>
