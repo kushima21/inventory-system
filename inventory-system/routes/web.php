@@ -44,14 +44,17 @@ Route::get('/settings/inventory', function () {
     return view('settings.inventory');
 });
 
-Route::get('/facultyDashboard', function () {
-    return view('faculty.facultyDashboard');
+Route::get('/facultyProfile', function () {
+    return view('faculty.facultyProfile');
 });
 
-Route::get('/request', function () {
-    return view('faculty.request');
+Route::get('/facultyRequest', function () {
+    return view('faculty.facultyRequest');
 });
 
+Route::get('/facultyMyRequest', function () {
+    return view('faculty.facultyMyRequest');
+});
 
 Route::get('/login', function () {
     return view('auth.login');
