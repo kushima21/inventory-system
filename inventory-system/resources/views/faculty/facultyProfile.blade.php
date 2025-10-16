@@ -6,7 +6,7 @@ $user = \App\Models\User::find(session('user_id'));
 @section('content')
     <div class="faculty-profile-main-container">
         <h2 class="faculty-profile-header">
-            Welcome, Hondrada
+            Welcome, {{ $user->name ?? '' }}
         </h2>
         <h3 class="faculty-date-header">
             Tuesday, 15 October 2025

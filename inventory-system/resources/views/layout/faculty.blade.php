@@ -33,7 +33,7 @@
                 <a href="{{ url('/faculty/facultyProfile') }}">
                     <div class="setting-info">Profile Modification</div>
                 </a>
-                 <a href="#">
+                 <a href="{{ route('logout') }}">
                     <div class="setting-info">Sign-out</div>
                 </a>
             </div>

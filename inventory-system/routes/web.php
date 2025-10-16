@@ -182,6 +182,7 @@ Route::get('/faculty/facultyDashboard', function () {
     return view('faculty.facultyDashboard');
 })->name('faculty.facultyDashboard');
 
+Route::get('/logout', [App\Http\Controllers\UserController::class, 'logout'])->name('logout');
 
 // ✅ Booking route WITHOUT auth middleware
 Route::post('/booking/store', [BookingController::class, 'store'])->name('booking.store');

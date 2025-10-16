@@ -31,11 +31,11 @@ $user = \App\Models\User::find(session('user_id'));
                             <p>Profile Modification</p>
                         </div>
                     </a>
-                    <form method="POST" action="">
+                    <a href="{{ route('logout') }}">
                         <div class="user-box">
                             <p>Logouts</p>
                         </div>
-                    </form>
+                    </a>
                 </div>
             </div>
             <div class="overview-container">
