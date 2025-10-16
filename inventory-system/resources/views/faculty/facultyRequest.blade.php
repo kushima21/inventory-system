@@ -8,7 +8,7 @@ $user = \App\Models\User::find(session('user_id'));
 @section('content')
 <div class="faculty-request-main-container">
     <h2 class="faculty-main-header">
-        Welcome, Hondrada John Mark!
+        Welcome, {{ $user->name ?? '' }}!
     </h2>
     <h3 class="faculty-subheader">
         Need something? Send a Request!
@@ -20,7 +20,8 @@ $user = \App\Models\User::find(session('user_id'));
             Supply Request Form
         </h3>
         <div class="request-form-box-container">
-            <form method="POST" action="">
+            <form method="POST" action="{{ route('faculty.request.store') }}">
+                @csrf
                 <div class="form-request-box-container">
                     <div class="request-info">
                         <label for="name">Fullname</label>
@@ -36,7 +37,7 @@ $user = \App\Models\User::find(session('user_id'));
                     </div>
                     <div class="request-info">
                         <label for="date_needed">Date Needed</label>
-                        <input type="date" name="date_needed" id="date_needed">
+                        <input type="date" name="date_needed" id="date_needed" required>
                     </div>
 
                     <h3 class="request-subheader">

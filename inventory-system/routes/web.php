@@ -119,6 +119,10 @@ Route::get('/sideBar', function () {
 });
 
 Route::get('/faculty/facultyRequest', [SuppliesController::class, 'facultySupplyDisplay'])->name('faculty.request');
+Route::post('/faculty/request/store', [SuppliesController::class, 'storeFacultyRequest'])->name('faculty.request.store');
+Route::get('/faculty/facultyMyRequest', [SuppliesController::class, 'facultyRequestDisplay'])->name('facultyMyRequest.facultyRequests');
+Route::post('/faculty/facultyMyRequest/cancel/{id}', [SuppliesController::class, 'cancelFacultyRequest'])
+    ->name('faculty.request.cancel');
 
 Route::get('/settings/personnel_dashboard', [UserController::class, 'index'])->name('personnel.personnel_dashboard');
 Route::post('/settings/personnel_dashboard', [UserController::class, 'store'])->name('users.store');
