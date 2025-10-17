@@ -65,31 +65,38 @@ class SuppliesController extends Controller
     }
 
     // ✅ ADMIN OVERVIEW (REQUEST SUPPLY)
-    public function facultyRequesOverview(Request $request)
-    {
-        $status = $request->input('request_status');
-        $requestsQuery = SupplyRequest::query()->orderBy('created_at', 'desc');
+public function facultyRequesOverview(Request $request)
+{
+    $status = $request->input('request_status');
 
-        if (!empty($status)) {
-            $requestsQuery->where('request_status', $status);
-        }
+    // Only include Pending and Approved in the query
+    $requestsQuery = \App\Models\SupplyRequest::query()
+        ->whereIn('request_status', ['Pending', 'Approved'])
+        ->orderBy('created_at', 'desc');
 
-        $requests = $requestsQuery->get();
-
-        $totalCompleted = SupplyRequest::where('request_status', 'Completed')->count();
-        $awaitingConfirmation = SupplyRequest::where('request_status', 'Pending')->count();
-        $cancelledRequests = SupplyRequest::where('request_status', 'Cancelled')->count();
-        $unapprovedRequests = SupplyRequest::where('request_status', 'Declined')->count();
-
-        return view('settings.requestSupply', compact(
-            'requests',
-            'totalCompleted',
-            'awaitingConfirmation',
-            'cancelledRequests',
-            'unapprovedRequests',
-            'status'
-        ));
+    // Apply filter if selected
+    if (!empty($status)) {
+        $requestsQuery->where('request_status', $status);
     }
+
+    $requests = $requestsQuery->get();
+
+    // You can still count other statuses if needed
+    $totalCompleted = \App\Models\SupplyRequest::where('request_status', 'Completed')->count();
+    $awaitingConfirmation = \App\Models\SupplyRequest::where('request_status', 'Pending')->count();
+    $cancelledRequests = \App\Models\SupplyRequest::where('request_status', 'Cancelled')->count();
+    $unapprovedRequests = \App\Models\SupplyRequest::where('request_status', 'Declined')->count();
+
+    return view('settings.requestSupply', compact(
+        'requests',
+        'totalCompleted',
+        'awaitingConfirmation',
+        'cancelledRequests',
+        'unapprovedRequests',
+        'status'
+    ));
+}
+
 
 public function facultyReports(Request $request)
 {
