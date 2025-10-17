@@ -169,3 +169,106 @@
        background: linear-gradient(rgb(48, 2, 2), rgb(68, 1, 1));
        color: white;
      }
+
+
+     /*request supply */
+
+     .main-request-overview-dashbaord-c {
+        width: 100%;
+        height: auto;
+     }
+
+     .request-main-header {
+        margin-top: 4%;
+        padding: 20px;
+     }
+
+     .p-head {
+        padding-left: 20px;
+     }
+
+     .request-main-box-container {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding-top: 30px;
+        gap: 10px;
+        justify-content: space-between;
+        padding: 20px;
+     }
+
+     .request-box {
+        width: 300px;
+        height: 200px;
+        box-shadow: 0px 0px 5px;
+        border-radius: 12px;
+     }
+
+     .request-image {
+        width: 40px;
+        margin: 20px;
+     }
+
+     .request-subheader {
+        padding: 20px;
+        font-size: 14px;
+     }
+
+     .r-image {
+        width: 33px;
+        margin-left: 20px;
+     }
+     .list-f-header {
+        padding: 20px;
+     }
+
+     .filter-r-status {
+        margin: 20px;
+        width: 350px;
+        height: 40px;
+        padding-left: 5px;
+        border-radius: 7px;
+     }
+
+     .faculty-request-wrapper {
+        flex: 1;
+        overflow-y: auto;
+        padding: 20px;
+     }
+
+     .faculty-table-container {
+         width: 100%;
+        border-collapse: collapse;
+        font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+     }
+
+     .faculty-table-container th {
+        color: gray;
+        top: 0;
+        z-index: 1;
+        font-size: 12px;
+        padding-bottom: 20px;
+    }
+
+      .faculty-table-container td {
+        font-size: 13px;
+        text-align: center;
+        height: 70px;
+        margin-top: 15px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+     .faculty-table-container tr {
+        border-bottom: #7876765d 1px solid;
+    }
+
+    .actionBtn {
+        width: 120px;
+        height: 36px;
+        border-radius: 6px;
+        margin: 5px;
+        border: none;
+        background: linear-gradient(rgb(27, 0, 0), maroon);
+        color: white;
+        font-size: 11px;
+    }

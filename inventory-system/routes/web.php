@@ -20,6 +20,10 @@ Route::get('/personnel_dashboard', function () {
     return view('personnel.personnel_dashboard');
 });
 
+Route::get('/settings/requestSupply', function () {
+    return view('settings.requestSupply');
+});
+
 Route::get('/settings/gym_reservation', function () {
     return view('settings.gym_reservation');
 });

@@ -46,7 +46,7 @@ $user = \App\Models\User::find(session('user_id'));
             <div class="sidebar-links">
                 <span class="link-title">MANAGE</span>
                 <div class="">
-                <a href="#">
+                <a href="{{ url('/settings/requestSupply') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Request Supplies</span>
