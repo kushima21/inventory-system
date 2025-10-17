@@ -32,6 +32,11 @@ Route::get('/settings/reports', function () {
     return view('settings.reports');
 });
 
+
+Route::get('/settings/supplyReports', function () {
+    return view('settings.supplyReports');
+});
+
 Route::get('/settings/supplies', function () {
     return view('settings.supplies');
 });
@@ -128,6 +133,11 @@ Route::get('/faculty/facultyMyRequest', [SuppliesController::class, 'facultyRequ
 Route::post('/faculty/facultyMyRequest/cancel/{id}', [SuppliesController::class, 'cancelFacultyRequest'])
     ->name('faculty.request.cancel');
 
+
+ Route::get('/settings/supplyReports', [SuppliesController::class, 'facultyReports'])
+    ->name('settings.supplyReports');
+    
+    
 Route::get('/settings/requestSupply', [SuppliesController::class, 'facultyRequesOverview'])->name('settings.requestSupply');
 Route::post('/settings/requestSupply/approve/{id}', [SuppliesController::class, 'approveRequest'])->name('faculty.request.approve');
 Route::post('/settings/requestSupply/decline/{id}', [SuppliesController::class, 'declineRequest'])->name('faculty.request.decline');

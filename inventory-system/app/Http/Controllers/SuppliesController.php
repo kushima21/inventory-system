@@ -91,6 +91,45 @@ class SuppliesController extends Controller
         ));
     }
 
+public function facultyReports(Request $request)
+{
+    $status = $request->input('request_status');
+    $startDate = $request->input('start_date');
+    $endDate = $request->input('end_date');
+
+    $requestsQuery = \App\Models\SupplyRequest::query()->orderBy('created_at', 'desc');
+
+    // ✅ Filter by status
+    if (!empty($status)) {
+        $requestsQuery->where('request_status', $status);
+    }
+
+    // ✅ Filter by date range (only for Completed)
+    if ($status === 'Completed' && !empty($startDate) && !empty($endDate)) {
+        $requestsQuery->whereBetween('updated_at', [$startDate, $endDate]);
+    }
+
+    $reports = $requestsQuery->get();
+
+    $totalCompleted = \App\Models\SupplyRequest::where('request_status', 'Completed')->count();
+    $awaitingConfirmation = \App\Models\SupplyRequest::where('request_status', 'Pending')->count();
+    $cancelledRequests = \App\Models\SupplyRequest::where('request_status', 'Cancelled')->count();
+    $unapprovedRequests = \App\Models\SupplyRequest::where('request_status', 'Declined')->count();
+
+    return view('settings.supplyReports', compact(
+        'reports',
+        'totalCompleted',
+        'awaitingConfirmation',
+        'cancelledRequests',
+        'unapprovedRequests',
+        'status',
+        'startDate',
+        'endDate'
+    ));
+}
+
+
+
     // ✅ CANCEL FACULTY REQUEST
     public function cancelFacultyRequest(Request $request, $id)
     {
@@ -169,16 +208,32 @@ class SuppliesController extends Controller
         return redirect()->back()->with('success', 'Request declined!');
     }
 
-    public function completeRequest($id)
+public function completeRequest($id)
 {
     $request = SupplyRequest::findOrFail($id);
 
-    // Update status to Completed
-    $request->update([
-        'request_status' => 'Completed',
-        'date_completed' => now()
-    ]);
+    // Find the matching supply record
+    $supply = Supplies::where('supplies', $request->supply_name)->first();
 
-    return redirect()->back()->with('success', 'Request marked as completed!');
+    if ($supply) {
+        // Check if there's enough stock before deduction
+        if ($supply->quantity >= $request->quantity) {
+            // Subtract the requested quantity
+            $supply->quantity -= $request->quantity;
+            $supply->save();
+
+            // Update status to Completed
+            $request->update([
+                'request_status' => 'Completed',
+                'date_completed' => now(),
+            ]);
+
+            return redirect()->back()->with('success', 'Request marked as completed and inventory updated!');
+        } else {
+            return redirect()->back()->with('error', 'Not enough stock available to complete this request!');
+        }
+    } else {
+        return redirect()->back()->with('error', 'Supply not found in inventory!');
+    }
 }
 }

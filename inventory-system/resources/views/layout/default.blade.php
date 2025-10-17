@@ -67,7 +67,13 @@ $user = \App\Models\User::find(session('user_id'));
                 <a href="{{ url('/settings/reports') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
-                        <span>Reports</span>
+                        <span>Booking Reports</span>
+                    </div>
+                </a>
+                <a href="#">
+                    <div class="link-item">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Supply Reports</span>
                     </div>
                 </a>
                 <span class="link-title">SETTINGS</span>
