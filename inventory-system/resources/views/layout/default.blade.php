@@ -20,8 +20,8 @@ $user = \App\Models\User::find(session('user_id'));
             <div class="user-container" id="userContainer">
                 <img src="{{ asset('system-images/user.png') }}" alt="" class="user-image">
                 <div class="user-info">
-                    <h2>Hondrada John Mark</h2>
-                    <p>ID#: 0211</p>
+                    <h2>{{ $user->name }}</h2>
+                    <p>ID#: {{ $user->id }}</p>
                 </div>
             </div>
             <div class="user-modified-modal" id="userModal">

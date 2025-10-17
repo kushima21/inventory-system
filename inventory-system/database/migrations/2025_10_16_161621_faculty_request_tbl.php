@@ -20,6 +20,7 @@ return new class extends Migration
         $table->date('date_approved')->nullable();            // Nullable
         $table->date('date_completed')->nullable();           // Nullable
         $table->date('date_cancelled')->nullable();           // Nullable
+        $table->date('date_declined')->nullable();           // Nullable
         $table->string('reason')->nullable();                 // Nullable
         $table->timestamps();
     });

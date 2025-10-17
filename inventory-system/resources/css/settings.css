@@ -263,12 +263,17 @@
     }
 
     .actionBtn {
-        width: 120px;
-        height: 36px;
-        border-radius: 6px;
-        margin: 5px;
-        border: none;
-        background: linear-gradient(rgb(27, 0, 0), maroon);
-        color: white;
-        font-size: 11px;
-    }
+    width: 120px;
+    height: 36px;
+    border-radius: 6px;
+    margin: 5px;
+    border: none;
+    background: linear-gradient(rgb(27, 0, 0), maroon);
+    color: white;
+    font-size: 11px;
+}
+
+.approvedBtn {
+    background: linear-gradient(rgb(2, 192, 2), rgb(1, 45, 1)); /* green gradient */
+    color: white;
+}

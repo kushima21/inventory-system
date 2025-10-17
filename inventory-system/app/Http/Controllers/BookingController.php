@@ -60,52 +60,50 @@ class BookingController extends Controller
     /**
      * Show booking reports with monthly revenue and package counts.
      */
-    public function showRequestReports()
-    {
-        $bookings = Booking::with('gym', 'additionalEquipments')
-            ->orderBy('created_at', 'desc')
-            ->get();
+public function showRequestReports()
+{
+    $bookings = Booking::with('gym', 'additionalEquipments')
+        ->orderBy('created_at', 'desc')
+        ->get();
 
-        $totalRevenue   = Booking::where('booking_status', 'Completed')->sum('total_price');
-        $awaitingCount  = Booking::where('booking_status', 'Pending')->count();
-        $confirmedCount = Booking::where('booking_status', 'Approved')->count();
-        $cancelledCount = Booking::where('booking_status', 'Cancelled')->count();
-        $completedCount = Booking::where('booking_status', 'Completed')->count();
+    $totalRevenue   = Booking::where('booking_status', 'Completed')->sum('total_price');
+    $awaitingCount  = Booking::where('booking_status', 'Pending')->count();
+    $confirmedCount = Booking::where('booking_status', 'Approved')->count();
+    $cancelledCount = Booking::where('booking_status', 'Cancelled')->count();
+    $completedCount = Booking::where('booking_status', 'Completed')->count();
 
-        // ✅ Count bookings per package
-        $packageCounts = Booking::select('gym_id', DB::raw('count(*) as total'))
-            ->groupBy('gym_id')
-            ->with('gym')
-            ->get();
+    $packageCounts = Booking::select('gym_id', DB::raw('count(*) as total'))
+        ->groupBy('gym_id')
+        ->with('gym')
+        ->get();
 
-        // ✅ Monthly revenue aggregation (Completed only)
-        $monthlyRevenue = Booking::select(
-                DB::raw('MONTH(created_at) as month'),
-                DB::raw('SUM(total_price) as revenue')
-            )
-            ->where('booking_status', 'Completed')
-            ->groupBy(DB::raw('MONTH(created_at)'))
-            ->orderBy(DB::raw('MONTH(created_at)'))
-            ->pluck('revenue', 'month')
-            ->toArray();
+    $monthlyRevenue = Booking::select(
+            DB::raw('MONTH(created_at) as month'),
+            DB::raw('SUM(total_price) as revenue')
+        )
+        ->where('booking_status', 'Completed')
+        ->groupBy(DB::raw('MONTH(created_at)'))
+        ->orderBy(DB::raw('MONTH(created_at)'))
+        ->pluck('revenue', 'month')
+        ->toArray();
 
-        // Fill missing months with 0
-        $revenues = [];
-        for ($i = 1; $i <= 12; $i++) {
-            $revenues[$i] = $monthlyRevenue[$i] ?? 0;
-        }
-
-        return view('settings.reports', compact(
-            'bookings',
-            'totalRevenue',
-            'awaitingCount',
-            'confirmedCount',
-            'cancelledCount',
-            'completedCount',
-            'packageCounts',
-            'revenues'
-        ));
+    $revenues = [];
+    for ($i = 1; $i <= 12; $i++) {
+        $revenues[$i] = $monthlyRevenue[$i] ?? 0;
     }
+
+    return view('settings.reports', compact(
+        'bookings',
+        'totalRevenue',
+        'awaitingCount',
+        'confirmedCount',
+        'cancelledCount',
+        'completedCount',
+        'packageCounts',
+        'revenues'
+    ));
+}
+
 
     /**
      * Show dashboard summary and charts.

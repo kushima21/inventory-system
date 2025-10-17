@@ -128,6 +128,13 @@ Route::get('/faculty/facultyMyRequest', [SuppliesController::class, 'facultyRequ
 Route::post('/faculty/facultyMyRequest/cancel/{id}', [SuppliesController::class, 'cancelFacultyRequest'])
     ->name('faculty.request.cancel');
 
+Route::get('/settings/requestSupply', [SuppliesController::class, 'facultyRequesOverview'])->name('settings.requestSupply');
+Route::post('/settings/requestSupply/approve/{id}', [SuppliesController::class, 'approveRequest'])->name('faculty.request.approve');
+Route::post('/settings/requestSupply/decline/{id}', [SuppliesController::class, 'declineRequest'])->name('faculty.request.decline');
+Route::post('/settings/requestSupply/complete/{id}', [SuppliesController::class, 'completeRequest'])
+    ->name('faculty.request.complete');
+
+
 Route::get('/settings/personnel_dashboard', [UserController::class, 'index'])->name('personnel.personnel_dashboard');
 Route::post('/settings/personnel_dashboard', [UserController::class, 'store'])->name('users.store');
 Route::get('/settings/personnel_dashboard/search', [UserController::class, 'search'])->name('users.search');

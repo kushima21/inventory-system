@@ -22,6 +22,7 @@ class SupplyRequest extends Model
         'date_approved',    // Nullable
         'date_completed',   // Nullable
         'date_cancelled',   // Nullable
+        'date_declined',   // Nullable
         'reason',           // Nullable
         'created_at',           // Nullable
         'updated_at',           // Nullable
