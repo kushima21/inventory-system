@@ -48,7 +48,7 @@
 
     .booking-box {
         width: 450px;
-        height: max-content;
+        height: 300px;
         box-shadow: 0px 0px 10px;
         border-radius: 20px;
         margin: 50px;
@@ -78,6 +78,7 @@
     padding: 0;
     margin: 0;
     list-style: none;
+    min-height: 140px;
     gap: 12px;     
     }
 

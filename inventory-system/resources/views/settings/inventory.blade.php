@@ -18,31 +18,39 @@
                         Add Supplies
                     </h3>
                     <div class="form-add-container">
-                        <form method="POST" action="{{ route('supplies.store') }}">
-                            @csrf
-                            <div class="info-container">
-                                <label for="supplies">Supplies:</label>
-                                <input list="supplies-list" name="supplies" id="supplies" placeholder="Select Supplies..." required>
-                                <datalist id="supplies-list">
-                                    <option value="Exam Bondpaper">
-                                    <option value="Student Passbook">
-                                    <option value="Softbound">
-                                    <option value="School Uniform">
-                                    <option value="PE Uniform">
-                                    <option value="Printer">
-                                    <option value="Computer">
-                                </datalist>
-                            </div>
-                            <div class="info-container">
-                                <label for="quantity">Quantity:</label>
-                                <input type="number" name="quantity" id="quantity" placeholder="Quantity..." required>
-                            </div>
+                      <form method="POST" action="{{ route('supplies.store') }}">
+                        @csrf
+                        <div class="info-container">
+                            <label for="supplies">Supplies:</label>
+                            <input list="supplies-list" name="supplies" id="supplies" placeholder="Select Supplies..." required oninput="checkOtherSupply()">
+                            <datalist id="supplies-list">
+                                <option value="Exam Bondpaper">
+                                <option value="Student Passbook">
+                                <option value="Softbound">
+                                <option value="School Uniform">
+                                <option value="PE Uniform">
+                                <option value="Printer">
+                                <option value="Computer">
+                                <option value="Add Other Supply">
+                            </datalist>
+                        </div>
 
-                            <div class="info-btn">
-                                <button type="submit" name="submit">Create</button>
-                                <button type="button" name="cancel" onclick="closeSuppliesModal()">Cancel</button>
-                            </div>
-                        </form>
+                        <!-- Hidden field for custom supply input -->
+                        <div class="info-container" id="other-supply-container" style="display: none;">
+                            <label for="other_supply">Enter Other Supply:</label>
+                            <input type="text" name="other_supply" id="other_supply" placeholder="Enter custom supply...">
+                        </div>
+
+                        <div class="info-container">
+                            <label for="quantity">Quantity:</label>
+                            <input type="number" name="quantity" id="quantity" placeholder="Quantity..." required>
+                        </div>
+
+                        <div class="info-btn">
+                            <button type="submit" name="submit">Create</button>
+                            <button type="button" name="cancel" onclick="closeSuppliesModal()">Cancel</button>
+                        </div>
+                    </form>
                     </div>
                  </div>
                 <div class="supply-subheader-box">
@@ -97,6 +105,7 @@
                         <tbody>
                             @forelse($supplies as $supply)
                                 <tr>
+                                    <td>{{ $supply->created_at }}</td>
                                     <td>{{ $supply->supplies }}</td>
                                     <td>{{ $supply->quantity }}</td>
                                 </tr>
@@ -353,5 +362,24 @@ nextMonthBtn.addEventListener("click", () => {
 });
 
 renderCalendar();
+</script>
+<script>
+function checkOtherSupply() {
+    const supplyInput = document.getElementById('supplies');
+    const otherSupplyContainer = document.getElementById('other-supply-container');
+    const otherSupplyField = document.getElementById('other_supply');
+
+    if (supplyInput.value === 'Add Other Supply') {
+        // Show the other supply input field
+        otherSupplyContainer.style.display = 'block';
+        otherSupplyField.required = true;
+        otherSupplyField.focus();
+    } else {
+        // Hide the other supply input field
+        otherSupplyContainer.style.display = 'none';
+        otherSupplyField.required = false;
+        otherSupplyField.value = '';
+    }
+}
 </script>
   @endsection
