@@ -4,13 +4,11 @@
     @section('content')
     <div class="gym-main-container">
         <h2 class="gym-header">
-            Gym Section
+            Basketball Gym Reservation Packages
         </h2>
+         <p style="padding: 20px;">Customize your reservation to match your needs — from casual games to professional tournaments.</p>
         <div class="gym-main-box-container">
-            <div class="gym-box"></div>
-            <div class="gym-box"></div>
-            <div class="gym-box"></div>
-            <div class="gym-box"></div>
+        
         </div>
         <div class="list-header-container">
             <h3 class="list-header">
@@ -19,9 +17,6 @@
             <button type="button" class="addPackageBtn">
                 + Create Package
             </button>
-        </div>
-        <div class="search-package">
-            <input type="text" name="search_package" placeholder="Search Package">
         </div>
        <div class="add-package-modal-container" id="packageModal">
             <h3 class="add-package-header">Create Packages</h3>

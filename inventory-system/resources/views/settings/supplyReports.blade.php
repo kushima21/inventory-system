@@ -1,6 +1,9 @@
 @extends('layout.default')
 @vite(['resources/css/supplyReports.css', 'resources/js/app.js'])
+@vite(['resources/css/reports.css', 'resources/js/app.js'])
+
 <link rel="stylesheet" href="{{ asset('/resources/css/supplyReports.css') }}">
+<link rel="stylesheet" href="{{ asset('/resources/css/reports.css') }}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -13,10 +16,38 @@
     <p class="s-sub">Get an overview of current inventory levels, usage trends, and faculty requests.</p>
 
     <div class="supply-reports-box-container">
-        <div class="supply-box"></div>
-        <div class="supply-box"></div>
-        <div class="supply-box"></div>
-        <div class="supply-box"></div>
+        <div class="supply-box">
+            <img src="{{ asset('icons/users-alt.png') }}" alt="Login Image" class="report-image" style="margin:20px;">
+                <h3 class="report-subheader" style="padding-left: 20px">Total Request Supplies</h3>
+                <div class="report-number">
+                <img src="{{ asset('icons/users.png') }}" alt="Login Image" class="peso-image" style="margin: 20px">
+                <h3 class="number">55</h3>
+            </div>
+        </div>
+        <div class="supply-box">
+            <img src="{{ asset('icons/chart-line-up.png') }}" alt="Login Image" class="report-image" style="margin:20px;">
+                <h3 class="report-subheader" style="padding-left: 20px">Awaiting Request Confirmation</h3>
+                <div class="report-number">
+                <img src="{{ asset('icons/users.png') }}" alt="Login Image" class="peso-image" style="margin: 20px">
+                <h3 class="number">16</h3>
+            </div>
+        </div>
+        <div class="supply-box">
+            <img src="{{ asset('icons/circle-wrong.png') }}" alt="Login Image" class="report-image" style="margin:20px;">
+                <h3 class="report-subheader" style="padding-left: 20px">Cancelled Request Supplies</h3>
+                <div class="report-number">
+                <img src="{{ asset('icons/users.png') }}" alt="Login Image" class="peso-image" style="margin: 20px">
+                <h3 class="number">20</h3>
+            </div>
+        </div>
+        <div class="supply-box">
+            <img src="{{ asset('icons/user-forbidden-alt.png') }}" alt="Login Image" class="report-image" style="margin:20px;">
+                <h3 class="report-subheader" style="padding-left: 20px">Unapproved Request</h3>
+                <div class="report-number">
+                <img src="{{ asset('icons/users.png') }}" alt="Login Image" class="peso-image" style="margin: 20px">
+                <h3 class="number">60</h3>
+            </div>
+        </div>
     </div>
 
     <h3 class="supply-sum-header">
