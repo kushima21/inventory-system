@@ -1,5 +1,6 @@
 @extends('layout.default')
 @vite(['resources/css/inventory.css', 'resources/js/app.js'])
+<link rel="stylesheet" href="{{ asset('/resources/css/inventory.css') }}">
  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
   @section('content')
@@ -19,38 +20,39 @@
                     </h3>
                     <div class="form-add-container">
                       <form method="POST" action="{{ route('supplies.store') }}">
-                        @csrf
-                        <div class="info-container">
-                            <label for="supplies">Supplies:</label>
-                            <input list="supplies-list" name="supplies" id="supplies" placeholder="Select Supplies..." required oninput="checkOtherSupply()">
-                            <datalist id="supplies-list">
-                                <option value="Exam Bondpaper">
-                                <option value="Student Passbook">
-                                <option value="Softbound">
-                                <option value="School Uniform">
-                                <option value="PE Uniform">
-                                <option value="Printer">
-                                <option value="Computer">
-                                <option value="Add Other Supply">
-                            </datalist>
-                        </div>
+    @csrf
+    <div class="info-container">
+        <label for="supplies">Supplies:</label>
+        <input list="supplies-list" name="supplies" id="supplies" placeholder="Select Supplies..." required oninput="checkOtherSupply()">
+        <datalist id="supplies-list">
+            <option value="Exam Bondpaper">
+            <option value="Student Passbook">
+            <option value="Softbound">
+            <option value="School Uniform">
+            <option value="PE Uniform">
+            <option value="Printer">
+            <option value="Computer">
+            <option value="Add Other Supply">
+        </datalist>
+    </div>
 
-                        <!-- Hidden field for custom supply input -->
-                        <div class="info-container" id="other-supply-container" style="display: none;">
-                            <label for="other_supply">Enter Other Supply:</label>
-                            <input type="text" name="other_supply" id="other_supply" placeholder="Enter custom supply...">
-                        </div>
+    <!-- Hidden input for custom supply -->
+    <div class="info-container" id="other-supply-container" style="display: none; margin-top: 20px;">
+        <label for="other_supply">Enter Other Supply:</label>
+        <input type="text" name="other_supply" id="other_supply" placeholder="Enter custom supply...">
+    </div>
 
-                        <div class="info-container">
-                            <label for="quantity">Quantity:</label>
-                            <input type="number" name="quantity" id="quantity" placeholder="Quantity..." required>
-                        </div>
+    <div class="info-container">
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="quantity" id="quantity" placeholder="Quantity..." required>
+    </div>
 
-                        <div class="info-btn">
-                            <button type="submit" name="submit">Create</button>
-                            <button type="button" name="cancel" onclick="closeSuppliesModal()">Cancel</button>
-                        </div>
-                    </form>
+    <div class="info-btn">
+        <button type="submit" name="submit">Create</button>
+        <button type="button" name="cancel" onclick="closeSuppliesModal()">Cancel</button>
+    </div>
+</form>
+
                     </div>
                  </div>
                 <div class="supply-subheader-box">
@@ -161,35 +163,39 @@
                     </h3>
                     <div class="equipment-form-container">
                         <form method="POST" action="{{ route('equipment.store') }}">
-                            @csrf 
-                            <div class="info-container">
-                                <label for="">Equipment</label>
-                                <input list="equipment-list" name="equipment" id="equipment" placeholder="Select Equipment..." required>
-                                <datalist id="equipment-list">
-                                    <option value="LED">
-                                    <option value="Chairs">
-                                    <option value="Table">
-                                    <option value="Fan">
-                                    <option value="Gameboard">
-                                    <option value="Speaker">
-                                </datalist>
-                            </div>
+    @csrf 
+    <div class="info-container">
+        <label for="equipment">Equipment</label>
+        <input list="equipment-list" name="equipment" id="equipment" placeholder="Select Equipment..." required oninput="checkOtherEquipment()">
+        <datalist id="equipment-list">
+            <option value="LED">
+            <option value="Chairs">
+            <option value="Table">
+            <option value="Fan">
+            <option value="Gameboard">
+            <option value="Speaker">
+            <option value="Add Other Equipment">
+        </datalist>
+    </div>
 
-                            <div class="info-container">
-                            <label for="quantity">Quantity:</label>
-                            <input type="number" name="quantity" id="quantity" placeholder="Quantity..." required>
-                            </div>
+    <!-- Hidden field for custom equipment input -->
+    <div class="info-container" id="other-equipment-container" style="display: none; margin-top: 20px;">
+        <label for="other_equipment">Enter Other Equipment:</label>
+        <input type="text" name="other_equipment" id="other_equipment" placeholder="Enter custom equipment...">
+    </div>
 
-                            <div class="info-btn">
-                                <button type="submit" name="submit">Create</button>
-                                <button type="button" name="cancel" onclick="closeEquipmentModal()">Cancel</button>
-                            </div>
-                        </form>
+    <div class="info-container">
+        <label for="quantity">Quantity:</label>
+        <input type="number" name="quantity" id="quantity" placeholder="Quantity..." required>
+    </div>
+
+    <div class="info-btn">
+        <button type="submit" name="submit">Create</button>
+        <button type="button" name="cancel" onclick="closeEquipmentModal()">Cancel</button>
+    </div>
+</form>
+
                     </div>
-                </div>
-                <div class="equipment-subheader-box">
-                    <input type="text" name="search" id="search" placeholder="Search Equipments">
-                    <button class="equipmentBTn"  type="button" onclick="showAddEquipment()">+ Add Equipment</button>
                 </div>
                 <div class="equipment-wrapper-container">
                     <table class="equipment-table-container">
@@ -366,20 +372,19 @@ renderCalendar();
 <script>
 function checkOtherSupply() {
     const supplyInput = document.getElementById('supplies');
-    const otherSupplyContainer = document.getElementById('other-supply-container');
-    const otherSupplyField = document.getElementById('other_supply');
+    const otherContainer = document.getElementById('other-supply-container');
+    const otherInput = document.getElementById('other_supply');
 
     if (supplyInput.value === 'Add Other Supply') {
-        // Show the other supply input field
-        otherSupplyContainer.style.display = 'block';
-        otherSupplyField.required = true;
-        otherSupplyField.focus();
+        otherContainer.style.display = 'block';
+        otherInput.required = true;
+        otherInput.focus();
     } else {
-        // Hide the other supply input field
-        otherSupplyContainer.style.display = 'none';
-        otherSupplyField.required = false;
-        otherSupplyField.value = '';
+        otherContainer.style.display = 'none';
+        otherInput.required = false;
+        otherInput.value = '';
     }
 }
 </script>
+
   @endsection

@@ -65,77 +65,74 @@ class SuppliesController extends Controller
     }
 
     // ✅ ADMIN OVERVIEW (REQUEST SUPPLY)
-public function facultyRequesOverview(Request $request)
-{
-    $status = $request->input('request_status');
+    public function facultyRequesOverview(Request $request)
+    {
+        $status = $request->input('request_status');
 
-    // Only include Pending and Approved in the query
-    $requestsQuery = \App\Models\SupplyRequest::query()
-        ->whereIn('request_status', ['Pending', 'Approved'])
-        ->orderBy('created_at', 'desc');
+        // Only include Pending and Approved in the query
+        $requestsQuery = \App\Models\SupplyRequest::query()
+            ->whereIn('request_status', ['Pending', 'Approved'])
+            ->orderBy('created_at', 'desc');
 
-    // Apply filter if selected
-    if (!empty($status)) {
-        $requestsQuery->where('request_status', $status);
+        // Apply filter if selected
+        if (!empty($status)) {
+            $requestsQuery->where('request_status', $status);
+        }
+
+        $requests = $requestsQuery->get();
+
+        // You can still count other statuses if needed
+        $totalCompleted = \App\Models\SupplyRequest::where('request_status', 'Completed')->count();
+        $awaitingConfirmation = \App\Models\SupplyRequest::where('request_status', 'Pending')->count();
+        $cancelledRequests = \App\Models\SupplyRequest::where('request_status', 'Cancelled')->count();
+        $unapprovedRequests = \App\Models\SupplyRequest::where('request_status', 'Declined')->count();
+
+        return view('settings.requestSupply', compact(
+            'requests',
+            'totalCompleted',
+            'awaitingConfirmation',
+            'cancelledRequests',
+            'unapprovedRequests',
+            'status'
+        ));
     }
 
-    $requests = $requestsQuery->get();
+    public function facultyReports(Request $request)
+    {
+        $status = $request->input('request_status');
+        $startDate = $request->input('start_date');
+        $endDate = $request->input('end_date');
 
-    // You can still count other statuses if needed
-    $totalCompleted = \App\Models\SupplyRequest::where('request_status', 'Completed')->count();
-    $awaitingConfirmation = \App\Models\SupplyRequest::where('request_status', 'Pending')->count();
-    $cancelledRequests = \App\Models\SupplyRequest::where('request_status', 'Cancelled')->count();
-    $unapprovedRequests = \App\Models\SupplyRequest::where('request_status', 'Declined')->count();
+        $requestsQuery = \App\Models\SupplyRequest::query()->orderBy('created_at', 'desc');
 
-    return view('settings.requestSupply', compact(
-        'requests',
-        'totalCompleted',
-        'awaitingConfirmation',
-        'cancelledRequests',
-        'unapprovedRequests',
-        'status'
-    ));
-}
+        // ✅ Filter by status
+        if (!empty($status)) {
+            $requestsQuery->where('request_status', $status);
+        }
 
+        // ✅ Filter by date range (only for Completed)
+        if ($status === 'Completed' && !empty($startDate) && !empty($endDate)) {
+            $requestsQuery->whereBetween('updated_at', [$startDate, $endDate]);
+        }
 
-public function facultyReports(Request $request)
-{
-    $status = $request->input('request_status');
-    $startDate = $request->input('start_date');
-    $endDate = $request->input('end_date');
+        $reports = $requestsQuery->get();
 
-    $requestsQuery = \App\Models\SupplyRequest::query()->orderBy('created_at', 'desc');
+        $totalCompleted = \App\Models\SupplyRequest::where('request_status', 'Completed')->count();
+        $awaitingConfirmation = \App\Models\SupplyRequest::where('request_status', 'Pending')->count();
+        $cancelledRequests = \App\Models\SupplyRequest::where('request_status', 'Cancelled')->count();
+        $unapprovedRequests = \App\Models\SupplyRequest::where('request_status', 'Declined')->count();
 
-    // ✅ Filter by status
-    if (!empty($status)) {
-        $requestsQuery->where('request_status', $status);
+        return view('settings.supplyReports', compact(
+            'reports',
+            'totalCompleted',
+            'awaitingConfirmation',
+            'cancelledRequests',
+            'unapprovedRequests',
+            'status',
+            'startDate',
+            'endDate'
+        ));
     }
-
-    // ✅ Filter by date range (only for Completed)
-    if ($status === 'Completed' && !empty($startDate) && !empty($endDate)) {
-        $requestsQuery->whereBetween('updated_at', [$startDate, $endDate]);
-    }
-
-    $reports = $requestsQuery->get();
-
-    $totalCompleted = \App\Models\SupplyRequest::where('request_status', 'Completed')->count();
-    $awaitingConfirmation = \App\Models\SupplyRequest::where('request_status', 'Pending')->count();
-    $cancelledRequests = \App\Models\SupplyRequest::where('request_status', 'Cancelled')->count();
-    $unapprovedRequests = \App\Models\SupplyRequest::where('request_status', 'Declined')->count();
-
-    return view('settings.supplyReports', compact(
-        'reports',
-        'totalCompleted',
-        'awaitingConfirmation',
-        'cancelledRequests',
-        'unapprovedRequests',
-        'status',
-        'startDate',
-        'endDate'
-    ));
-}
-
-
 
     // ✅ CANCEL FACULTY REQUEST
     public function cancelFacultyRequest(Request $request, $id)
@@ -154,7 +151,7 @@ public function facultyReports(Request $request)
         return redirect()->back()->with('success', 'Supply request cancelled successfully!');
     }
 
-    // ✅ ADD SUPPLY
+    // ✅ ADD SUPPLY (with Add Other Supply support)
     public function store(Request $request)
     {
         $request->validate([
@@ -162,8 +159,13 @@ public function facultyReports(Request $request)
             'quantity' => 'required|integer|min:1',
         ]);
 
+        // ✅ Determine if user selected "Add Other Supply"
+        $supplyName = $request->supplies === 'Add Other Supply' && !empty($request->other_supply)
+            ? $request->other_supply
+            : $request->supplies;
+
         Supplies::create([
-            'supplies' => $request->supplies,
+            'supplies' => $supplyName,
             'quantity' => $request->quantity,
         ]);
 
@@ -215,32 +217,33 @@ public function facultyReports(Request $request)
         return redirect()->back()->with('success', 'Request declined!');
     }
 
-public function completeRequest($id)
-{
-    $request = SupplyRequest::findOrFail($id);
+    // ✅ COMPLETE REQUEST
+    public function completeRequest($id)
+    {
+        $request = SupplyRequest::findOrFail($id);
 
-    // Find the matching supply record
-    $supply = Supplies::where('supplies', $request->supply_name)->first();
+        // Find the matching supply record
+        $supply = Supplies::where('supplies', $request->supply_name)->first();
 
-    if ($supply) {
-        // Check if there's enough stock before deduction
-        if ($supply->quantity >= $request->quantity) {
-            // Subtract the requested quantity
-            $supply->quantity -= $request->quantity;
-            $supply->save();
+        if ($supply) {
+            // Check if there's enough stock before deduction
+            if ($supply->quantity >= $request->quantity) {
+                // Subtract the requested quantity
+                $supply->quantity -= $request->quantity;
+                $supply->save();
 
-            // Update status to Completed
-            $request->update([
-                'request_status' => 'Completed',
-                'date_completed' => now(),
-            ]);
+                // Update status to Completed
+                $request->update([
+                    'request_status' => 'Completed',
+                    'date_completed' => now(),
+                ]);
 
-            return redirect()->back()->with('success', 'Request marked as completed and inventory updated!');
+                return redirect()->back()->with('success', 'Request marked as completed and inventory updated!');
+            } else {
+                return redirect()->back()->with('error', 'Not enough stock available to complete this request!');
+            }
         } else {
-            return redirect()->back()->with('error', 'Not enough stock available to complete this request!');
+            return redirect()->back()->with('error', 'Supply not found in inventory!');
         }
-    } else {
-        return redirect()->back()->with('error', 'Supply not found in inventory!');
     }
-}
 }
