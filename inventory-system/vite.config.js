@@ -33,6 +33,7 @@ export default defineConfig({
             'resources/css/reports.css',
             'resources/css/supplyReports.css',
             'resources/css/inventory.css',
+            'resources/css/users.css',
             'resources/js/app.js'],
             refresh: true,
         }),

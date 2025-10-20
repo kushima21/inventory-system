@@ -49,6 +49,12 @@ Route::get('/settings/gym', function () {
     return view('settings.gym');
 });
 
+
+Route::get('/settings/users', function () {
+    return view('settings.users');
+});
+
+
 Route::get('/settings/inventory', function () {
     return view('settings.inventory');
 });
@@ -145,9 +151,11 @@ Route::post('/settings/requestSupply/complete/{id}', [SuppliesController::class,
     ->name('faculty.request.complete');
 
 
-Route::get('/settings/personnel_dashboard', [UserController::class, 'index'])->name('personnel.personnel_dashboard');
-Route::post('/settings/personnel_dashboard', [UserController::class, 'store'])->name('users.store');
-Route::get('/settings/personnel_dashboard/search', [UserController::class, 'search'])->name('users.search');
+Route::get('/settings/users', [UserController::class, 'index'])->name('settings.users');
+Route::post('/settings/users', [UserController::class, 'store'])->name('users.store');
+Route::get('/settings/users/search', [UserController::class, 'search'])->name('users.search');
+Route::put('/settings/users/update/{id}', [UserController::class, 'update'])->name('users.update');
+
 Route::post('/signup', [UserController::class, 'signup'])->name('signup.store');
 
 Route::get('/settings/request', [SuppliesController::class, 'request'])->name('supplies.request');

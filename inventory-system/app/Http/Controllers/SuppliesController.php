@@ -11,12 +11,29 @@ use App\Models\Booking;
 class SuppliesController extends Controller
 {
     // ✅ INVENTORY DISPLAY
-    public function inventory()
-    {
-        $supplies = Supplies::all();
-        $equipmentList = Equipment::all();
-        return view('settings.inventory', compact('supplies', 'equipmentList'));
-    }
+public function inventory()
+{
+    // ✅ Grouped supplies (no duplicate names, total quantity)
+    $groupedSupplies = Supplies::select(
+            \DB::raw('MAX(id) as id'),
+            'supplies',
+            \DB::raw('SUM(quantity) as total_quantity'),
+            \DB::raw('MAX(created_at) as latest_created')
+        )
+        ->groupBy('supplies')
+        ->orderBy('latest_created', 'desc')
+        ->get();
+
+    // ✅ All supplies (show all entries in summary)
+    $supplies = Supplies::orderBy('created_at', 'desc')->get();
+
+    $equipmentList = Equipment::all();
+
+    return view('settings.inventory', compact('groupedSupplies', 'supplies', 'equipmentList'));
+}
+
+
+
 
     public function create()
     {

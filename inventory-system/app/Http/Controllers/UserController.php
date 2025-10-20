@@ -8,11 +8,11 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    // Display personnel users
+    // Display all users
     public function index()
     {
         $users = User::orderBy('created_at', 'desc')->get();
-        return view('personnel.personnel_dashboard', compact('users'));
+        return view('settings.users', compact('users'));
     }
 
     // Search users
@@ -25,10 +25,11 @@ class UserController extends Controller
                     ->get();
 
         if ($request->ajax()) {
+            // Make sure this partial view exists
             return view('personnel.partials.personnel_table_rows', compact('users'));
         }
 
-        return view('personnel.personnel_dashboard', compact('users'));
+        return view('settings.users', compact('users'));
     }
 
     // Store new personnel user
@@ -50,7 +51,7 @@ class UserController extends Controller
             'roles' => $request->roles,
         ]);
 
-        return redirect('/personnel_dashboard')->with('success', 'Personnel created successfully.');
+        return redirect()->route('settings.users')->with('success', 'Personnel created successfully.');
     }
 
     // Signup (for customers)
@@ -113,9 +114,37 @@ class UserController extends Controller
         return redirect()->route('login'); // redirect to login page
     }
 
-     public function navLogout(Request $request)
+    public function navLogout(Request $request)
     {
         $request->session()->flush();
         return redirect()->route('login'); // redirect to login page
     }
+
+    // 🛠️ Update existing user
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'phone_number' => 'required|string|max:15',
+        'email' => 'required|email|unique:users,email,' . $id,
+        'password' => 'nullable|string|min:6',
+        'roles' => 'required|string',
+    ]);
+
+    $user = User::findOrFail($id);
+
+    $user->name = $request->name;
+    $user->phone_number = $request->phone_number;
+    $user->email = $request->email;
+    $user->roles = $request->roles;
+
+    if ($request->filled('password')) {
+        $user->password = Hash::make($request->password);
+    }
+
+    $user->save();
+
+    return redirect()->route('settings.users')->with('success', 'User account updated successfully.');
+}
+
 }

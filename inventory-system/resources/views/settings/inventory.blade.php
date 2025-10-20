@@ -20,76 +20,76 @@
                     </h3>
                     <div class="form-add-container">
                       <form method="POST" action="{{ route('supplies.store') }}">
-    @csrf
-    <div class="info-container">
-        <label for="supplies">Supplies:</label>
-        <input list="supplies-list" name="supplies" id="supplies" placeholder="Select Supplies..." required oninput="checkOtherSupply()">
-        <datalist id="supplies-list">
-            <option value="Exam Bondpaper">
-            <option value="Student Passbook">
-            <option value="Softbound">
-            <option value="School Uniform">
-            <option value="PE Uniform">
-            <option value="Printer">
-            <option value="Computer">
-            <option value="Add Other Supply">
-        </datalist>
-    </div>
+                            @csrf
+                            <div class="info-container">
+                                <label for="supplies">Supplies:</label>
+                                <input list="supplies-list" name="supplies" id="supplies" placeholder="Select Supplies..." required oninput="checkOtherSupply()">
+                                <datalist id="supplies-list">
+                                    <option value="Exam Bondpaper">
+                                    <option value="Student Passbook">
+                                    <option value="Softbound">
+                                    <option value="School Uniform">
+                                    <option value="PE Uniform">
+                                    <option value="Printer">
+                                    <option value="Computer">
+                                    <option value="Add Other Supply">
+                                </datalist>
+                            </div>
 
-    <!-- Hidden input for custom supply -->
-    <div class="info-container" id="other-supply-container" style="display: none; margin-top: 20px;">
-        <label for="other_supply">Enter Other Supply:</label>
-        <input type="text" name="other_supply" id="other_supply" placeholder="Enter custom supply...">
-    </div>
+                            <!-- Hidden input for custom supply -->
+                            <div class="info-container" id="other-supply-container" style="display: none; margin-top: 20px;">
+                                <label for="other_supply">Enter Other Supply:</label>
+                                <input type="text" name="other_supply" id="other_supply" placeholder="Enter custom supply...">
+                            </div>
 
-    <div class="info-container">
-        <label for="quantity">Quantity:</label>
-        <input type="number" name="quantity" id="quantity" placeholder="Quantity..." required>
-    </div>
+                            <div class="info-container">
+                                <label for="quantity">Quantity:</label>
+                                <input type="number" name="quantity" id="quantity" placeholder="Quantity..." required>
+                            </div>
 
-    <div class="info-btn">
-        <button type="submit" name="submit">Create</button>
-        <button type="button" name="cancel" onclick="closeSuppliesModal()">Cancel</button>
-    </div>
-</form>
-
+                            <div class="info-btn">
+                                <button type="submit" name="submit">Create</button>
+                                <button type="button" name="cancel" onclick="closeSuppliesModal()">Cancel</button>
+                            </div>
+                        </form>
                     </div>
                  </div>
                 <div class="supply-subheader-box">
                     <input type="text" name="search" id="search" placeholder="Search Supplies">
                     <button class="supplyBTn"  type="button" onclick="openSuppliesModal()">+ Add Stock</button>
                 </div>
-                <div class="supply-wrapper-container">
-                    <table class="supply-table-container">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Quantity</th>
-                                <th>Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @forelse($supplies as $supply)
-                                <tr>
-                                    <td>{{ $supply->supplies }}</td>
-                                    <td>{{ $supply->quantity }}</td>
-                                    <td>
-                                        <button type="button" class="editBTn">Edit</button>
-                                        <form action="{{ route('supplies.delete', $supply->id) }}" method="POST" style="display:inline;">
-                                            @csrf
-                                            @method('DELETE')
-                                            <button type="submit" class="deleteBtn">Delete</button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" style="text-align:center;">No supplies found.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
+             <div class="supply-wrapper-container">
+    <table class="supply-table-container">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Total Quantity</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            @forelse($groupedSupplies as $supply)
+                <tr>
+                    <td>{{ $supply->supplies }}</td>
+                    <td>{{ $supply->total_quantity }}</td>
+                    <td>
+                        <form action="{{ route('supplies.delete', $supply->id) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="button" class="editBTn">Edit</button>
+                            <button type="submit" class="deleteBtn">Delete</button>
+                        </form>
+                    </td>
+                </tr>
+            @empty
+                <tr>
+                    <td colspan="3" style="text-align:center;">No supplies found.</td>
+                </tr>
+            @endforelse
+        </tbody>
+    </table>
+</div>
+
             </div>
             <div class="supply-top-box">
                 <h3 class="supply-stock-header">
@@ -105,53 +105,54 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse($supplies as $supply)
-                                <tr>
-                                    <td>{{ $supply->created_at }}</td>
-                                    <td>{{ $supply->supplies }}</td>
-                                    <td>{{ $supply->quantity }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" style="text-align:center;">No supplies found.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+                    @forelse($supplies as $supply)
+                        <tr>
+                            <td>{{ $supply->created_at }}</td>
+                            <td>{{ $supply->supplies }}</td>
+                            <td>{{ $supply->quantity }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" style="text-align:center;">No supplies found.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
 
-        <div class="supply-all-overview-container">
-            <div class="supply-overall-box">
-                <h3 class="supply-summary-header">
-                    Supply Summary
-                </h3>
-                <div class="supply-summary-wrapper-container">
-                    <table class="supply-table-summary">
-                        <thead>
-                            <tr>
-                                <th>Created</th>
-                                <th>Name</th>
-                                <th>Quantity</th>
-                            </tr>
-                        </thead>
-                       <tbody>
-                            @forelse($supplies as $supply)
-                                <tr>
-                                    <td>{{ $supply->supplies }}</td>
-                                    <td>{{ $supply->quantity }}</td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td colspan="3" style="text-align:center;">No supplies found.</td>
-                                </tr>
-                            @endforelse
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="supply-all-overview-container">
+    <div class="supply-overall-box">
+        <h3 class="supply-summary-header">Supply Summary</h3>
+        <div class="supply-summary-wrapper-container">
+            <table class="supply-table-summary">
+                <thead>
+                    <tr>
+                        <th>Created</th>
+                        <th>Name</th>
+                        <th>Quantity</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($supplies as $supply)
+                        <tr>
+                            <td>{{ $supply->created_at }}</td>
+                            <td>{{ $supply->supplies }}</td>
+                            <td>{{ $supply->quantity }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="3" style="text-align:center;">No supplies found.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
+    </div>
+</div>
+
         <div class="equipment-main-container">
             <div class="equipment-main-box">
                 <h3 class="supply-stock-header">
@@ -163,39 +164,35 @@
                     </h3>
                     <div class="equipment-form-container">
                         <form method="POST" action="{{ route('equipment.store') }}">
-    @csrf 
-    <div class="info-container">
-        <label for="equipment">Equipment</label>
-        <input list="equipment-list" name="equipment" id="equipment" placeholder="Select Equipment..." required oninput="checkOtherEquipment()">
-        <datalist id="equipment-list">
-            <option value="LED">
-            <option value="Chairs">
-            <option value="Table">
-            <option value="Fan">
-            <option value="Gameboard">
-            <option value="Speaker">
-            <option value="Add Other Equipment">
-        </datalist>
-    </div>
+                            @csrf 
+                            <div class="info-container">
+                                <label for="">Equipment</label>
+                                <input list="equipment-list" name="equipment" id="equipment" placeholder="Select Equipment..." required>
+                                <datalist id="equipment-list">
+                                    <option value="LED">
+                                    <option value="Chairs">
+                                    <option value="Table">
+                                    <option value="Fan">
+                                    <option value="Gameboard">
+                                    <option value="Speaker">
+                                </datalist>
+                            </div>
 
-    <!-- Hidden field for custom equipment input -->
-    <div class="info-container" id="other-equipment-container" style="display: none; margin-top: 20px;">
-        <label for="other_equipment">Enter Other Equipment:</label>
-        <input type="text" name="other_equipment" id="other_equipment" placeholder="Enter custom equipment...">
-    </div>
+                            <div class="info-container">
+                            <label for="quantity">Quantity:</label>
+                            <input type="number" name="quantity" id="quantity" placeholder="Quantity..." required>
+                            </div>
 
-    <div class="info-container">
-        <label for="quantity">Quantity:</label>
-        <input type="number" name="quantity" id="quantity" placeholder="Quantity..." required>
-    </div>
-
-    <div class="info-btn">
-        <button type="submit" name="submit">Create</button>
-        <button type="button" name="cancel" onclick="closeEquipmentModal()">Cancel</button>
-    </div>
-</form>
-
+                            <div class="info-btn">
+                                <button type="submit" name="submit">Create</button>
+                                <button type="button" name="cancel" onclick="closeEquipmentModal()">Cancel</button>
+                            </div>
+                        </form>
                     </div>
+                </div>
+                <div class="equipment-subheader-box">
+                    <input type="text" name="search" id="search" placeholder="Search Equipments">
+                    <button class="equipmentBTn"  type="button" onclick="showAddEquipment()">+ Add Equipment</button>
                 </div>
                 <div class="equipment-wrapper-container">
                     <table class="equipment-table-container">
