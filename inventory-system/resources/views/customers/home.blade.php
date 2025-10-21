@@ -1,7 +1,8 @@
 @extends('partials.navbar')
 @vite(['resources/css/index.css', 'resources/js/app.js'])
 @php
-$user = \App\Models\User::find(session('user_id'));
+    $user = \App\Models\User::find(session('user_id'));
+    $notifications = $user?->notifications ?? collect();
 @endphp
 @section('content')
     <div class="content-container">

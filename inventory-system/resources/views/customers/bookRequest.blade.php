@@ -1,6 +1,8 @@
 @extends('partials.sideBar')
 @vite(['resources/css/bookRequest.css', 'resources/js/app.js'])
-
+@php
+$user = \App\Models\User::find(session('user_id'));
+@endphp
 @section('Sidecontent')
 <h2 class="profile-header">Booking Request</h2>
 

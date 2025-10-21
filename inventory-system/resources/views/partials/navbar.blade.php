@@ -9,6 +9,8 @@
     @vite(['resources/css/responsived.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('resources/css/responsived.css') }}">
+<link rel="stylesheet" href="{{ asset('resources/css/navbar.css') }}">
 </head>
 <body>
  <div class="content-main-container">
@@ -54,21 +56,42 @@ $user = \App\Models\User::find(session('user_id'));
                     <span class="links">Services</span>
                 </a></li>
                 
-                <li>
+                <li class="notif-icon-wrapper" style="position: relative;">
                     <img src="{{ asset('icons/notification.png') }}" alt="Notif Image" class="notif-img">
+
+                    @if(isset($unreadCount) && $unreadCount > 0)
+                        <span class="notif-count">{{ $unreadCount }}</span>
+                    @endif
                 </li>
-                
                 <li>
                     <img src="{{ asset('icons/profile.png') }}" alt="Profile Image" class="profile-img">
                 </li>
             </ul>
         </nav>
     </div>
-    <div class="notif-modal-container">
-        <div class="notif-modal">
-            <h2>dadad</h2>
+<div class="notif-modal-container">
+    <div class="notif-modal">
+        <div class="m-notif-box">
+            @if(isset($bookings) && $bookings->count())
+                @foreach($bookings as $booking)
+                    <div class="notif-box">
+                        <h3 class="n-header">{{ $booking->gym->package ?? 'No Gym Name' }}</h3>
+                        <p class="n-subheader">Date Request: {{ $booking->created_at->format('Y-m-d') }}</p>
+                        <p class="n-subheader">Total Php: {{ number_format($booking->total_price ?? 0, 2) }}</p>
+                        <p class="n-subheader">Status: {{ $booking->status ?? 'Pending' }}</p>
+                        <a href="{{ url('/customers/bookRequest') }}">
+                            <button type="button" class="notif-btn">View your Request</button>
+                        </a>
+                    </div>
+                @endforeach
+            @else
+                <p class="n-subheader">No bookings found.</p>
+            @endif
         </div>
     </div>
+</div>
+
+
     <div class="modal-background">
         <div class="profile-modal">
             <div class="profile-container">

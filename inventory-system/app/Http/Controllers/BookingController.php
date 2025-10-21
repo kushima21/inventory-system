@@ -26,8 +26,38 @@ public function showUserBookings()
         ->orderBy('created_at', 'desc')
         ->get();
 
-    return view('customers.bookRequest', compact('bookings'));
+    // Count unread bookings
+    $unreadCount = Booking::where('user_id', $userId)
+        ->where('is_read', false)
+        ->count();
+
+    return view('customers.bookRequest', compact('bookings', 'unreadCount'));
 }
+
+
+
+
+public function showNotifBookings()
+{
+    $userId = auth()->check() ? auth()->id() : session('user_id');
+
+    if (!$userId) {
+        return redirect('/login')->with('error', 'Please log in to view bookings.');
+    }
+
+    $bookings = Booking::with('gym')
+        ->where('user_id', $userId)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    // Mark as read once user opens notifications
+    Booking::where('user_id', $userId)
+        ->where('is_read', false)
+        ->update(['is_read' => true]);
+
+    return view('partials.navbar', compact('bookings'));
+}
+
 
 
     /**

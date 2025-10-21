@@ -6,6 +6,7 @@ use App\Http\Controllers\SuppliesController;
 use App\Http\Controllers\EquipmentController;
 use App\Http\Controllers\GymController;
 use App\Http\Controllers\BookingController;
+use Illuminate\Notifications\Notification;
 
 
 Route::get('/', function () {
@@ -127,8 +128,9 @@ Route::get('/customers/profile', function () {
 
 
 Route::get('/navbar', function () {
-    return view('partials.navbar');
-});
+    $user = auth()->user(); // authenticated user
+    return view('partials.navbar', compact('user'));
+})->middleware('auth');
 
 Route::get('/sideBar', function () {
     return view('partials.sideBar');
@@ -195,6 +197,8 @@ Route::get('/settings/gym_reservation', [GymController::class, 'bookRequest'])->
 Route::get('/customers/userRequest', [BookingController::class, 'showUserBookings'])->name('bookings.list');
 Route::get('/customers/bookRequest', [BookingController::class, 'showUserBookings'])
     ->name('bookings.list');
+
+
 
 
 // Wala na ni — ayaw i-overwrite
