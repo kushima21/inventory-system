@@ -8,6 +8,9 @@
     @vite(['resources/css/index.css', 'resources/js/app.js'])
     @vite(['resources/css/book.css', 'resources/js/app.js'])
     @vite(['resources/css/responsived.css', 'resources/js/app.js'])
+<link rel="stylesheet" href="{{ asset('resources/css/responsived.css') }}">
+<link rel="stylesheet" href="{{ asset('resources/css/book.css') }}">
+<link rel="stylesheet" href="{{ asset('resources/css/index.css') }}">
 
 </head>
 <body>

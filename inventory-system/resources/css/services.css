@@ -60,3 +60,106 @@
     background-size: cover;
     background-position: center;
 }
+
+/* Base Styles (your existing CSS) */
+
+/* Responsive Styles */
+
+/* Large tablets / small desktops */
+@media (max-width: 1200px) {
+    .service-b {
+        width: 400px;
+        height: auto;
+    }
+
+    .services-H {
+        font-size: 42px;
+    }
+
+    .services-P {
+        font-size: 14px;
+        max-width: 700px;
+    }
+
+    .s-img {
+        width: 40%;
+    }
+
+    .ss-img {
+        width: 20%;
+    }
+}
+
+/* Tablets */
+@media (max-width: 992px) {
+    .services-container {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .service-b {
+        width: 90%;
+        margin-bottom: 20px;
+    }
+
+    .s-img,
+    .ss-img {
+        width: 50%;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .services-H {
+        font-size: 36px;
+    }
+
+    .services-P {
+        font-size: 13px;
+        max-width: 90%;
+    }
+
+    .service-b h3 {
+        font-size: 20px;
+    }
+
+    .service-b p {
+        font-size: 16px;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 576px) {
+    .services-H {
+        font-size: 28px;
+    }
+
+    .services-P {
+        font-size: 12px;
+        max-width: 95%;
+    }
+
+    .service-b {
+        width: 100%;
+        height: auto;
+        margin-bottom: 15px;
+        padding: 10px;
+    }
+
+    .service-b h3 {
+        font-size: 18px;
+        padding: 10px;
+    }
+
+    .service-b p {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .s-img,
+    .ss-img {
+        width: 70%;
+        height: auto;
+        margin: 10px auto;
+        display: block;
+    }
+}

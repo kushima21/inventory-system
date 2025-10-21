@@ -174,3 +174,139 @@ html,body {
     color: maroon;
     font-size: 12px;
 }
+
+/* Base Styles (your existing CSS) */
+
+/* Responsive Styles */
+
+/* Large tablets / small desktops */
+@media (max-width: 1200px) {
+    .signup-box-container {
+        width: 35%;
+        margin-left: 30px;
+    }
+
+    .sign-img {
+        width: 50%;
+        margin-top: 5%;
+    }
+
+    .login-form-box {
+        font-size: 20px;
+    }
+
+    .form-info input {
+        width: 85%;
+        font-size: 13px;
+    }
+
+    .formBtn button,
+    .createBtn button {
+        width: 85%;
+        font-size: 13px;
+    }
+}
+
+/* Tablets */
+@media (max-width: 992px) {
+    .signup-container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+        padding-top: 15%;
+    }
+
+    .signup-box-container {
+        width: 80%;
+        margin-left: 0;
+    }
+
+    .signup-img {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .sign-img {
+        width: 70%;
+        margin: 0 auto;
+    }
+
+    .form-info input {
+        width: 95%;
+        font-size: 14px;
+        margin-left: 0;
+    }
+
+    .formBtn button,
+    .createBtn button {
+        width: 95%;
+        margin-left: 0;
+    }
+
+    .footer {
+        width: 90%;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .term-condition {
+        width: 90%;
+        padding-top: 15px;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 576px) {
+    .signup-box-container {
+        width: 95%;
+        padding: 10px;
+        margin-left: 0;
+    }
+
+    .signup-img {
+        width: 90%;
+    }
+
+    .sign-img {
+        width: 50%;
+        display: none;
+    }
+
+    .login-form-box {
+        font-size: 18px;
+    }
+
+    .form-info label {
+        font-size: 13px;
+    }
+
+    .form-info input {
+        height: 40px;
+        font-size: 12px;
+        padding-left: 8px;
+    }
+
+    .formBtn button,
+    .createBtn button {
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .or {
+        font-size: 13px;
+    }
+
+    .home {
+        font-size: 13px;
+    }
+
+    .term-condition p {
+        font-size: 11px;
+    }
+
+    .footer p,
+    .footer span {
+        font-size: 11px;
+    }
+}

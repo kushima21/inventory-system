@@ -90,7 +90,7 @@ $user = \App\Models\User::find(session('user_id'));
                     </div>
                 </a>
                 <span class="link-title">ACCOUNT</span>
-                <a href="{{ url('/settings/personnel_dashboard') }}">
+                <a href="{{ url('/settings/users') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
                         <span>Personnels</span>

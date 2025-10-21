@@ -16,39 +16,49 @@
     <p class="s-sub">Get an overview of current inventory levels, usage trends, and faculty requests.</p>
 
     <div class="supply-reports-box-container">
-        <div class="supply-box">
-            <img src="{{ asset('icons/users-alt.png') }}" alt="Login Image" class="report-image" style="margin:20px;">
+
+    <!-- ✅ TOTAL REQUEST SUPPLIES (Completed) -->
+            <div class="supply-box">
+                <img src="{{ asset('icons/users-alt.png') }}" alt="Completed Icon" class="report-image" style="margin:20px;">
                 <h3 class="report-subheader" style="padding-left: 20px">Total Request Supplies</h3>
                 <div class="report-number">
-                <img src="{{ asset('icons/users.png') }}" alt="Login Image" class="peso-image" style="margin: 20px">
-                <h3 class="number">55</h3>
+                    <img src="{{ asset('icons/users.png') }}" alt="Users Icon" class="peso-image" style="margin: 20px">
+                    <h3 class="number">{{ $totalCompleted }}</h3>
+                </div>
             </div>
-        </div>
-        <div class="supply-box">
-            <img src="{{ asset('icons/chart-line-up.png') }}" alt="Login Image" class="report-image" style="margin:20px;">
+
+            <!-- ✅ AWAITING REQUEST CONFIRMATION (Pending) -->
+            <div class="supply-box">
+                <img src="{{ asset('icons/chart-line-up.png') }}" alt="Pending Icon" class="report-image" style="margin:20px;">
                 <h3 class="report-subheader" style="padding-left: 20px">Awaiting Request Confirmation</h3>
                 <div class="report-number">
-                <img src="{{ asset('icons/users.png') }}" alt="Login Image" class="peso-image" style="margin: 20px">
-                <h3 class="number">16</h3>
+                    <img src="{{ asset('icons/users.png') }}" alt="Users Icon" class="peso-image" style="margin: 20px">
+                    <h3 class="number">{{ $awaitingConfirmation }}</h3>
+                </div>
             </div>
-        </div>
-        <div class="supply-box">
-            <img src="{{ asset('icons/circle-wrong.png') }}" alt="Login Image" class="report-image" style="margin:20px;">
+
+            <!-- ✅ CANCELLED REQUEST SUPPLIES -->
+            <div class="supply-box">
+                <img src="{{ asset('icons/circle-wrong.png') }}" alt="Cancelled Icon" class="report-image" style="margin:20px;">
                 <h3 class="report-subheader" style="padding-left: 20px">Cancelled Request Supplies</h3>
                 <div class="report-number">
-                <img src="{{ asset('icons/users.png') }}" alt="Login Image" class="peso-image" style="margin: 20px">
-                <h3 class="number">20</h3>
+                    <img src="{{ asset('icons/users.png') }}" alt="Users Icon" class="peso-image" style="margin: 20px">
+                    <h3 class="number">{{ $cancelledRequests }}</h3>
+                </div>
             </div>
-        </div>
-        <div class="supply-box">
-            <img src="{{ asset('icons/user-forbidden-alt.png') }}" alt="Login Image" class="report-image" style="margin:20px;">
+
+            <!-- ✅ UNAPPROVED REQUEST (Declined) -->
+            <div class="supply-box">
+                <img src="{{ asset('icons/user-forbidden-alt.png') }}" alt="Declined Icon" class="report-image" style="margin:20px;">
                 <h3 class="report-subheader" style="padding-left: 20px">Unapproved Request</h3>
                 <div class="report-number">
-                <img src="{{ asset('icons/users.png') }}" alt="Login Image" class="peso-image" style="margin: 20px">
-                <h3 class="number">60</h3>
+                    <img src="{{ asset('icons/users.png') }}" alt="Users Icon" class="peso-image" style="margin: 20px">
+                    <h3 class="number">{{ $unapprovedRequests }}</h3>
+                </div>
             </div>
+
         </div>
-    </div>
+
 
     <h3 class="supply-sum-header">
         Supply Tracking Overview
@@ -123,7 +133,7 @@
     <input type="hidden" name="start_date" id="start_date" value="{{ request('start_date') }}">
     <input type="hidden" name="end_date" id="end_date" value="{{ request('end_date') }}">
 
-    <button type="button" class="exportBtn">Export Reports</button>
+    <button type="button" class="exportBtn" id="exportBtn">Export Reports</button>
 </form>
 
     <div class="summary-container">
@@ -268,5 +278,19 @@
     // Initialize
     renderCalendar(currentDate);
 </script>
+<script>
+document.getElementById('exportBtn').addEventListener('click', function() {
+    const status = document.querySelector('.filter-select').value;
+    const startDate = document.getElementById('start_date').value;
+    const endDate = document.getElementById('end_date').value;
 
+    // Create dynamic URL with filters
+    const url = new URL('{{ route("supply.export") }}', window.location.origin);
+    if (status) url.searchParams.append('request_status', status);
+    if (startDate) url.searchParams.append('start_date', startDate);
+    if (endDate) url.searchParams.append('end_date', endDate);
+
+    window.location.href = url.toString();
+});
+</script>
 @endsection

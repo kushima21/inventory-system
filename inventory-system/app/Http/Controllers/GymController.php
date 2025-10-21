@@ -104,4 +104,38 @@ public function userBook()
 
     return view('customers.userBook', compact('gyms', 'bundles'));
 }
+
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'package' => 'required|string',
+        'price' => 'required|numeric|min:0',
+        'equipment' => 'nullable|array',
+        'equipment.*' => 'exists:equipment,id',
+        'equipment_quantity' => 'nullable|array',
+    ]);
+
+    $gym = Gym::findOrFail($id);
+    $gym->update([
+        'package' => $request->package,
+        'price' => $request->price,
+    ]);
+
+    // ✅ Prepare updated data (replace quantity)
+    $syncData = [];
+    if ($request->filled('equipment')) {
+        foreach ($request->equipment as $equipmentId) {
+            $newQty = (int)($request->equipment_quantity[$equipmentId] ?? 1);
+            $syncData[$equipmentId] = ['quantity' => $newQty];
+        }
+    }
+
+    // ✅ Sync — replaces existing pivot quantities instead of adding
+    $gym->equipment()->sync($syncData);
+
+    return redirect()->back()->with('success', 'Package updated successfully!');
+}
+
+
+
 }

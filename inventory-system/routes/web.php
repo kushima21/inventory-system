@@ -20,9 +20,6 @@ Route::get('/personnel_dashboard', function () {
     return view('personnel.personnel_dashboard');
 });
 
-Route::get('/settings/requestSupply', function () {
-    return view('settings.requestSupply');
-});
 
 Route::get('/settings/gym_reservation', function () {
     return view('settings.gym_reservation');
@@ -112,6 +109,10 @@ Route::get('/customers/userBook', function () {
     return view('customers.userBook');
 });
 
+Route::get('/customers/bookRequest', function () {
+    return view('customers.bookRequest');
+});
+
 Route::get('/customers/userContact', function () {
     return view('customers.userContact');
 });
@@ -144,9 +145,21 @@ Route::post('/faculty/facultyMyRequest/cancel/{id}', [SuppliesController::class,
     ->name('settings.supplyReports');
     
     
-Route::get('/settings/requestSupply', [SuppliesController::class, 'facultyRequesOverview'])->name('settings.requestSupply');
-Route::post('/settings/requestSupply/approve/{id}', [SuppliesController::class, 'approveRequest'])->name('faculty.request.approve');
-Route::post('/settings/requestSupply/decline/{id}', [SuppliesController::class, 'declineRequest'])->name('faculty.request.decline');
+// Faculty request actions
+// ✅ Correct controller route
+// ✅ Faculty Supply Request Overview (Dashboard)
+Route::get('/settings/requestSupply', [SuppliesController::class, 'facultyRequesOverview'])
+    ->name('settings.requestSupply');
+
+// ✅ Approve Faculty Request
+Route::post('/settings/requestSupply/approve/{id}', [SuppliesController::class, 'approveRequest'])
+    ->name('faculty.request.approve');
+
+// ✅ Decline Faculty Request
+Route::post('/settings/requestSupply/decline/{id}', [SuppliesController::class, 'declineRequest'])
+    ->name('faculty.request.decline');
+
+// ✅ Mark Faculty Request as Completed (deducts from inventory)
 Route::post('/settings/requestSupply/complete/{id}', [SuppliesController::class, 'completeRequest'])
     ->name('faculty.request.complete');
 
@@ -155,6 +168,8 @@ Route::get('/settings/users', [UserController::class, 'index'])->name('settings.
 Route::post('/settings/users', [UserController::class, 'store'])->name('users.store');
 Route::get('/settings/users/search', [UserController::class, 'search'])->name('users.search');
 Route::put('/settings/users/update/{id}', [UserController::class, 'update'])->name('users.update');
+Route::delete('/settings/users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+
 
 Route::post('/signup', [UserController::class, 'signup'])->name('signup.store');
 
@@ -172,14 +187,14 @@ Route::get('/settings/gym', [EquipmentController::class, 'gym'])->name('settings
 Route::post('/settings/gym/store', [GymController::class, 'store'])->name('gym.store');
 Route::get('/settings/gym', [GymController::class, 'index'])->name('gym.index');
 Route::delete('/settings/gym/{id}', [GymController::class, 'destroy'])->name('gym.destroy');
+Route::post('/settings/gym/update/{id}', [GymController::class, 'update'])->name('gym.update');
 
 
 Route::get('/book', [GymController::class, 'BookIndex'])->name('book.BookIndex');
 Route::get('/settings/gym_reservation', [GymController::class, 'bookRequest'])->name('book.BookIndex');
 Route::get('/customers/userRequest', [BookingController::class, 'showUserBookings'])->name('bookings.list');
-Route::get('/customers/bookRequest', function() {
-    return redirect()->route('bookings.list');
-});
+Route::get('/customers/bookRequest', [BookingController::class, 'showUserBookings'])
+    ->name('bookings.list');
 
 
 // Wala na ni — ayaw i-overwrite
@@ -227,6 +242,7 @@ Route::post('/booking/{id}/complete', [BookingController::class, 'completeBookin
 // Inventory Section
 // ✅ Unified Inventory Display Route
 Route::get('/settings/inventory', [SuppliesController::class, 'inventory'])->name('inventory.create');
+Route::put('/supplies/update/{id}', [SuppliesController::class, 'update'])->name('supplies.update');
 
 // ✅ Supplies Routes
 Route::post('/settings/inventory', [SuppliesController::class, 'store'])->name('supplies.store');
@@ -234,7 +250,7 @@ Route::delete('/settings/supplies/{id}', [SuppliesController::class, 'delete'])-
 
 // ✅ Equipment Routes
 Route::post('/settings/equipment', [EquipmentController::class, 'store'])->name('equipment.store');
-Route::delete('/settings/equipment/{id}', [EquipmentController::class, 'delete'])->name('equipment.delete');
+Route::delete('/equipment/delete/{equipment}', [EquipmentController::class, 'deleteByName'])->name('equipment.deleteByName');
 
 Route::get('/settings/equipment', [EquipmentController::class, 'index'])->name('equipment.index');
 Route::post('/settings/equipment-bundle/store', [EquipmentController::class, 'storeBundle'])->name('equipment.bundle.store');
@@ -245,5 +261,9 @@ Route::get('/customers/userBook', [GymController::class, 'userBook'])->name('cus
 
 
     
-Route::get('/settings/dashboard', [BookingController::class, 'showRequestDashboard'])
+
+
+Route::get('/settings/dashboard', [SuppliesController::class, 'dashboard'])
     ->name('settings.dashboard');
+
+    Route::get('/export-supply-reports', [App\Http\Controllers\SuppliesController::class, 'exportSupplyReports'])->name('supply.export');

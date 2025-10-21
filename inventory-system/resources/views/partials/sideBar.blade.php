@@ -22,7 +22,7 @@ $user = \App\Models\User::find(session('user_id'));
                                
                             </div>
                         </a>
-                        <a href="{{ route('bookings.list') }}">
+                       <a href="{{ url('/customers/bookRequest') }}">
                             <div class="link-box">
                                 <img src="{{ asset('icons/booking.png') }}" alt="Profile Image" class="user-image">
                                 <h3>Booking Request</h3>

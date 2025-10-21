@@ -105,3 +105,48 @@
     background: white;
     border-radius: 8px;
 }
+
+/* Tablets */
+@media (max-width: 992px) {
+    .profile-head-c {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    .f-m-container {
+        grid-template-columns: 1fr; /* single column */
+    }
+    .edit-Btn {
+        width: 100%;
+        max-width: 200px;
+    }
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .profile-header {
+        font-size: 20px;
+    }
+    .my-email {
+        font-size: 18px;
+        margin-left: 10px;
+    }
+    .f-email-container {
+        margin: 10px;
+    }
+    .m-email-c {
+        margin-left: 10px;
+    }
+    .f-m-container {
+        width: 95%;
+        margin: 10px auto;
+    }
+    .info-user input {
+        height: 35px;
+        width: 250px;
+    }
+    .edit-Btn {
+        font-size: 12px;
+        height: 35px;
+        margin-top: 20px;
+    }
+}

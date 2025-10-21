@@ -151,7 +151,7 @@ $user = \App\Models\User::find(session('user_id'));
                                     <td>{{ $user->roles }}</td>
                                     <td>
                                         <button type="button" name="edit" class="edit" data-id="{{ $user->id }}">Edit</button>
-                                        <form action="#" method="POST" style="display:inline-block;">
+                                        <form action="{{ route('users.destroy', $user->id) }}" method="POST" style="display:inline-block;" onsubmit="return confirm('Are you sure you want to delete this user?');">
                                             @csrf
                                             @method('DELETE')
                                             <button type="submit" name="delete" class="delete">Delete</button>
@@ -166,7 +166,6 @@ $user = \App\Models\User::find(session('user_id'));
                         @endforelse
                     </tbody>
 
-                    </tbody>
                 </table>
             </div>
         </div>

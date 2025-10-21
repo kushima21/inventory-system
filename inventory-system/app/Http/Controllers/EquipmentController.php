@@ -5,31 +5,54 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Equipment;
 use App\Models\EquipmentBundle;
+use DB;
 
 class EquipmentController extends Controller
 {
-    // ✅ Show equipment and bundles
+    // ✅ Show all equipment and bundles
     public function index()
     {
-        $equipmentList = Equipment::all();
+        // ✅ Group by equipment name (no duplicates)
+        // Sum all quantities with the same name and get latest creation date
+        $equipmentList = Equipment::select(
+                DB::raw('MAX(id) as id'),
+                'equipment',
+                DB::raw('SUM(quantity) as total_quantity'),
+                DB::raw('MAX(created_at) as latest_created')
+            )
+            ->groupBy('equipment')
+            ->orderBy('latest_created', 'desc')
+            ->get();
+
+        // ✅ Full list (for recent display if needed)
+        $equipmentAll = Equipment::orderBy('created_at', 'desc')->get();
+
+        // ✅ Load bundles with related equipment
         $bundles = EquipmentBundle::with('equipment')
             ->orderBy('created_at', 'desc')
             ->get();
 
-        return view('settings.equipment', compact('equipmentList', 'bundles'));
+        return view('settings.equipment', compact('equipmentList', 'equipmentAll', 'bundles'));
     }
 
+    // ✅ Delete all records of a specific equipment name
+    public function deleteByName($equipmentName)
+    {
+        Equipment::where('equipment', $equipmentName)->delete();
+        return redirect()->back()->with('success', 'Equipment deleted successfully.');
+    }
+
+    // ✅ Show bundles for users
     public function showUserBook()
-{
-    $bundles = EquipmentBundle::with('equipment')
-        ->orderBy('created_at', 'desc')
-        ->get();
+    {
+        $bundles = EquipmentBundle::with('equipment')
+            ->orderBy('created_at', 'desc')
+            ->get();
 
-    return view('customers.userBook', compact('bundles'));
-}
+        return view('customers.userBook', compact('bundles'));
+    }
 
-    
-    // ✅ Store equipment
+    // ✅ Store new equipment
     public function store(Request $request)
     {
         $request->validate([
@@ -45,7 +68,7 @@ class EquipmentController extends Controller
         return redirect()->back()->with('success', 'Equipment created successfully!');
     }
 
-    // ✅ Delete equipment
+    // ✅ Delete equipment by ID
     public function delete($id)
     {
         $equipment = Equipment::findOrFail($id);

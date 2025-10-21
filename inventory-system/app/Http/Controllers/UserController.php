@@ -147,4 +147,20 @@ public function update(Request $request, $id)
     return redirect()->route('settings.users')->with('success', 'User account updated successfully.');
 }
 
+// 🛠️ Delete a user
+public function destroy($id)
+{
+    $user = User::findOrFail($id);
+
+    // Optional: prevent deleting Customers if you want
+    if ($user->roles === 'Customers') {
+        return redirect()->route('settings.users')->with('error', 'Cannot delete a customer account.');
+    }
+
+    $user->delete();
+
+    return redirect()->route('settings.users')->with('success', 'User account deleted successfully.');
+}
+
+
 }

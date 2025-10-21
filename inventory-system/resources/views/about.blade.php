@@ -96,7 +96,6 @@
                     </div>
                 </div>
             </div>
-            <img src="{{ asset('system-images/bbb.png') }}" alt="Login Image" class="aa-img">
        </div>
 
     </div>

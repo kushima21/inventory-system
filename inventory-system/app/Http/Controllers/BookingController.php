@@ -13,21 +13,22 @@ class BookingController extends Controller
     /**
      * Show bookings for the logged-in user.
      */
-    public function showUserBookings()
-    {
-        $userId = auth()->check() ? auth()->id() : session('user_id');
+public function showUserBookings()
+{
+    $userId = auth()->check() ? auth()->id() : session('user_id');
 
-        if (!$userId) {
-            return redirect('/login')->with('error', 'Please log in to view bookings.');
-        }
-
-        $bookings = Booking::with('gym', 'additionalEquipments')
-            ->where('user_id', $userId)
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        return view('customers.bookRequest', compact('bookings'));
+    if (!$userId) {
+        return redirect('/login')->with('error', 'Please log in to view bookings.');
     }
+
+    $bookings = Booking::with('gym', 'additionalEquipments')
+        ->where('user_id', $userId)
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return view('customers.bookRequest', compact('bookings'));
+}
+
 
     /**
      * Show all booking requests for admin dashboard.

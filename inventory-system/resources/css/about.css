@@ -1,80 +1,165 @@
+/* Base Styles */
+.about-main-content {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    align-items: center;
+    gap: 6%;
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
 
-        .about-main-content {
-            width: 100%;
-            height: max-content;
-            display: flex;
-            align-items: center;
-            gap: 6%;
-        }
+.a-img {
+    width: 25%;
+    height: auto;
+    margin-top: 18%;
+}
 
-        .a-img {
-            width: 25%;
-            height:100%;
-            margin-top: 18%;
-            margin-left: 2%;
-        }
+.aa-c {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 5px;
+    margin-left: 6%;
+}
 
-        .aa-c {
-            width: 100%;
-            height: max-content;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            gap: 5px;
-            margin-left: 6%;
-        }
+.aa-img {
+    width: 25%;
+    height: auto;
+}
 
-        .aa-img {
-            width: 25%;
-            height: 100%;
-        }
+.about-us-box {
+    width: 50%;
+    height: auto;
+    margin-top: 6%;
+}
 
-        .about-us-box {
-            width: 50%;
-            height: 750px;
-            margin-top: 6%;
-        }
+.header-about {
+    font-size: 50px;
+    padding-left: 10px;
+    color: #800000; /* Maroon color */
+}
 
-        .header-about {
-            font-size: 50px;
-            padding-left: 10px;
-            color: #800000; /* Maroon color */
-        }
+.a-bout-box {
+    width: 100%;
+    flex-wrap: wrap;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 4%;
+    padding-left: 5%;
+    gap: 30px;
+    padding-bottom: 20px;
+}
 
+.a-box {
+    width: 45%;
+    height: max-content;
+    box-shadow: 0px 0px 10px 2px rgb(54, 0, 0);
+    border-radius: 12px;
+}
 
-        .a-bout-box {
-            width: 100%;
-            flex-wrap: wrap;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-top: 4%;
-            padding-left: 5%;
-            gap: 30px;
-            padding-bottom: 20px;
-        }
+.a-box h3 {
+    font-size: 22px;
+    padding: 15px;
+    color: rgb(90, 1, 1);
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
 
-        .a-box {
-            width: 45%;
-            height: max-content;
-            box-shadow: 0px 0px 10px 2px rgb(54, 0, 0);
-            border-radius: 12px;
-        }
+.a-box p {
+    font-size: 18px;
+    padding: 15px;
+    font-family: 'Times New Roman', Times, serif;
+}
 
-         .a-box h3 {
-            font-size: 22px;
-            padding: 15px;
-            color: rgb(90, 1, 1);
-            font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-         }
+/* Responsive Styles */
+@media (max-width: 1200px) {
+    .a-img,
+    .aa-img {
+        width: 30%;
+    }
 
-        .a-box p {
-            font-size: 18px;
-            padding: 15px;
-            font-family: 'Times New Roman', Times, serif;
-        }
+    .about-us-box {
+        width: 60%;
+    }
 
-        .aa-img {
-            width: 200px;
-            height: 100%;
-        }
+    .a-box {
+        width: 48%;
+    }
+
+    .header-about {
+        font-size: 40px;
+    }
+}
+
+@media (max-width: 992px) {
+    .about-main-content {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .a-img,
+    .aa-img {
+        width: 50%;
+        margin: 0 auto;
+    }
+
+    .about-us-box {
+        width: 90%;
+        margin-left: 0;
+    }
+
+    .aa-c {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        margin-left: 0;
+    }
+
+    .header-about {
+        font-size: 35px;
+        text-align: center;
+    }
+
+    .a-box {
+        width: 90%;
+    }
+
+    .a-box h3 {
+        font-size: 20px;
+    }
+
+    .a-box p {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 576px) {
+    .about-main-content {
+        gap: 15px;
+    }
+
+    .a-box {
+        width: 100%;
+    }
+
+    .header-about {
+        font-size: 28px;
+    }
+
+    .a-box h3 {
+        font-size: 18px;
+    }
+
+    .a-box p {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    .a-img,
+    .aa-img {
+        width: 70%;
+        margin-top: 10px;
+    }
+}

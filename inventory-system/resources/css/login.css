@@ -184,3 +184,136 @@ html, body {
     width: 55%;
   
 }
+
+/* Base Styles (your existing CSS) */
+
+/* Responsive Styles */
+
+/* Large tablets / small desktops */
+@media (max-width: 1200px) {
+    .login-main-box {
+        width: 35%;
+        margin-left: 30px;
+    }
+
+    .login-image img {
+        width: 50%;
+    }
+
+    .login-form-box {
+        font-size: 20px;
+    }
+
+    .form-info input {
+        width: 85%;
+        font-size: 13px;
+    }
+
+    .formBtn button,
+    .createBtn button {
+        width: 85%;
+        font-size: 13px;
+    }
+}
+
+/* Tablets */
+@media (max-width: 992px) {
+    .login-main-container {
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .login-main-box {
+        width: 80%;
+        margin-left: 0;
+    }
+
+    .login-image {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .login-image img {
+        width: 70%;
+    }
+
+    .form-info input {
+        width: 95%;
+        font-size: 14px;
+        margin-left: 0;
+    }
+
+    .formBtn button,
+    .createBtn button {
+        width: 95%;
+        margin-left: 0;
+    }
+
+    .footer {
+        width: 90%;
+        text-align: center;
+        padding-top: 20px;
+    }
+
+    .term-condition {
+        width: 90%;
+        padding-top: 15px;
+    }
+}
+
+/* Mobile phones */
+@media (max-width: 576px) {
+    .login-main-box {
+        width: 95%;
+        margin-left: 0;
+        padding: 10px;
+    }
+
+    .login-image {
+        width: 90%;
+        display: none;
+    }
+
+    .login-image img {
+        width: 90%;
+    }
+
+    .login-form-box {
+        font-size: 18px;
+    }
+
+    .form-info label {
+        font-size: 13px;
+    }
+
+    .form-info input {
+        height: 40px;
+        font-size: 12px;
+        padding-left: 8px;
+    }
+
+    .formBtn button,
+    .createBtn button {
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .or {
+        font-size: 13px;
+    }
+
+    .home {
+        font-size: 13px;
+    }
+
+    .term-condition p {
+        font-size: 11px;
+    }
+
+    .footer p,
+    .footer span {
+        font-size: 11px;
+    }
+}

@@ -73,31 +73,37 @@ $user = \App\Models\User::find(session('user_id'));
     </h3>
 
     <div class="faculty-request-wrapper-container">
-        <table class="faculty-table-container">
-            <thead>
-                <tr>
-                    <th>Supply Name</th>
-                    <th>Availability</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($supplies as $supply)
-                    <tr>
-                        <td>{{ $supply->supplies }}</td>
-                        <td>{{ $supply->quantity }}</td>
-                        <td>
-                            <button type="button" 
-                                    class="requestBtn" 
-                                    data-supply="{{ $supply->supplies }}">
-                                Request
-                            </button>
-                        </td>
-                    </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+    <table class="faculty-table-container">
+    <thead>
+        <tr>
+            <th>Supply Name</th>
+            <th>Availability</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @forelse ($supplies as $supply)
+            <tr>
+                <td>{{ $supply->supply_name }}</td>
+                <td>{{ $supply->quantity }}</td>
+                <td>
+                    <button type="button"
+                            class="requestBtn"
+                            data-supply="{{ $supply->supply_name }}">
+                        Request
+                    </button>
+                </td>
+            </tr>
+        @empty
+            <tr>
+                <td colspan="3" style="text-align:center;">No supplies available.</td>
+            </tr>
+        @endforelse
+    </tbody>
+</table>
+
+</div>
+
 </div>
 
 <!-- SCRIPT SECTION -->
