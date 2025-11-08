@@ -4,7 +4,7 @@
 @vite(['resources/css/inventory.css', 'resources/js/app.js'])
 <link rel="stylesheet" href="{{ asset('/resources/css/inventory.css') }}">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
+<link rel="stylesheet" href="{{ asset('/resources/css/inventory.css') }}">
 @section('content')
 <div class="main-inventory-system">
 
@@ -217,35 +217,32 @@
                 <table class="equipment-table-container">
                     <thead>
                         <tr>
-                            <th>Created</th>
                             <th>Name</th>
-                            <th>Quantity</th>
-                            <th>Action</th>
+                            <th>Total Quantity</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($equipmentList as $equipment)
+                        @isset($groupedEquipment)
+                            @forelse ($groupedEquipment as $equipment)
+                                <tr>
+                                    <td>{{ $equipment->equipment_name }}</td>
+                                    <td>{{ $equipment->quantity }}</td>
+                                </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="2" style="text-align:center;">No data available</td>
+                                </tr>
+                            @endforelse
+                        @else
                             <tr>
-                                <td>{{ \Carbon\Carbon::parse($equipment->latest_created)->format('Y-m-d') }}</td>
-                                <td>{{ $equipment->equipment }}</td>
-                                <td>{{ $equipment->quantity }}</td>
-                                <td>
-                                    <form action="{{ route('equipment.deleteByName', $equipment->equipment) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="deleteBtn" onclick="return confirm('Delete all records of {{ $equipment->equipment }}?')">Delete</button>
-                                    </form>
-                                </td>
+                                <td colspan="2" style="text-align:center;">No data available</td>
                             </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" style="text-align:center;">No equipment available</td>
-                            </tr>
-                        @endforelse
+                        @endisset
                     </tbody>
-
                 </table>
             </div>
+
+
         </div>
 
         {{-- ======================= CALENDAR SECTION ======================= --}}
@@ -266,6 +263,50 @@
             </div>
             <div class="calendar-days"></div>
         </div>
+    </div>
+
+    <div class="equipment-inventory-wrapper">
+        <h2 class="equipment-sum-header">
+            Equipment Summary
+        </h2>
+        <table class="equipment-inventory-table">
+            <thead>
+                <tr>
+                    <th>Created</th>
+                    <th>Name</th>
+                    <th>Quantity</th>
+                    <th>Action</th>
+                </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($equipmentList as $equipment)
+                            <tr>
+                                <td>{{ \Carbon\Carbon::parse($equipment->latest_created)->format('Y-m-d') }}</td>
+                                <td>{{ $equipment->equipment }}</td>
+                                <td>{{ $equipment->quantity }}</td>
+                                <td>
+                                    <button 
+                                        type="button" 
+                                        class="editBtn"
+                                        data-equipment="{{ $equipment->equipment }}"
+                                        data-quantity="{{ $equipment->quantity }}"
+                                    >
+                                        Edit
+                                    </button>
+                                    <form action="{{ route('equipment.deleteByName', $equipment->equipment) }}" method="POST" style="display:inline;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="deleteBtn" onclick="return confirm('Delete all records of {{ $equipment->equipment }}?')">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="4" style="text-align:center;">No equipment available</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
+        </table>
     </div>
 </div>
 
@@ -424,6 +465,48 @@ document.querySelectorAll('.editBtn').forEach(button => {
         supplyIdInput.value = id;
     });
 });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Get all edit buttons
+    const editButtons = document.querySelectorAll('.editBtn');
+
+    editButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            // Get data from clicked row
+            const equipmentName = this.getAttribute('data-equipment');
+            const quantity = this.getAttribute('data-quantity');
+
+            // Get form container and inputs
+            const formContainer = document.querySelector('.add-equipment-container');
+            const formHeader = formContainer.querySelector('.add-supply-header');
+            const equipmentInput = document.getElementById('equipment');
+            const quantityInput = document.getElementById('quantity');
+            const form = formContainer.querySelector('form');
+
+            // Show the container
+            formContainer.style.display = 'block';
+
+            // Change form title
+            formHeader.textContent = 'Edit Equipment';
+
+            // Pre-fill the form
+            equipmentInput.value = equipmentName;
+            quantityInput.value = quantity;
+
+            // Change form action to update route
+            form.action = `/equipment/update/${encodeURIComponent(equipmentName)}`;
+
+            // Change submit button text
+            form.querySelector('button[name="submit"]').textContent = 'Update';
+        });
+    });
+});
+
+// Function to close modal
+function closeEquipmentModal() {
+    document.querySelector('.add-equipment-container').style.display = 'none';
+}
 </script>
 
 @endsection

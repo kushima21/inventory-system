@@ -1,5 +1,6 @@
 @extends('partials.sideBar')
 @vite(['resources/css/bookRequest.css', 'resources/js/app.js'])
+<link rel="stylesheet" href="{{ asset('resources/css/bookRequest.css') }}">
 @php
 $user = \App\Models\User::find(session('user_id'));
 @endphp
@@ -79,9 +80,18 @@ $user = \App\Models\User::find(session('user_id'));
                     <h3 class="b-price">Total Php: {{ number_format($booking->total_price, 2) }}</h3>
 
                     {{-- Show Cancel button only if status is not Completed or Cancelled --}}
-                    @if($booking->booking_status !== 'Completed' && $booking->booking_status !== 'Cancelled')
+                </div>
+                <div class="btn-container">
+                     @if($booking->booking_status !== 'Completed' && $booking->booking_status !== 'Cancelled')
                         <button type="button" class="cancelBtn" data-id="{{ $booking->booking_id }}">Cancel Request</button>
                     @endif
+                    @if(!in_array($booking->booking_status, ['Cancelled', 'Completed', 'Pending']))
+                        <button type="button" class="cancelBtn" 
+                            onclick="window.location.href='{{ route('booking.invoice', $booking->booking_id) }}'">
+                            Print Invoice
+                        </button>
+                    @endif
+
                 </div>
             </div>
         </div>

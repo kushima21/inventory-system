@@ -1,5 +1,13 @@
 @extends('layout.default')
 @vite(['resources/css/equipment.css', 'resources/js/app.js'])
+@if (session('success'))
+    <script>alert("{{ session('success') }}");</script>
+@endif
+
+@if (session('error'))
+    <script>alert("{{ session('error') }}");</script>
+@endif
+
 @section('content')
     <div class="additional-equipment-main-container">
         <h2 class="additional-equipment-header">

@@ -1,9 +1,9 @@
 @extends('partials.navbar')
 @vite(['resources/css/book.css', 'resources/js/app.js'])
-
 @php
     $user = \App\Models\User::find(session('user_id'));
 @endphp
+<link rel="stylesheet" href="{{ asset('resources/css/book.css') }}">
 @if ($errors->any())
     <div style="background:#ffb3b3; padding:10px; margin-bottom:10px; border-radius:5px;">
         <strong>⚠️ There are errors:</strong>
@@ -28,6 +28,8 @@
 @endif
 @section('content')
 <div class="content-main-container">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     {{-- Booking modal (default hidden) --}}
     <div class="booking-modal-form-box" style="display:none;">
 
@@ -397,5 +399,71 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 </script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const startDateInput = document.getElementById("starting_date");
+    const endDateInput = document.getElementById("end_date");
+    let startPicker, endPicker;
+
+    // Function to load and disable booked dates dynamically
+    function loadDisabledDates(gymId) {
+        fetch(`/booked-dates/${gymId}`)
+            .then(response => response.json())
+            .then(disabledDates => {
+                // Destroy existing pickers if any
+                if (startPicker) startPicker.destroy();
+                if (endPicker) endPicker.destroy();
+
+                // Initialize new Flatpickr with disabled booked dates
+                startPicker = flatpickr(startDateInput, {
+                    dateFormat: "Y-m-d",
+                    minDate: "today",
+                    disable: disabledDates,
+                    onDayCreate: function(dObj, dStr, fp, dayElem) {
+                        if (dayElem.classList.contains("flatpickr-disabled")) {
+                            dayElem.style.backgroundColor = "#ffb3b3";
+                            dayElem.style.color = "#000";
+                            dayElem.style.borderRadius = "5px";
+                            dayElem.style.cursor = "not-allowed";
+                        }
+                    },
+                    onChange: function(selectedDates) {
+                        // Set minDate for end date = start date
+                        if (selectedDates.length > 0) {
+                            endPicker.set('minDate', selectedDates[0]);
+                        }
+                    }
+                });
+
+                endPicker = flatpickr(endDateInput, {
+                    dateFormat: "Y-m-d",
+                    minDate: "today",
+                    disable: disabledDates,
+                    onDayCreate: function(dObj, dStr, fp, dayElem) {
+                        if (dayElem.classList.contains("flatpickr-disabled")) {
+                            dayElem.style.backgroundColor = "#ffb3b3";
+                            dayElem.style.color = "#000";
+                            dayElem.style.borderRadius = "5px";
+                            dayElem.style.cursor = "not-allowed";
+                        }
+                    }
+                });
+            })
+            .catch(err => console.error("Error fetching booked dates:", err));
+    }
+
+    // ✅ Trigger when clicking "Book Now"
+    document.querySelectorAll(".openBookingBtn").forEach(btn => {
+        btn.addEventListener("click", function () {
+            const gymId = this.dataset.gymId;
+            document.getElementById("gym_id").value = gymId;
+
+            // Now load disabled dates for this gym
+            loadDisabledDates(gymId);
+        });
+    });
+});
+</script>
+
 
 @endsection

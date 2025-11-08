@@ -198,6 +198,11 @@ Route::get('/customers/userRequest', [BookingController::class, 'showUserBooking
 Route::get('/customers/bookRequest', [BookingController::class, 'showUserBookings'])
     ->name('bookings.list');
 
+Route::get('/booked-dates/{gymId}', [BookingController::class, 'getBookedDates'])->name('booked.dates');
+Route::post('/notifications/mark-as-read', [BookingController::class, 'markAsRead'])->name('notifications.markAsRead');
+
+
+
 
 
 
@@ -271,3 +276,21 @@ Route::get('/settings/dashboard', [SuppliesController::class, 'dashboard'])
     ->name('settings.dashboard');
 
     Route::get('/export-supply-reports', [App\Http\Controllers\SuppliesController::class, 'exportSupplyReports'])->name('supply.export');
+
+
+    Route::get('/reports/download', [BookingController::class, 'downloadReport'])->name('reports.download');
+    Route::get('/reports', [BookingController::class, 'showRequestReports'])->name('reports.show');
+
+
+Route::post('/equipment/update/{equipmentName}', [EquipmentController::class, 'update'])->name('equipment.update');
+
+
+Route::get('/booking/invoice/{id}', [BookingController::class, 'invoice'])
+    ->name('booking.invoice');
+
+
+Route::get('/customers/profile', function () {
+    return view('customers.profile');
+})->name('customers.profile');
+
+Route::put('/user/update/{id}', [UserController::class, 'updateCustomer'])->name('user.update');

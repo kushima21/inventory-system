@@ -56,40 +56,40 @@ $user = \App\Models\User::find(session('user_id'));
                     <span class="links">Services</span>
                 </a></li>
                 
-                <li class="notif-icon-wrapper" style="position: relative;">
-                    <img src="{{ asset('icons/notification.png') }}" alt="Notif Image" class="notif-img">
+               <li class="notif-icon-wrapper" style="position: relative;">
+    <img src="{{ asset('icons/notification.png') }}" alt="Notif Image" class="notif-img">
 
-                    @if(isset($unreadCount) && $unreadCount > 0)
-                        <span class="notif-count">{{ $unreadCount }}</span>
-                    @endif
-                </li>
+    @if(isset($unreadCount) && $unreadCount > 0)
+        <span class="notif-count">{{ $unreadCount }}</span>
+    @endif
+</li>
                 <li>
                     <img src="{{ asset('icons/profile.png') }}" alt="Profile Image" class="profile-img">
                 </li>
             </ul>
         </nav>
     </div>
-<div class="notif-modal-container">
-    <div class="notif-modal">
-        <div class="m-notif-box">
-            @if(isset($bookings) && $bookings->count())
-                @foreach($bookings as $booking)
-                    <div class="notif-box">
-                        <h3 class="n-header">{{ $booking->gym->package ?? 'No Gym Name' }}</h3>
-                        <p class="n-subheader">Date Request: {{ $booking->created_at->format('Y-m-d') }}</p>
-                        <p class="n-subheader">Total Php: {{ number_format($booking->total_price ?? 0, 2) }}</p>
-                        <p class="n-subheader">Status: {{ $booking->status ?? 'Pending' }}</p>
-                        <a href="{{ url('/customers/bookRequest') }}">
-                            <button type="button" class="notif-btn">View your Request</button>
-                        </a>
-                    </div>
-                @endforeach
-            @else
-                <p class="n-subheader">No bookings found.</p>
-            @endif
+    <div class="notif-modal-container">
+        <div class="notif-modal">
+            <div class="m-notif-box">
+                @if(isset($bookings) && $bookings->count())
+                    @foreach($bookings as $booking)
+                        <div class="notif-box">
+                            <h3 class="n-header">{{ $booking->gym->package ?? 'No Gym Name' }}</h3>
+                            <p class="n-subheader">Date Request: {{ $booking->created_at->format('Y-m-d') }}</p>
+                            <p class="n-subheader">Total Php: {{ number_format($booking->total_price ?? 0, 2) }}</p>
+                            <p class="n-subheader">Status: {{ $booking->booking_status ?? 'Pending' }}</p>
+                            <a href="{{ url('/customers/bookRequest') }}">
+                                <button type="button" class="notif-btn">View your Request</button>
+                            </a>
+                        </div>
+                    @endforeach
+                @else
+                    <p class="n-subheader">No bookings found.</p>
+                @endif
+            </div>
         </div>
     </div>
-</div>
 
 
     <div class="modal-background">
@@ -164,6 +164,30 @@ document.addEventListener("DOMContentLoaded", function () {
         if (e.target === notifModal) {
             notifModal.style.display = "none";
         }
+    });
+});
+</script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const notifIcon = document.querySelector(".notif-icon-wrapper");
+    const notifCount = document.querySelector(".notif-count");
+
+    notifIcon.addEventListener("click", function() {
+        fetch("{{ route('notifications.markAsRead') }}", {
+            method: "POST",
+            headers: {
+                "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                "Content-Type": "application/json"
+            }
+        })
+        .then(res => res.json())
+        .then(data => {
+            if (data.success && notifCount) {
+                notifCount.textContent = "0";
+                notifCount.style.display = "none"; // hide it after click
+            }
+        })
+        .catch(err => console.error("Error updating notifications:", err));
     });
 });
 </script>

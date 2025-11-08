@@ -2,6 +2,7 @@
     @vite(['resources/css/reports.css', 'resources/js/app.js'])
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link rel="stylesheet" href="{{ asset('resources/css/reports.css') }}">
     @section('content')
         <div class="main-reports-container">
             <h2 class="reports-header">
@@ -23,7 +24,7 @@
                     <h3 class="report-subheader">Total Booking</h3>
                     <div class="report-number">
                         <img src="{{ asset('icons/career-growth.png') }}" alt="Login Image" class="peso-image">
-                        <h3 class="number">{{ number_format($completedCount, 2) }}</h3>
+                        <h3 class="number">{{ number_format($completedCount) }}</h3>
                     </div>
                 </div>
                 <div class="report-box">
@@ -31,7 +32,7 @@
                     <h3 class="report-subheader">Cancelled Booking</h3>
                     <div class="report-number">
                         <img src="{{ asset('icons/document-circle-wrong.png') }}" alt="Login Image" class="peso-image">
-                        <h3 class="number">{{ number_format($cancelledCount, 2) }}</h3>
+                        <h3 class="number">{{ number_format($cancelledCount) }}</h3>
                     </div>
                 </div>
                 <div class="report-box">
@@ -39,7 +40,7 @@
                     <h3 class="report-subheader">Total Supplies Request</h3>
                     <div class="report-number">
                         <img src="{{ asset('icons/team-check-alt.png') }}" alt="Login Image" class="peso-image">
-                        <h3 class="number">{{ number_format($cancelledCount, 2) }}</h3>
+                        <h3 class="number">{{ number_format($cancelledCount) }}</h3>
                     </div>
                 </div>
             </div>
@@ -84,15 +85,20 @@
                         Booked Summary
                         </h3>
                         <div class="filter-container">
-                            <select name="status">
-                                <option value="">Filtered Status</option>
-                                <option value="Completed">Completed</option>
-                                <option value="Cancelled">Cancelled</option>
-                            </select>
-                            <button type="button" class="exportBTn">
-                                Export Report
-                            </button>
+                            <form method="GET" action="{{ route('reports.show') }}">
+                                <select name="status" onchange="this.form.submit()">
+                                    <option value="">Filtered Status</option>
+                                    <option value="Completed" {{ request('status') == 'Completed' ? 'selected' : '' }}>Completed</option>
+                                    <option value="Cancelled" {{ request('status') == 'Cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                </select>
+                            </form>
+
+                           <form action="{{ route('reports.download') }}" method="GET" target="_blank">
+                                <input type="hidden" name="status" value="{{ request('status') }}">
+                                <button type="submit" class="exportBTn">📄 Download Report</button>
+                            </form>
                         </div>
+
                     </div>
                     <div class="booked-summary-wrapper">
                     <table class="booked-summary-table">

@@ -34,7 +34,7 @@
 
     .request-box {
         width: 80%;
-        height: 300px;
+        height: 260px;
         box-shadow: 0px 0px 10px;
         border-radius: 12px;
     }
@@ -132,6 +132,15 @@ padding-left: 10px;
     border-radius: 12px;
 }
 
+.btn-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+.btn-container  button {
+    margin: 10px;
+}
 /*&cancel-modal-container*/
 .cancel-modal-container {
     width: 70%;
@@ -197,4 +206,292 @@ padding-left: 10px;
 
 .noPackageMessage {
     font-size: 12px;
+}
+
+
+.profile-header {
+    margin: 20px;
+    color: maroon;
+    font-size: 25px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.requestTab-container {
+    display: flex;
+    margin: 20px;
+}
+
+.tab-btn button{
+    cursor: pointer;
+    margin: 10px;
+    border-radius: 12px;
+    width: 200px;
+    height: 42px;
+    background: linear-gradient(rgb(119, 1, 1), rgba(87, 0, 0, 0.979));
+    color: white;
+    border: none;
+    font-size: 12px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.request-box-container {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding-bottom: 50px;
+}
+
+.request-box {
+    width: 80%;
+    height: 260px;
+    box-shadow: 0px 0px 10px;
+    border-radius: 12px;
+}
+
+.r-box-details {
+    padding: 10px;
+    display: flex;
+}
+
+.r-h {
+    font-size: 22px;
+}
+
+.m-list-header {
+    padding: 30px;
+    font-size: 16px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.items-list {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr; /* duha ka column */
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    gap: 12px;     
+}
+
+.items-list li {
+    flex: 1 1 0;
+    text-align: center;
+    padding: 8px 12px;    
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    background: #fafafa;
+}
+
+.m-item-add {
+    padding: 30px;
+    padding-left: 50px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size: 15px;
+}
+
+.additional ul {
+    display: grid;
+    grid-template-columns: 1.1fr 1fr;
+    list-style: none;
+    padding: 0 50px;
+    margin: 0;
+    gap: 12px;
+}
+
+.additional li {
+    flex: 1 1 0;
+    text-align: center;
+    padding: 8px 12px;    
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    background: #fafafa;
+}
+
+.r-bottom-container {
+    display: flex;
+    margin: 20px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.b-list-header,
+.b-status,
+.b-price {
+    font-size: 18px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.b-status, .b-price {
+    padding-left: 10px;
+}
+
+.cancelBtn {
+    width: 150px;
+    height: 40px;
+    border: none;
+    background: linear-gradient(rgba(119, 1, 1, 0.932), rgba(156, 2, 2, 0.979));
+    color: white;
+    font-size: 11px;
+    border-radius: 12px;
+}
+
+.btn-container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
+
+.btn-container button {
+    margin: 10px;
+}
+
+/* cancel-modal-container */
+.cancel-modal-container {
+    width: 70%;
+    position: fixed;
+    display: none;
+    justify-content: center;
+}
+
+.cancel-form-box {
+    width: 450px;
+    margin-top: 10px;
+    box-shadow: 0px 0px 10px;
+    background: white;
+    z-index: 1000;
+    border-radius: 12px;
+}
+
+.cancel-header {
+    text-align: center;
+    padding-top: 15px;
+    font-size: 22px;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.select-reason {
+    padding: 15px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    gap: 10px;
+    min-height: 210px;
+}
+
+.checkbox-group label {
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 20px;
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.form-actions button {
+    margin: 20px;
+    width: 150px;
+    height: 40px;
+    border-radius: 12px;
+    font-size: 12px;
+    border: none;
+    background: linear-gradient(rgba(119, 1, 1, 0.932), rgba(53, 0, 0, 0.979));
+    color: white;
+}
+
+.noPackageMessage {
+    font-size: 12px;
+}
+
+/* ---------------------- */
+/* 📱 RESPONSIVE SECTION */
+/* ---------------------- */
+
+/* For tablets */
+@media (max-width: 992px) {
+    .requestTab-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .request-box {
+        width: 90%;
+        height: auto;
+    }
+
+    .r-box-details {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .items-list, .additional ul {
+        grid-template-columns: 1fr 1fr;
+        padding: 0 20px;
+    }
+
+    .r-bottom-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .btn-container {
+        justify-content: center;
+    }
+}
+
+/* For mobile phones */
+@media (max-width: 600px) {
+    .profile-header {
+        font-size: 20px;
+        text-align: center;
+    }
+
+    .tab-btn button {
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .request-box {
+        width: 100%;
+        height: auto;
+    }
+
+    .items-list, .additional ul {
+        grid-template-columns: 1fr;
+        padding: 0 10px;
+    }
+
+    .r-box-details {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .r-bottom-container {
+        flex-direction: column;
+        align-items: center;
+        gap: 10px;
+        text-align: center;
+    }
+
+    .cancel-form-box {
+        width: 90%;
+    }
+
+    .form-actions {
+        flex-direction: column;
+    }
+
+    .form-actions button {
+        width: 80%;
+    }
 }

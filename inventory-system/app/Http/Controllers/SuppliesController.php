@@ -71,19 +71,36 @@ class SuppliesController extends Controller
     /* ============================================================
      |  INVENTORY SECTION
      |============================================================ */
-   public function inventory()
+public function inventory()
 {
     // ✅ Get all data directly from supply_inventory table
     $groupedSupplies = \App\Models\SupplyInventory::select('id', 'supply_name', 'quantity')
         ->orderBy('created_at', 'desc')
         ->get();
 
-    // ✅ Optional: still get original supplies + equipment for other sections
+    // ✅ Get supplies for other sections
     $supplies = \App\Models\Supplies::orderBy('created_at', 'desc')->get();
-    $equipmentList = \App\Models\Equipment::all();
 
-    return view('settings.inventory', compact('groupedSupplies', 'supplies', 'equipmentList'));
+    // ✅ Get ALL equipment data from `equipment` table (no grouping)
+    $equipmentList = \App\Models\Equipment::select('equipment', 'quantity', 'created_at')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    // ✅ Get and group equipment inventory data (from `equipment_inventory` table)
+    $equipmentInventory = \App\Models\EquipmentInventory::select('equipment_name', 'quantity')->get();
+
+    $groupedEquipment = $equipmentInventory->groupBy('equipment_name')->map(function ($group) {
+        return (object) [
+            'equipment_name' => $group->first()->equipment_name,
+            'quantity' => $group->sum('quantity'),
+        ];
+    })->values();
+
+    // ✅ Return everything to the view
+    return view('settings.inventory', compact('groupedSupplies', 'supplies', 'equipmentList', 'groupedEquipment'));
 }
+
+
 
 
     // ✅ ADD SUPPLY (with "Add Other Supply" option)
