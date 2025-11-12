@@ -277,6 +277,7 @@ public function showRequestReports(Request $request)
         'equipment_id'   => $validated['equipment_id'] ?? null,
         'total_days'     => $totalDays,
         'total_price'    => $totalPrice,
+        'description'        => $validated['description'],
         'booking_status' => 'Pending',
     ]);
 
@@ -312,10 +313,9 @@ public function showRequestReports(Request $request)
     return redirect()->back()->with('success', '✅ Booking submitted successfully!');
 }
 
-public function getBookedDates($gymId)
+public function getBookedDates()
 {
-    $bookings = \App\Models\Booking::where('gym_id', $gymId)
-        ->whereIn('booking_status', ['Pending', 'Approved'])
+    $bookings = \App\Models\Booking::whereIn('booking_status', ['Pending', 'Approved'])
         ->select('starting_date', 'end_date')
         ->get();
 
@@ -333,8 +333,9 @@ public function getBookedDates($gymId)
         }
     }
 
-    return response()->json($disabledDates);
+    return response()->json(array_values(array_unique($disabledDates)));
 }
+
 
 
 

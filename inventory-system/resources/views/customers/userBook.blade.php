@@ -136,6 +136,12 @@
                         <input type="date" name="end_date" id="end_date" required>
                     </div>
 
+                    <div class="f-container">
+                        <label for="description">Description</label>
+                        <textarea name="description" id="description" rows="3" placeholder="Add Description...(Optional)" style="resize: none;"></textarea>
+                    </div>
+
+
                     <div class="f-btn-form">
                         <button type="button" name="v-btn">View Packages..</button>
                         <button type="submit" name="submit" id="submit" class="s-btn">Submit</button>
@@ -405,30 +411,29 @@ document.addEventListener("DOMContentLoaded", function () {
     const endDateInput = document.getElementById("end_date");
     let startPicker, endPicker;
 
-    // Function to load and disable booked dates dynamically
-    function loadDisabledDates(gymId) {
-        fetch(`/booked-dates/${gymId}`)
+    // ✅ Function to load all booked dates (no longer gym-specific)
+    function loadDisabledDates() {
+        fetch(`/booked-dates`)
             .then(response => response.json())
             .then(disabledDates => {
-                // Destroy existing pickers if any
                 if (startPicker) startPicker.destroy();
                 if (endPicker) endPicker.destroy();
 
-                // Initialize new Flatpickr with disabled booked dates
+                // 🧱 Initialize flatpickr with locked dates across all packages
                 startPicker = flatpickr(startDateInput, {
                     dateFormat: "Y-m-d",
                     minDate: "today",
                     disable: disabledDates,
-                    onDayCreate: function(dObj, dStr, fp, dayElem) {
+                    onDayCreate: function(_, __, ___, dayElem) {
                         if (dayElem.classList.contains("flatpickr-disabled")) {
                             dayElem.style.backgroundColor = "#ffb3b3";
                             dayElem.style.color = "#000";
                             dayElem.style.borderRadius = "5px";
                             dayElem.style.cursor = "not-allowed";
+                            dayElem.title = "❌ Already booked";
                         }
                     },
                     onChange: function(selectedDates) {
-                        // Set minDate for end date = start date
                         if (selectedDates.length > 0) {
                             endPicker.set('minDate', selectedDates[0]);
                         }
@@ -439,12 +444,13 @@ document.addEventListener("DOMContentLoaded", function () {
                     dateFormat: "Y-m-d",
                     minDate: "today",
                     disable: disabledDates,
-                    onDayCreate: function(dObj, dStr, fp, dayElem) {
+                    onDayCreate: function(_, __, ___, dayElem) {
                         if (dayElem.classList.contains("flatpickr-disabled")) {
                             dayElem.style.backgroundColor = "#ffb3b3";
                             dayElem.style.color = "#000";
                             dayElem.style.borderRadius = "5px";
                             dayElem.style.cursor = "not-allowed";
+                            dayElem.title = "❌ Already booked";
                         }
                     }
                 });
@@ -452,18 +458,16 @@ document.addEventListener("DOMContentLoaded", function () {
             .catch(err => console.error("Error fetching booked dates:", err));
     }
 
-    // ✅ Trigger when clicking "Book Now"
+    // ✅ Load locked dates when any "Book Now" button is clicked
     document.querySelectorAll(".openBookingBtn").forEach(btn => {
         btn.addEventListener("click", function () {
-            const gymId = this.dataset.gymId;
-            document.getElementById("gym_id").value = gymId;
-
-            // Now load disabled dates for this gym
-            loadDisabledDates(gymId);
+            loadDisabledDates(); // load globally locked booked dates
         });
     });
 });
 </script>
+
+
 
 
 @endsection

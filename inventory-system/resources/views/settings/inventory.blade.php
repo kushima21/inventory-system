@@ -4,7 +4,7 @@
 @vite(['resources/css/inventory.css', 'resources/js/app.js'])
 <link rel="stylesheet" href="{{ asset('/resources/css/inventory.css') }}">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<link rel="stylesheet" href="{{ asset('/resources/css/inventory.css') }}">
+
 @section('content')
 <div class="main-inventory-system">
 
@@ -49,7 +49,7 @@
 
                         <div class="info-container">
                             <label for="quantity">Quantity:</label>
-                            <input type="number" name="quantity" id="quantity" placeholder="Quantity..." required>
+                            <input type="number" name="quantity" id="supply_quantity" placeholder="Quantity..." required>
                         </div>
 
                         <div class="info-btn">
@@ -57,16 +57,17 @@
                             <button type="button" name="cancel" onclick="closeSuppliesModal()">Cancel</button>
                         </div>
                     </form>
-
                 </div>
             </div>
 
             {{-- SEARCH & ADD BUTTON --}}
             <div class="supply-subheader-box">
-                <input type="text" name="search" id="search" placeholder="Search Supplies">
+                <form method="GET" action="{{ route('inventory') }}" style="display: flex; gap: 10px;">
+                    <input type="text" name="supply_search" placeholder="Search Supplies" value="{{ request('supply_search') }}">
+                    <button type="submit" class="supplyBTn">Search</button>
+                </form>
                 <button class="supplyBTn" type="button" onclick="openSuppliesModal()">+ Add Stock</button>
             </div>
-
 
             {{-- SUPPLY TABLE --}}
             <div class="supply-wrapper-container">
@@ -75,20 +76,35 @@
                         <tr>
                             <th>Name</th>
                             <th>Total Quantity</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
-                  <tbody>
-            @forelse($groupedSupplies as $supply)
-                <tr>
-                    <td>{{ $supply->supply_name }}</td>
-                    <td>{{ $supply->quantity }}</td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="3" style="text-align:center;">No supplies found.</td>
-                </tr>
-            @endforelse
-        </tbody>
+                    <tbody>
+                        @forelse($groupedSupplies as $supply)
+                            <tr>
+                                <td>{{ $supply->supply_name }}</td>
+                                <td>{{ $supply->quantity }}</td>
+                                <td>
+                                    <button type="button"
+                                            class="editSupplyBtn"
+                                            data-id="{{ $supply->id }}"
+                                            data-name="{{ $supply->supply_name }}"
+                                            data-quantity="{{ $supply->quantity }}">
+                                        Edit
+                                    </button>
+                                    <form action="{{ route('supplies.delete', $supply->id) }}" method="POST" style="display:inline-block;">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" onclick="return confirm('Are you sure you want to delete this supply?');" class="deleteBtn">Delete</button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @empty
+                            <tr>
+                                <td colspan="3" style="text-align:center;">No supplies found.</td>
+                            </tr>
+                        @endforelse
+                    </tbody>
                 </table>
             </div>
         </div>
@@ -142,20 +158,6 @@
                                 <td>{{ $supply->created_at }}</td>
                                 <td>{{ $supply->supplies }}</td>
                                 <td>{{ $supply->quantity }}</td>
-                                <td>
-                        <form action="{{ route('supplies.delete', $supply->id) }}" method="POST">
-                            @csrf
-                            @method('DELETE')
-                            <button type="button" 
-                                    class="editBtn" 
-                                    data-id="{{ $supply->id }}" 
-                                    data-name="{{ $supply->supply }}" 
-                                    data-quantity="{{ $supply->quantity }}">
-                                Edit
-                            </button>
-                            <button type="submit" class="deleteBtn">Delete</button>
-                        </form>
-                    </td>
                             </tr>
                         @empty
                             <tr>
@@ -183,7 +185,7 @@
                         @csrf
                         <div class="info-container">
                             <label for="equipment">Equipment:</label>
-                            <input list="equipment-list" name="equipment" id="equipment" placeholder="Select Equipment..." required>
+                            <input list="equipment-list" name="equipment" id="equipment_input" placeholder="Select Equipment..." required>
                             <datalist id="equipment-list">
                                 <option value="LED">
                                 <option value="Chairs">
@@ -196,11 +198,11 @@
 
                         <div class="info-container">
                             <label for="quantity">Quantity:</label>
-                            <input type="number" name="quantity" id="quantity" placeholder="Quantity..." required>
+                            <input type="number" name="quantity" id="equipment_quantity" placeholder="Quantity..." required>
                         </div>
 
                         <div class="info-btn">
-                            <button type="submit" name="submit">Create</button>
+                            <button type="submit" name="submit" id="equipmentSubmitBtn">Create</button>
                             <button type="button" name="cancel" onclick="closeEquipmentModal()">Cancel</button>
                         </div>
                     </form>
@@ -209,7 +211,10 @@
 
             {{-- EQUIPMENT LIST TABLE --}}
             <div class="equipment-subheader-box">
-                <input type="text" name="search" id="search" placeholder="Search Equipments">
+                <form method="GET" action="{{ route('inventory') }}" style="display: flex; gap: 10px;">
+                    <input type="text" name="equipment_search" placeholder="Search Equipments" value="{{ request('equipment_search') }}">
+                    <button type="submit" class="equipmentBTn">Search</button>
+                </form>
                 <button class="equipmentBTn" type="button" onclick="showAddEquipment()">+ Add Equipment</button>
             </div>
 
@@ -241,8 +246,6 @@
                     </tbody>
                 </table>
             </div>
-
-
         </div>
 
         {{-- ======================= CALENDAR SECTION ======================= --}}
@@ -252,6 +255,7 @@
                 <h2 id="monthYear"></h2>
                 <button id="nextMonth">&gt;</button>
             </div>
+
             <div class="calendar-days-header">
                 <div>Sun</div>
                 <div>Mon</div>
@@ -261,14 +265,14 @@
                 <div>Fri</div>
                 <div>Sat</div>
             </div>
+
             <div class="calendar-days"></div>
         </div>
     </div>
 
+    {{-- ======================= EQUIPMENT SUMMARY ======================= --}}
     <div class="equipment-inventory-wrapper">
-        <h2 class="equipment-sum-header">
-            Equipment Summary
-        </h2>
+        <h2 class="equipment-sum-header">Equipment Summary</h2>
         <table class="equipment-inventory-table">
             <thead>
                 <tr>
@@ -277,151 +281,43 @@
                     <th>Quantity</th>
                     <th>Action</th>
                 </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($equipmentList as $equipment)
-                            <tr>
-                                <td>{{ \Carbon\Carbon::parse($equipment->latest_created)->format('Y-m-d') }}</td>
-                                <td>{{ $equipment->equipment }}</td>
-                                <td>{{ $equipment->quantity }}</td>
-                                <td>
-                                    <button 
-                                        type="button" 
-                                        class="editBtn"
-                                        data-equipment="{{ $equipment->equipment }}"
-                                        data-quantity="{{ $equipment->quantity }}"
-                                    >
-                                        Edit
-                                    </button>
-                                    <form action="{{ route('equipment.deleteByName', $equipment->equipment) }}" method="POST" style="display:inline;">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="deleteBtn" onclick="return confirm('Delete all records of {{ $equipment->equipment }}?')">Delete</button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="4" style="text-align:center;">No equipment available</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
+            </thead>
+            <tbody>
+                @forelse ($equipmentList as $equipment)
+                    <tr>
+                        <td>{{ \Carbon\Carbon::parse($equipment->latest_created)->format('Y-m-d') }}</td>
+                        <td>{{ $equipment->equipment }}</td>
+                        <td>{{ $equipment->quantity }}</td>
+                        <td>
+                            <button type="button"
+                                    class="editEquipmentBtn"
+                                    data-equipment="{{ $equipment->equipment }}"
+                                    data-quantity="{{ $equipment->quantity }}">
+                                Edit
+                            </button>
+                            <form action="{{ route('equipment.deleteByName', $equipment->equipment) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="deleteBtn" onclick="return confirm('Delete all records of {{ $equipment->equipment }}?')">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="4" style="text-align:center;">No equipment available</td>
+                    </tr>
+                @endforelse
+            </tbody>
         </table>
     </div>
 </div>
 
 {{-- ======================= JAVASCRIPT SECTION ======================= --}}
 <script>
-    // ✅ SUPPLY MODAL HANDLERS
-    function openSuppliesModal() {
-        document.querySelector('.add-supply-container').style.display = 'block';
-    }
+    // ======================= SUPPLY MODAL =======================
+    function openSuppliesModal() { document.querySelector('.add-supply-container').style.display = 'block'; }
+    function closeSuppliesModal() { document.querySelector('.add-supply-container').style.display = 'none'; }
 
-    function closeSuppliesModal() {
-        document.querySelector('.add-supply-container').style.display = 'none';
-    }
-
-    // ✅ EQUIPMENT MODAL HANDLERS
-    function showAddEquipment() {
-        document.querySelector('.add-equipment-container').style.display = 'block';
-    }
-
-    function closeEquipmentModal() {
-        document.querySelector('.add-equipment-container').style.display = 'none';
-    }
-
-    // ✅ CALENDAR SCRIPT
-    const monthYear = document.getElementById("monthYear");
-    const calendarDays = document.querySelector(".calendar-days");
-    const prevMonthBtn = document.getElementById("prevMonth");
-    const nextMonthBtn = document.getElementById("nextMonth");
-
-    let date = new Date();
-    let startDate = null;
-    let endDate = null;
-
-    function renderCalendar() {
-        const year = date.getFullYear();
-        const month = date.getMonth();
-
-        const firstDay = new Date(year, month, 1);
-        const lastDay = new Date(year, month + 1, 0);
-
-        const startDay = firstDay.getDay();
-        const totalDays = lastDay.getDate();
-
-        monthYear.textContent = `${date.toLocaleString("default", { month: "long" })} ${year}`;
-        calendarDays.innerHTML = "";
-
-        // Empty boxes before start
-        for (let i = 0; i < startDay; i++) {
-            const emptyDiv = document.createElement("div");
-            calendarDays.appendChild(emptyDiv);
-        }
-
-        // Create days
-        for (let day = 1; day <= totalDays; day++) {
-            const dayDiv = document.createElement("div");
-            dayDiv.textContent = day;
-
-            const currentDate = new Date(year, month, day);
-
-            // Highlight today's date
-            const today = new Date();
-            if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
-                dayDiv.classList.add("today");
-            }
-
-            // Highlight selected range
-            if (startDate && endDate && currentDate >= startDate && currentDate <= endDate) {
-                dayDiv.classList.add("in-range");
-            }
-
-            // Highlight start & end dates
-            if (startDate && currentDate.getTime() === startDate.getTime()) {
-                dayDiv.classList.add("start-date");
-            }
-            if (endDate && currentDate.getTime() === endDate.getTime()) {
-                dayDiv.classList.add("end-date");
-            }
-
-            // Click event for range selection
-            dayDiv.addEventListener("click", () => handleDateClick(currentDate));
-            calendarDays.appendChild(dayDiv);
-        }
-    }
-
-    function handleDateClick(selectedDate) {
-        if (!startDate || (startDate && endDate)) {
-            startDate = selectedDate;
-            endDate = null;
-        } else if (selectedDate < startDate) {
-            endDate = startDate;
-            startDate = selectedDate;
-        } else {
-            endDate = selectedDate;
-        }
-
-        renderCalendar();
-
-        if (startDate && endDate) {
-            console.log("🗓️ Date Range Selected:", startDate.toDateString(), "→", endDate.toDateString());
-        }
-    }
-
-    prevMonthBtn.addEventListener("click", () => {
-        date.setMonth(date.getMonth() - 1);
-        renderCalendar();
-    });
-
-    nextMonthBtn.addEventListener("click", () => {
-        date.setMonth(date.getMonth() + 1);
-        renderCalendar();
-    });
-
-    renderCalendar();
-
-    // ✅ SHOW OTHER SUPPLY FIELD IF SELECTED
     function checkOtherSupply() {
         const supplyInput = document.getElementById('supplies');
         const otherContainer = document.getElementById('other-supply-container');
@@ -438,76 +334,139 @@
         }
     }
 
-
-    // ✅ Edit Button Function
-document.querySelectorAll('.editBtn').forEach(button => {
-    button.addEventListener('click', function () {
-        const id = this.dataset.id;
-        const name = this.dataset.name;
-        const quantity = this.dataset.quantity;
-
-        // Open modal
-        document.querySelector('.add-supply-container').style.display = 'block';
-
-        // Fill form fields
-        document.getElementById('supplies').value = name;
-        document.getElementById('quantity').value = quantity;
-
-        // Update form to edit mode
-        const form = document.getElementById('supplyForm');
-        const methodInput = document.getElementById('formMethod');
-        const submitBtn = document.getElementById('submitBtn');
-        const supplyIdInput = document.getElementById('supply_id');
-
-        form.action = `/supplies/update/${id}`;
-        methodInput.value = 'PUT';
-        submitBtn.textContent = 'Update';
-        supplyIdInput.value = id;
-    });
-});
-</script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    // Get all edit buttons
-    const editButtons = document.querySelectorAll('.editBtn');
-
-    editButtons.forEach(button => {
+    document.querySelectorAll('.editSupplyBtn').forEach(button => {
         button.addEventListener('click', function() {
-            // Get data from clicked row
-            const equipmentName = this.getAttribute('data-equipment');
-            const quantity = this.getAttribute('data-quantity');
+            const id = this.dataset.id;
+            const name = this.dataset.name;
+            const quantity = this.dataset.quantity;
 
-            // Get form container and inputs
+            document.querySelector('.add-supply-container').style.display = 'block';
+            document.getElementById('supplies').value = name;
+            document.getElementById('supply_quantity').value = quantity;
+
+            const form = document.getElementById('supplyForm');
+            form.action = `/supplies/update/${id}`;
+            document.getElementById('formMethod').value = 'PUT';
+            document.getElementById('submitBtn').textContent = 'Update';
+            document.getElementById('supply_id').value = id;
+        });
+    });
+
+    // ======================= EQUIPMENT MODAL =======================
+    function showAddEquipment() { document.querySelector('.add-equipment-container').style.display = 'block'; }
+    function closeEquipmentModal() { document.querySelector('.add-equipment-container').style.display = 'none'; }
+
+    document.querySelectorAll('.editEquipmentBtn').forEach(button => {
+        button.addEventListener('click', function() {
+            const equipmentName = this.dataset.equipment;
+            const quantity = this.dataset.quantity;
+
             const formContainer = document.querySelector('.add-equipment-container');
             const formHeader = formContainer.querySelector('.add-supply-header');
-            const equipmentInput = document.getElementById('equipment');
-            const quantityInput = document.getElementById('quantity');
+            const equipmentInput = document.getElementById('equipment_input');
+            const quantityInput = document.getElementById('equipment_quantity');
             const form = formContainer.querySelector('form');
 
-            // Show the container
             formContainer.style.display = 'block';
-
-            // Change form title
             formHeader.textContent = 'Edit Equipment';
-
-            // Pre-fill the form
             equipmentInput.value = equipmentName;
             quantityInput.value = quantity;
 
-            // Change form action to update route
             form.action = `/equipment/update/${encodeURIComponent(equipmentName)}`;
-
-            // Change submit button text
-            form.querySelector('button[name="submit"]').textContent = 'Update';
+            form.querySelector('#equipmentSubmitBtn').textContent = 'Update';
         });
     });
+</script>
+<script>
+// ✅ CALENDAR SCRIPT
+const monthYear = document.getElementById("monthYear");
+const calendarDays = document.querySelector(".calendar-days");
+const prevMonthBtn = document.getElementById("prevMonth");
+const nextMonthBtn = document.getElementById("nextMonth");
+
+let date = new Date();
+let startDate = null;
+let endDate = null;
+
+function renderCalendar() {
+    const year = date.getFullYear();
+    const month = date.getMonth();
+    const firstDay = new Date(year, month, 1);
+    const lastDay = new Date(year, month + 1, 0);
+    const startDay = firstDay.getDay();
+    const totalDays = lastDay.getDate();
+
+    monthYear.textContent = `${date.toLocaleString("default", { month: "long" })} ${year}`;
+    calendarDays.innerHTML = "";
+
+    // Empty boxes before start
+    for (let i = 0; i < startDay; i++) {
+        const emptyDiv = document.createElement("div");
+        calendarDays.appendChild(emptyDiv);
+    }
+
+    // Create days
+    for (let day = 1; day <= totalDays; day++) {
+        const dayDiv = document.createElement("div");
+        dayDiv.textContent = day;
+
+        const currentDate = new Date(year, month, day);
+
+        // Highlight today's date
+        const today = new Date();
+        if (day === today.getDate() && month === today.getMonth() && year === today.getFullYear()) {
+            dayDiv.classList.add("today");
+        }
+
+        // Highlight selected range
+        if (startDate && endDate && currentDate >= startDate && currentDate <= endDate) {
+            dayDiv.classList.add("in-range");
+        }
+
+        // Highlight start & end dates
+        if (startDate && currentDate.getTime() === startDate.getTime()) {
+            dayDiv.classList.add("start-date");
+        }
+        if (endDate && currentDate.getTime() === endDate.getTime()) {
+            dayDiv.classList.add("end-date");
+        }
+
+        // Click event for range selection
+        dayDiv.addEventListener("click", () => handleDateClick(currentDate));
+        calendarDays.appendChild(dayDiv);
+    }
+}
+
+function handleDateClick(selectedDate) {
+    if (!startDate || (startDate && endDate)) {
+        startDate = selectedDate;
+        endDate = null;
+    } else if (selectedDate < startDate) {
+        endDate = startDate;
+        startDate = selectedDate;
+    } else {
+        endDate = selectedDate;
+    }
+
+    renderCalendar();
+
+    if (startDate && endDate) {
+        console.log("🗓️ Date Range Selected:", startDate.toDateString(), "→", endDate.toDateString());
+    }
+}
+
+prevMonthBtn.addEventListener("click", () => {
+    date.setMonth(date.getMonth() - 1);
+    renderCalendar();
 });
 
-// Function to close modal
-function closeEquipmentModal() {
-    document.querySelector('.add-equipment-container').style.display = 'none';
-}
+nextMonthBtn.addEventListener("click", () => {
+    date.setMonth(date.getMonth() + 1);
+    renderCalendar();
+});
+
+renderCalendar();
 </script>
 
-@endsection
 
+@endsection

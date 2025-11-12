@@ -285,8 +285,8 @@ Route::get('/settings/dashboard', [SuppliesController::class, 'dashboard'])
 Route::post('/equipment/update/{equipmentName}', [EquipmentController::class, 'update'])->name('equipment.update');
 
 
-Route::get('/booking/invoice/{id}', [BookingController::class, 'invoice'])
-    ->name('booking.invoice');
+
+Route::get('/booking/invoice/{id}', [App\Http\Controllers\BookingController::class, 'generateInvoice'])->name('booking.invoice');
 
 
 Route::get('/customers/profile', function () {
@@ -294,3 +294,16 @@ Route::get('/customers/profile', function () {
 })->name('customers.profile');
 
 Route::put('/user/update/{id}', [UserController::class, 'updateCustomer'])->name('user.update');
+
+
+Route::put('/equipment/bundle/update/{id}', [EquipmentController::class, 'updateEquipmentbundle'])
+    ->name('equipment.bundle.update');
+
+Route::get('/inventory', [SuppliesController::class, 'inventory'])->name('inventory');
+Route::get('/inventory/search', [SuppliesController::class, 'searchSupplies'])->name('inventory.search');
+
+
+Route::delete('/settings/supplies/{id}', [SuppliesController::class, 'destroy'])->name('supplies.delete');
+Route::put('/faculty/update/{id}', [UserController::class, 'updateFaculty'])->name('faculty.updateProfile');
+
+Route::get('/booked-dates', [BookingController::class, 'getBookedDates']);

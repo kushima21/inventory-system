@@ -71,24 +71,32 @@ class SuppliesController extends Controller
     /* ============================================================
      |  INVENTORY SECTION
      |============================================================ */
-public function inventory()
+public function inventory(Request $request)
 {
-    // ✅ Get all data directly from supply_inventory table
-    $groupedSupplies = \App\Models\SupplyInventory::select('id', 'supply_name', 'quantity')
-        ->orderBy('created_at', 'desc')
-        ->get();
+    // ✅ Get search inputs
+    $supplySearch = $request->input('supply_search');
+    $equipmentSearch = $request->input('equipment_search');
 
-    // ✅ Get supplies for other sections
-    $supplies = \App\Models\Supplies::orderBy('created_at', 'desc')->get();
+    // ✅ SUPPLIES: Search and filter
+    $supplyQuery = \App\Models\SupplyInventory::select('id', 'supply_name', 'quantity')
+        ->orderBy('created_at', 'desc');
 
-    // ✅ Get ALL equipment data from `equipment` table (no grouping)
-    $equipmentList = \App\Models\Equipment::select('equipment', 'quantity', 'created_at')
-        ->orderBy('created_at', 'desc')
-        ->get();
+    if (!empty($supplySearch)) {
+        $supplyQuery->where('supply_name', 'like', "%{$supplySearch}%");
+    }
 
-    // ✅ Get and group equipment inventory data (from `equipment_inventory` table)
-    $equipmentInventory = \App\Models\EquipmentInventory::select('equipment_name', 'quantity')->get();
+    $groupedSupplies = $supplyQuery->get();
 
+    // ✅ EQUIPMENT: Search and filter
+    $equipmentQuery = \App\Models\EquipmentInventory::select('equipment_name', 'quantity');
+
+    if (!empty($equipmentSearch)) {
+        $equipmentQuery->where('equipment_name', 'like', "%{$equipmentSearch}%");
+    }
+
+    $equipmentInventory = $equipmentQuery->get();
+
+    // ✅ Group equipment quantities
     $groupedEquipment = $equipmentInventory->groupBy('equipment_name')->map(function ($group) {
         return (object) [
             'equipment_name' => $group->first()->equipment_name,
@@ -96,9 +104,21 @@ public function inventory()
         ];
     })->values();
 
-    // ✅ Return everything to the view
-    return view('settings.inventory', compact('groupedSupplies', 'supplies', 'equipmentList', 'groupedEquipment'));
+    // ✅ Other data for modal dropdowns
+    $supplies = \App\Models\Supplies::orderBy('created_at', 'desc')->get();
+    $equipmentList = \App\Models\Equipment::select('equipment', 'quantity', 'created_at')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    return view('settings.inventory', compact(
+        'groupedSupplies',
+        'supplies',
+        'equipmentList',
+        'groupedEquipment'
+    ));
 }
+
+
 
 
 
@@ -157,30 +177,7 @@ public function store(Request $request)
     }
 
     // ✅ UPDATE SUPPLY
-    public function update(Request $request, $id)
-    {
-        $request->validate([
-            'supplies' => 'required|string|max:255',
-            'quantity' => 'required|integer|min:1',
-        ]);
 
-        $supply = Supplies::findOrFail($id);
-        $supply->update([
-            'supplies' => $request->supplies,
-            'quantity' => $request->quantity,
-        ]);
-
-        return redirect()->back()->with('success', 'Supply updated successfully!');
-    }
-
-    // ✅ DELETE SUPPLY
-    public function delete($id)
-    {
-        $supply = Supplies::findOrFail($id);
-        $supply->delete();
-
-        return redirect()->back()->with('success', 'Supply deleted!');
-    }
 
 
     /* ============================================================
@@ -412,4 +409,107 @@ public function completeRequest($id)
 
         return Excel::download(new SupplyReportsExport($status, $startDate, $endDate), $fileName);
     }
+
+    public function inventorySearch(Request $request)
+{
+    $search = $request->input('search');
+
+    // ✅ Filter supplies based on search
+    $query = \App\Models\SupplyInventory::select('id', 'supply_name', 'quantity')
+        ->orderBy('created_at', 'desc');
+
+    if (!empty($search)) {
+        $query->where('supply_name', 'like', "%{$search}%");
+    }
+
+    $groupedSupplies = $query->get();
+
+    // ✅ Other existing data
+    $supplies = \App\Models\Supplies::orderBy('created_at', 'desc')->get();
+    $equipmentList = \App\Models\Equipment::select('equipment', 'quantity', 'created_at')
+        ->orderBy('created_at', 'desc')
+        ->get();
+
+    $equipmentInventory = \App\Models\EquipmentInventory::select('equipment_name', 'quantity')->get();
+    $groupedEquipment = $equipmentInventory->groupBy('equipment_name')->map(function ($group) {
+        return (object) [
+            'equipment_name' => $group->first()->equipment_name,
+            'quantity' => $group->sum('quantity'),
+        ];
+    })->values();
+
+    return view('settings.inventory', compact('groupedSupplies', 'supplies', 'equipmentList', 'groupedEquipment'));
+}
+
+
+public function searchSupplies(Request $request)
+{
+    $query = $request->input('query');
+
+    $supplies = \App\Models\SupplyInventory::where('supply_name', 'like', "%{$query}%")
+        ->select('supply_name', 'quantity')
+        ->orderBy('supply_name', 'asc')
+        ->get();
+
+    return response()->json($supplies);
+}
+// ✅ UPDATE SUPPLY
+public function update(Request $request, $id)
+{
+    $request->validate([
+        'supplies' => 'required|string|max:255',
+        'quantity' => 'required|integer|min:1',
+    ]);
+
+    // 1️⃣ Update supply_inventory record
+    $inventory = \App\Models\SupplyInventory::findOrFail($id);
+    $oldName = $inventory->supply_name;
+
+    $inventory->update([
+        'supply_name' => $request->supplies,
+        'quantity' => $request->quantity,
+    ]);
+
+    // 2️⃣ Update main supplies table using the old name
+    \App\Models\Supplies::where('supplies', $oldName)
+        ->update([
+            'supplies' => $request->supplies,
+            'quantity' => $request->quantity,
+        ]);
+
+    // 3️⃣ Redirect back to the same page
+    return redirect()->back()->with('success', 'Supply updated successfully in both inventory and main supplies!');
+}
+
+
+
+// SuppliesController.php
+// SuppliesController.php
+public function destroy($id)
+{
+    // 1️⃣ Get the supply_inventory record
+    $inventory = \App\Models\SupplyInventory::find($id);
+
+    if ($inventory) {
+        // 2️⃣ Delete from supplies table using the same name
+        $supplyName = $inventory->supply_name;
+        \App\Models\Supplies::where('supplies', $supplyName)->delete();
+
+        // 3️⃣ Delete from supply_inventory table
+        $inventory->delete();
+    }
+
+    // 4️⃣ Redirect back to the same page
+    return redirect()->back()
+                     ->with('success', 'Supply deleted successfully from both inventory and main supplies!');
+}
+
+
+
+
+
+
+
+
+
 }

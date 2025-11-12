@@ -348,21 +348,32 @@ padding-left: 10px;
 
 /* cancel-modal-container */
 .cancel-modal-container {
-    width: 70%;
     position: fixed;
-    display: none;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: none; /* hidden by default */
     justify-content: center;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.4); /* overlay background */
+    z-index: 999;
+    padding: 20px; /* spacing for small screens */
+    box-sizing: border-box;
 }
 
 .cancel-form-box {
     width: 450px;
-    margin-top: 10px;
-    box-shadow: 0px 0px 10px;
+    max-width: 100%;
     background: white;
-    z-index: 1000;
     border-radius: 12px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+    z-index: 1000;
+    padding-bottom: 10px;
+    animation: fadeIn 0.3s ease-in-out;
 }
 
+/* Header */
 .cancel-header {
     text-align: center;
     padding-top: 15px;
@@ -370,10 +381,13 @@ padding-left: 10px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
 }
 
+/* Reason title */
 .select-reason {
     padding: 15px;
+    text-align: center;
 }
 
+/* Checkboxes */
 .checkbox-group {
     display: flex;
     flex-direction: column;
@@ -388,24 +402,52 @@ padding-left: 10px;
     display: flex;
     align-items: center;
     gap: 8px;
-    margin: 0 20px;
+    margin: 0 10px;
 }
 
+/* Buttons */
 .form-actions {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-evenly;
 }
 
 .form-actions button {
-    margin: 20px;
+    margin: 15px 10px;
     width: 150px;
     height: 40px;
     border-radius: 12px;
-    font-size: 12px;
+    font-size: 14px;
     border: none;
     background: linear-gradient(rgba(119, 1, 1, 0.932), rgba(53, 0, 0, 0.979));
     color: white;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.form-actions button:hover {
+    background: linear-gradient(rgba(160, 0, 0, 0.9), rgba(90, 0, 0, 1));
+    transform: scale(1.05);
+}
+
+/* ✅ Responsive adjustments */
+@media (max-width: 600px) {
+    .cancel-form-box {
+        width: 100%;
+        max-width: 350px;
+    }
+
+    .form-actions button {
+        width: 100%;
+        max-width: 250px;
+    }
+}
+
+/* Optional fade-in animation */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .noPackageMessage {
@@ -495,3 +537,5 @@ padding-left: 10px;
         width: 80%;
     }
 }
+
+

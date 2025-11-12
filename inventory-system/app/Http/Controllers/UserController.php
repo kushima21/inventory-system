@@ -186,4 +186,31 @@ public function updateCustomer(Request $request, $id)
     // 🔹 Redirect balik sa customer profile page
     return redirect('/customers/profile')->with('success', 'Profile updated successfully!');
 }
+
+public function updateFaculty(Request $request, $id)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'phone_number' => 'required|string|max:15',
+        'email' => 'required|email|unique:users,email,' . $id,
+        'password' => 'nullable|string|min:6',
+    ]);
+
+    $user = User::findOrFail($id);
+
+    $user->name = $request->name;
+    $user->phone_number = $request->phone_number;
+    $user->email = $request->email;
+
+    if ($request->filled('password')) {
+        $user->password = Hash::make($request->password);
+    }
+
+    $user->save();
+
+    // ✅ Stay on the same page after update
+    return back()->with('success', 'Profile updated successfully!');
+}
+
+
 }

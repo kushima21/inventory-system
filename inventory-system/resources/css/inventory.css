@@ -592,3 +592,23 @@ input[list] {
     .equipment-sum-header {
         padding-left: 10px;
     }
+
+    .editEquipmentBtn {
+        width: 100px;
+        height: 40px;
+         border-radius: 10px;
+        border: none;
+        color: #ffffff;
+        background: linear-gradient(#690404, #690404);
+        font-size: 12px;
+    }
+
+    .editSupplyBtn {
+        width: 100px;
+        height: 40px;
+         border-radius: 10px;
+        border: none;
+        color: #ffffff;
+        background: linear-gradient(#690404, #690404);
+        font-size: 12px;
+    }
