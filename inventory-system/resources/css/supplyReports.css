@@ -217,7 +217,30 @@
     margin-left: 10px;
 }
 
+.search-faculty {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: right;
+}
 
+.search-faculty input {
+    width: 300px;
+    height: 35px;
+    padding-left: 5px;
+    border-radius: 5px;
+}
+
+.searchBtn {
+    width: 120px;
+    height: 33px;
+    border: none;
+    border-radius: 7px;
+    background: linear-gradient(maroon, maroon);
+    color: white;
+    font-size: 12px;
+    margin-left: 10px;
+}
 .summary-container {
     width: 100%;
     display: flex;

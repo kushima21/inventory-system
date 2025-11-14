@@ -2,6 +2,7 @@
 @vite(['resources/css/supplyReports.css', 'resources/js/app.js'])
 @vite(['resources/css/reports.css', 'resources/js/app.js'])
 
+
 <link rel="stylesheet" href="{{ asset('/resources/css/supplyReports.css') }}">
 <link rel="stylesheet" href="{{ asset('/resources/css/reports.css') }}">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -135,6 +136,16 @@
 
     <button type="button" class="exportBtn" id="exportBtn">Export Reports</button>
 </form>
+
+<div class="search-faculty">
+    <form method="GET" action="">
+        <input type="text" 
+               name="searchfaculty" 
+               id="searchfaculty" 
+               placeholder="Quick Search..."
+               value="{{ request('searchfaculty') }}">
+    </form>
+</div>
 
     <div class="summary-container">
         <div class="summary-wrapper-container">

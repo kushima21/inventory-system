@@ -19,6 +19,7 @@ class SupplyInventory extends Model
     protected $fillable = [
         'supply_name',
         'quantity',
+        'category',
     ];
 
     // ✅ Automatic timestamps (created_at, updated_at)

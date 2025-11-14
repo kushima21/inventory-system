@@ -67,7 +67,7 @@
         </div>
         <div class="content-container">
              <div class="welcome-container">
-                <h2 class="w-h">Welcome to LSSTI Basketball Gym Reservation!</h2>
+                <h2 class="w-h">Welcome to LSSTI Facilities Reservation!</h2>
                 <p class="w-p">
                     Experience the convenience of reserving your basketball court anytime and anywhere. 
                     With just a few clicks, you can schedule your games, avoid conflicts, and focus on 

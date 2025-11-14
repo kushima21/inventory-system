@@ -1,11 +1,11 @@
 @extends('layout.default')
 @vite(['resources/css/gym.css', 'resources/js/app.js'])
-
+<link rel="stylesheet" href="{{ asset('resources/css/gym.css') }}">
 @section('content')
 <div class="gym-main-container">
     
     {{-- 🔹 Page Header --}}
-    <h2 class="gym-header">Basketball Gym Reservation Packages</h2>
+    <h2 class="gym-header">Facilities Reservation Packages</h2>
     <p style="padding: 20px;">
         Customize your reservation to match your needs — from casual games to professional tournaments.
     </p>

@@ -6,6 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
     @vite(['resources/css/default.css', 'resources/js/app.js'])
+        <link rel="stylesheet" href="{{ asset('resources/css/default.css') }}">
 </head>
 <body>
      @php
@@ -55,7 +56,7 @@ $user = \App\Models\User::find(session('user_id'));
                 <a href="{{ url('/settings/gym_reservation') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
-                        <span>Gym Reservation</span>
+                        <span>Facilities Reservation</span>
                     </div>
                 </a>
                  <a href="{{ url('/settings/inventory') }}">
@@ -67,7 +68,7 @@ $user = \App\Models\User::find(session('user_id'));
                 <a href="{{ url('/settings/reports') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
-                        <span>Booking Reports</span>
+                        <span>Facilities Reports</span>
                     </div>
                 </a>
                 <a href="{{ url('/settings/supplyReports') }}">
@@ -80,7 +81,7 @@ $user = \App\Models\User::find(session('user_id'));
                 <a href="{{ url('/settings/gym') }}">
                     <div class="link-item">
                         <i class="fa-solid fa-house"></i>
-                        <span>Gym Section</span>
+                        <span>Facilities Section</span>
                     </div>
                 </a>
                 <a href="{{ url('/settings/equipment') }}">

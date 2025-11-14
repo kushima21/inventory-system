@@ -76,7 +76,7 @@
             <div class="ball-image">
                 <img src="{{ asset('icons/basket-ball.png') }}" alt="basket Image" class="ball-img">
                 <h2 class="book-header">
-                " Basketball Court Reservations Made Easy "
+                " Facilities Reservations Made Easy "
                 </h2>
                 <p class="book-p">Find the perfect time to play and secure your slot in just a few clicks.</p>
                 <h2 class="offer-header">

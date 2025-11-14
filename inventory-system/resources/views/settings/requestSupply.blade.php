@@ -3,7 +3,8 @@
 {{-- ✅ Include CSS & JS assets --}}
 @vite(['resources/css/settings.css', 'resources/js/app.js'])
 @vite(['resources/css/reports.css', 'resources/js/app.js'])
-
+<link rel="stylesheet" href="{{ asset('resources/css/reports.css') }}">
+<link rel="stylesheet" href="{{ asset('resources/css/settings.css') }}">
 @php
     // ✅ Fetch logged-in user from session
     $user = \App\Models\User::find(session('user_id'));
@@ -79,6 +80,11 @@
     </form>
 
     {{-- ✅ REQUEST TABLE --}}
+  <div class="facultyRequestSearch">
+    <form method="GET" action="">
+        <input type="text" name="searchFacultyRequest" placeholder="Quick Search..." >
+    </form>
+</div>
     <div class="faculty-request-wrapper">
         <table class="faculty-table-container">
             <thead>

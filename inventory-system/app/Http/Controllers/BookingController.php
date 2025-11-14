@@ -47,34 +47,49 @@ public function showNotifBookings()
         return redirect('/login')->with('error', 'Please log in to view bookings.');
     }
 
-    // Get all bookings for the user
+    // Fetch all bookings for the user
     $bookings = Booking::with('gym')
         ->where('user_id', $userId)
         ->orderBy('created_at', 'desc')
         ->get();
 
-    // ✅ Count unread notifications only for Approved or Completed bookings
+    // ✅ Count unread notifications for Approved or Completed bookings
     $unreadCount = Booking::where('user_id', $userId)
         ->where('is_read', false)
         ->whereIn('booking_status', ['Approved', 'Completed'])
         ->count();
 
-    // ✅ Mark notifications as read only when user opens the modal or clicks the icon
-    // (No automatic reset here — JS will call markAsRead route instead)
-
     return view('partials.navbar', compact('bookings', 'unreadCount'));
 }
 
-
-public function markAsRead(Request $request)
+/**
+ * ✅ Mark all notifications as read
+ */
+public function markAsRead()
 {
     $userId = auth()->check() ? auth()->id() : session('user_id');
 
-    if ($userId) {
-        Booking::where('user_id', $userId)
-            ->where('is_read', false)
-            ->update(['is_read' => true]);
+    Booking::where('user_id', $userId)
+        ->whereIn('booking_status', ['Approved', 'Completed','Declined'])
+        ->update(['is_read' => true]);
+
+    return response()->json(['success' => true]);
+}
+
+/**
+ * ✅ Automatically mark notification as unread when booking_status updates
+ */
+public function updateBookingStatus(Request $request, $id)
+{
+    $booking = Booking::findOrFail($id);
+    $booking->booking_status = $request->input('booking_status');
+
+    // ✅ Automatically set notif as unread again when status changes
+    if (in_array($booking->booking_status, ['Approved', 'Completed','Declined'])) {
+        $booking->is_read = false;
     }
+
+    $booking->save();
 
     return response()->json(['success' => true]);
 }
@@ -219,30 +234,30 @@ public function showRequestReports(Request $request)
     /**
      * Store a new booking.
      */
- public function store(Request $request)
+public function store(Request $request)
 {
     $validated = $request->validate([
-        'name'                 => 'required|string|max:255',
-        'contact_number'       => 'required|string|max:20',
-        'address'              => 'required|string|max:500',
-        'starting_date'        => 'required|date',
-        'end_date'             => 'required|date|after_or_equal:starting_date',
-        'gym_id'               => 'required|integer|exists:gym_table,id',
-        'equipment_id'         => 'nullable|integer|exists:equipment,id',
-        'additional_equipments'=> 'nullable|string',
-        'final_total'          => 'nullable|numeric',
+        'name'                  => 'required|string|max:255',
+        'contact_number'        => 'required|string|max:20',
+        'address'               => 'required|string|max:500',
+        'starting_date'         => 'required|date',
+        'end_date'              => 'required|date|after_or_equal:starting_date',
+        'gym_id'                => 'required|integer|exists:gym_table,id',
+        'equipment_id'          => 'nullable|integer|exists:equipment,id',
+        'additional_equipments' => 'nullable|string',
+        'final_total'           => 'nullable|numeric',
+        'description'           => 'nullable|string|max:1000',
     ]);
 
     $gym = Gym::find($validated['gym_id']);
-    if (!$gym) return back()->with('error', 'Invalid gym selection.');
+    if (!$gym) {
+        return back()->with('error', 'Invalid gym selection.');
+    }
 
     $start = Carbon::parse($validated['starting_date']);
     $end   = Carbon::parse($validated['end_date']);
 
-    /**
-     * ✅ Step 1: Check for overlapping bookings
-     * We only consider bookings that are Approved or Pending (not cancelled or completed)
-     */
+    // Check for overlapping bookings
     $overlapExists = Booking::where('gym_id', $validated['gym_id'])
         ->whereIn('booking_status', ['Pending', 'Approved'])
         ->where(function ($query) use ($start, $end) {
@@ -259,28 +274,29 @@ public function showRequestReports(Request $request)
         return back()->with('error', '❌ The selected date range is not available for this gym. Please choose another date.');
     }
 
-    /**
-     * ✅ Step 2: Continue with normal booking if no overlap found
-     */
+    // Calculate totals
     $totalDays = $start->diffInDays($end) + 1;
     $totalPrice = $gym->price * $totalDays;
     $additionalTotal = 0;
 
+    // Create booking with is_read default to false (unread)
     $booking = Booking::create([
-        'user_id'        => auth()->check() ? auth()->id() : session('user_id'),
-        'name'           => $validated['name'],
-        'contact_number' => $validated['contact_number'],
-        'address'        => $validated['address'],
-        'starting_date'  => $validated['starting_date'],
-        'end_date'       => $validated['end_date'],
-        'gym_id'         => $validated['gym_id'],
-        'equipment_id'   => $validated['equipment_id'] ?? null,
-        'total_days'     => $totalDays,
-        'total_price'    => $totalPrice,
-        'description'        => $validated['description'],
-        'booking_status' => 'Pending',
+        'user_id'         => auth()->check() ? auth()->id() : session('user_id'),
+        'name'            => $validated['name'],
+        'contact_number'  => $validated['contact_number'],
+        'address'         => $validated['address'],
+        'starting_date'   => $validated['starting_date'],
+        'end_date'        => $validated['end_date'],
+        'gym_id'          => $validated['gym_id'],
+        'equipment_id'    => $validated['equipment_id'] ?? null,
+        'total_days'      => $totalDays,
+        'total_price'     => $totalPrice,
+        'description'     => $validated['description'] ?? null,
+        'booking_status'  => 'Pending',
+        'is_read'         => false, // ✅ default unread
     ]);
 
+    // Handle additional equipments
     if (!empty($validated['additional_equipments'])) {
         $equipments = json_decode($validated['additional_equipments'], true);
         if (is_array($equipments)) {
@@ -288,10 +304,10 @@ public function showRequestReports(Request $request)
                 $itemTotal = isset($item['total']) ? floatval($item['total']) : 0;
 
                 \App\Models\AdditionalEquipment::create([
-                    'booking_id'      => $booking->booking_id,
-                    'equipment_name'  => $item['name'],
-                    'quantity'        => $item['quantity'],
-                    'price'           => $item['price'],
+                    'booking_id'     => $booking->booking_id,
+                    'equipment_name' => $item['name'] ?? 'Unknown',
+                    'quantity'       => $item['quantity'] ?? 0,
+                    'price'          => $item['price'] ?? 0,
                 ]);
 
                 $additionalTotal += $itemTotal;
@@ -299,19 +315,19 @@ public function showRequestReports(Request $request)
         }
     }
 
+    // Update totals
     $grandTotal = !empty($validated['final_total'])
         ? $validated['final_total']
         : ($totalPrice + $additionalTotal);
 
-    $additionalTotal = $grandTotal - $totalPrice;
-
     $booking->update([
         'total_price'      => $grandTotal,
-        'additional_total' => $additionalTotal,
+        'additional_total' => $grandTotal - $totalPrice,
     ]);
 
     return redirect()->back()->with('success', '✅ Booking submitted successfully!');
 }
+
 
 public function getBookedDates()
 {

@@ -1,11 +1,12 @@
 @extends('layout.default')
 @vite(['resources/css/gym_reservation.css', 'resources/js/app.js'])
+<link rel="stylesheet" href="{{ asset('resources/css/gym_reservation.css') }}">
  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  @section('content')
     <div class="main-gym-reservation-container">
          <h2 class="gym-header">
-            Gym Booking Reservation
+            Facilities Booking Reservation
         </h2>
         <div class="gym-reservation-box-container">
             <div class="gym-box">

@@ -8,6 +8,10 @@
     @vite(['resources/css/signup.css', 'resources/js/app.js'])
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.10.1/lottie.min.js"></script>
+    <link rel="stylesheet" href="{{ asset('resources/css/signup.css') }}">
 </head>
 <body>
     <div class="signup-container">
@@ -50,13 +54,17 @@
                             <a href="{{ url('/login') }}"><button type="button">Sign in now</button></a>
                         </div>
                         
-                        {{-- Success Message --}}
-                        @if (session('success'))
-                            <div class="success-message" style="margin-top:10px; font-size: 11px; padding:10px; color:#155724;">
-                                {{ session('success') }}
-                            </div>
-                        @endif
-                        <div class="home">
+                      @if (session('success'))
+                            <script>
+                                Swal.fire({
+                                    title: "Success!",
+                                    text: "{{ session('success') }}",
+                                    icon: "success",
+                                    confirmButtonText: "OK"
+                                });
+                            </script>
+                            @endif
+                                                    <div class="home">
                             <a href="{{ route('home') }}" class="home-link">
                             <i class="fa-solid fa-arrow-left"></i>
                             Go back Home

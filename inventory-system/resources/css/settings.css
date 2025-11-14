@@ -277,3 +277,17 @@
     background: linear-gradient(rgb(2, 192, 2), rgb(1, 45, 1)); /* green gradient */
     color: white;
 }
+
+.facultyRequestSearch {
+   width: 100%;
+   padding: 20px;
+   display: flex;
+   align-items: center;
+   justify-content: right;
+}
+.facultyRequestSearch input {
+    width: 350px;
+    height: 32px;
+    border-radius: 5px;
+    padding-left: 5px;
+}

@@ -56,7 +56,7 @@ $user = \App\Models\User::find(session('user_id'));
                     <span class="links">Services</span>
                 </a></li>
                 
-               <li class="notif-icon-wrapper" style="position: relative;">
+     <li class="notif-icon-wrapper" style="position: relative;">
     <img src="{{ asset('icons/notification.png') }}" alt="Notif Image" class="notif-img">
 
     @if(isset($unreadCount) && $unreadCount > 0)
@@ -172,25 +172,28 @@ document.addEventListener("DOMContentLoaded", function() {
     const notifIcon = document.querySelector(".notif-icon-wrapper");
     const notifCount = document.querySelector(".notif-count");
 
-    notifIcon.addEventListener("click", function() {
-        fetch("{{ route('notifications.markAsRead') }}", {
-            method: "POST",
-            headers: {
-                "X-CSRF-TOKEN": "{{ csrf_token() }}",
-                "Content-Type": "application/json"
-            }
-        })
-        .then(res => res.json())
-        .then(data => {
-            if (data.success && notifCount) {
-                notifCount.textContent = "0";
-                notifCount.style.display = "none"; // hide it after click
-            }
-        })
-        .catch(err => console.error("Error updating notifications:", err));
-    });
+    if (notifIcon) {
+        notifIcon.addEventListener("click", function() {
+            fetch("{{ route('notifications.markAsRead') }}", {
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": "{{ csrf_token() }}",
+                    "Content-Type": "application/json"
+                }
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success && notifCount) {
+                    notifCount.textContent = "0";
+                    notifCount.style.display = "none"; // hide badge
+                }
+            })
+            .catch(err => console.error("Error updating notifications:", err));
+        });
+    }
 });
 </script>
+
 
 </body>
 </html>

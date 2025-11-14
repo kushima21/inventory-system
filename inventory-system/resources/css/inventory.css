@@ -29,7 +29,7 @@
 .add-supply-container {
     position: fixed;
     width: 500px;
-    height: 300px;
+    height: 320px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     left: 30%;
     margin-top: 25px;
@@ -70,6 +70,16 @@
     border: 1px solid #180a0a;
     border-radius: 5px;
     box-sizing: border-box;
+}
+
+.info-container select {
+    width: 100%;
+    max-width: 315px;
+    padding: 10px;
+    border: 1px solid #180a0a;
+    border-radius: 5px;
+    box-sizing: border-box;
+    background-color: white;
 }
 
 /* Additional styling for the Other Supply input field */

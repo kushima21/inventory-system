@@ -818,3 +818,8 @@
     padding-top: 10px;
     font-weight: 480;
 }
+
+.input-error {
+    border: 2px solid red !important;
+    color: red !important;
+}

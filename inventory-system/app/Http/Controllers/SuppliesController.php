@@ -127,8 +127,9 @@ public function inventory(Request $request)
 public function store(Request $request) 
 {
     $request->validate([
-        'supplies' => 'required|string|max:255',
-        'quantity' => 'required|integer|min:1',
+        'supplies'   => 'required|string|max:255',
+        'quantity'   => 'required|integer|min:1',
+        'category'   => 'required|string', // ✅ Validate category
     ]);
 
     // ✅ Determine kung nag-add ba ug "Other Supply"
@@ -136,10 +137,13 @@ public function store(Request $request)
         ? $request->other_supply
         : $request->supplies;
 
+    $category = $request->category; // ✅ Get category from request
+
     // ✅ 1. I-save ang supply sa main Supplies table
     $supply = \App\Models\Supplies::create([
-        'supplies' => $supplyName,
-        'quantity' => $request->quantity,
+        'supplies'   => $supplyName,
+        'quantity'   => $request->quantity,
+        'category'   => $category, // ✅ Save category
     ]);
 
     // ✅ 2. Check kung existing na ang supply name sa supply_inventory
@@ -148,18 +152,22 @@ public function store(Request $request)
     if ($existingInventory) {
         // 🔁 Kung existing, i-update ang quantity (add new quantity)
         $existingInventory->quantity += $request->quantity;
+        $existingInventory->category = $category; // ✅ Update category too
         $existingInventory->save();
     } else {
         // 🆕 Kung wala pa, i-create bagong record
         \App\Models\SupplyInventory::create([
-            'supply_id' => $supply->id,
+            'supply_id'   => $supply->id,
             'supply_name' => $supplyName,
-            'quantity' => $request->quantity,
+            'quantity'    => $request->quantity,
+            'category'    => $category, // ✅ Save category in inventory
         ]);
     }
 
     return redirect()->back()->with('success', 'Supply added successfully and reflected in inventory!');
 }
+
+
 
 
     // ✅ ADD MORE QUANTITY
@@ -185,10 +193,10 @@ public function store(Request $request)
      |============================================================ */
 
     // ✅ FACULTY SUPPLY REQUEST PAGE
- public function facultySupplyDisplay()
+public function facultySupplyDisplay()
 {
-    // ✅ Get all supplies from supply_inventory table
-    $supplies = \App\Models\SupplyInventory::select('id', 'supply_name', 'quantity')
+    // ✅ Get all supplies from supply_inventory table including category
+    $supplies = \App\Models\SupplyInventory::select('id', 'supply_name', 'quantity', 'category') // ✅ include category
         ->orderBy('supply_name', 'asc')
         ->get();
 
@@ -198,31 +206,45 @@ public function store(Request $request)
     return view('faculty.facultyRequest', compact('supplies', 'equipmentList'));
 }
 
-
     // ✅ FACULTY SUBMITS REQUEST
-    public function storeFacultyRequest(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'phone_number' => 'required|string|max:20',
-            'email' => 'required|email|max:255',
-            'date_needed' => 'required|date',
-            'supply_name' => 'required|string|max:255',
-            'quantity' => 'required|integer|min:1',
-        ]);
+public function storeFacultyRequest(Request $request)
+{
+    $request->validate([
+        'name' => 'required|string|max:255',
+        'phone_number' => 'required|string|max:20',
+        'email' => 'required|email|max:255',
+        'date_needed' => 'required|date',
+        'supply_name' => 'required|string|max:255',
+        'quantity' => 'required|integer|min:1',
+        'category' => 'required|string',
+        'date_return' => 'nullable|date',
+    ]);
 
-        SupplyRequest::create([
-            'name' => $request->name,
-            'phone_number' => $request->phone_number,
-            'email' => $request->email,
-            'date_needed' => $request->date_needed,
-            'supply_name' => $request->supply_name,
-            'quantity' => $request->quantity,
-            'request_status' => 'Pending',
-        ]);
+    // ✅ Keep original case (e.g. "Equipment" or "Supplies")
+    $category = trim($request->category);
 
-        return redirect()->back()->with('success', 'Supply request submitted successfully!');
-    }
+    // ✅ Case-insensitive check for 'Equipment'
+    $dateReturn = (strcasecmp($category, 'Equipment') === 0) ? $request->date_return : null;
+
+    SupplyRequest::create([
+        'name' => $request->name,
+        'phone_number' => $request->phone_number,
+        'email' => $request->email,
+        'date_needed' => $request->date_needed,
+        'supply_name' => $request->supply_name,
+        'quantity' => $request->quantity,
+        'category' => $category, // keep original capitalization
+        'date_return' => $dateReturn,
+        'request_status' => 'Pending',
+    ]);
+
+    return redirect()->back()->with('success', 'Supply request submitted successfully!');
+}
+
+
+
+
+
 
     // ✅ FACULTY REQUEST LIST
    public function facultyRequestDisplay(Request $request)
@@ -269,34 +291,46 @@ public function store(Request $request)
      |============================================================ */
 
     // ✅ ADMIN OVERVIEW (Pending + Approved Requests)
-    public function facultyRequesOverview(Request $request)
-    {
-        $status = $request->input('request_status');
+public function facultyRequesOverview(Request $request)
+{
+    $status = $request->input('request_status');
+    $search = $request->input('searchFacultyRequest');
 
-        $requestsQuery = SupplyRequest::query()
-            ->whereIn('request_status', ['Pending', 'Approved'])
-            ->orderBy('created_at', 'desc');
+    $requestsQuery = SupplyRequest::query()
+        ->whereIn('request_status', ['Pending', 'Approved'])
+        ->orderBy('created_at', 'desc');
 
-        if (!empty($status)) {
-            $requestsQuery->where('request_status', $status);
-        }
-
-        $requests = $requestsQuery->get();
-
-        $totalCompleted = SupplyRequest::where('request_status', 'Completed')->count();
-        $awaitingConfirmation = SupplyRequest::where('request_status', 'Pending')->count();
-        $cancelledRequests = SupplyRequest::where('request_status', 'Cancelled')->count();
-        $unapprovedRequests = SupplyRequest::where('request_status', 'Declined')->count();
-
-        return view('settings.requestSupply', compact(
-            'requests',
-            'totalCompleted',
-            'awaitingConfirmation',
-            'cancelledRequests',
-            'unapprovedRequests',
-            'status'
-        ));
+    // 🔍 Filter by request status if selected
+    if (!empty($status)) {
+        $requestsQuery->where('request_status', $status);
     }
+
+    // 🔍 SEARCH FUNCTION (Name, Email, Supply Name)
+    if (!empty($search)) {
+        $requestsQuery->where(function ($q) use ($search) {
+            $q->where('name', 'LIKE', "%$search%")
+              ->orWhere('email', 'LIKE', "%$search%")
+              ->orWhere('supply_name', 'LIKE', "%$search%");
+        });
+    }
+
+    $requests = $requestsQuery->get();
+
+    // Counts
+    $totalCompleted = SupplyRequest::where('request_status', 'Completed')->count();
+    $awaitingConfirmation = SupplyRequest::where('request_status', 'Pending')->count();
+    $cancelledRequests = SupplyRequest::where('request_status', 'Cancelled')->count();
+    $unapprovedRequests = SupplyRequest::where('request_status', 'Declined')->count();
+
+    return view('settings.requestSupply', compact(
+        'requests',
+        'totalCompleted',
+        'awaitingConfirmation',
+        'cancelledRequests',
+        'unapprovedRequests',
+        'status'
+    ));
+}
 
     // ✅ APPROVE REQUEST
     public function approveRequest($id)
@@ -329,7 +363,18 @@ public function completeRequest($id)
     // 🔍 Find the supply request
     $request = SupplyRequest::findOrFail($id);
 
-    // 🔍 Find the corresponding supply in supply_inventory
+    // IF CATEGORY IS EQUIPMENT → DON'T DEDUCT STOCK
+    if ($request->category === 'Equipment') {
+
+        $request->update([
+            'request_status' => 'Completed',
+            'date_completed' => now(),
+        ]);
+
+        return redirect()->back()->with('success', 'Equipment request marked as Completed.');
+    }
+
+    // BELOW ONLY RUNS IF CATEGORY = ITEM
     $inventory = \App\Models\SupplyInventory::where('supply_name', $request->supply_name)->first();
 
     if (!$inventory) {
@@ -345,13 +390,13 @@ public function completeRequest($id)
     $inventory->quantity -= $request->quantity;
     $inventory->save();
 
-    // ✅ Mark the request as completed
+    // ✅ Mark completed
     $request->update([
         'request_status' => 'Completed',
         'date_completed' => now(),
     ]);
 
-    return redirect()->back()->with('success', 'Request marked as Completed and stock updated!');
+    return redirect()->back()->with('success', 'Item request completed and stock updated!');
 }
 
 
@@ -361,42 +406,55 @@ public function completeRequest($id)
      |============================================================ */
 
     // ✅ VIEW REPORTS
-    public function facultyReports(Request $request)
-    {
-        $status = $request->input('request_status');
-        $startDate = $request->input('start_date');
-        $endDate = $request->input('end_date');
+  public function facultyReports(Request $request)
+{
+    $status = $request->input('request_status');
+    $startDate = $request->input('start_date');
+    $endDate = $request->input('end_date');
+    $search = $request->input('searchfaculty'); // ⭐ Get search input
 
-        $requestsQuery = SupplyRequest::query()->orderBy('created_at', 'desc');
+    $requestsQuery = SupplyRequest::query()->orderBy('created_at', 'desc');
 
-        // Filter by status
-        if (!empty($status)) {
-            $requestsQuery->where('request_status', $status);
-        }
-
-        // Filter by date range (Completed only)
-        if ($status === 'Completed' && !empty($startDate) && !empty($endDate)) {
-            $requestsQuery->whereBetween('updated_at', [$startDate, $endDate]);
-        }
-
-        $reports = $requestsQuery->get();
-
-        $totalCompleted = SupplyRequest::where('request_status', 'Completed')->count();
-        $awaitingConfirmation = SupplyRequest::where('request_status', 'Pending')->count();
-        $cancelledRequests = SupplyRequest::where('request_status', 'Cancelled')->count();
-        $unapprovedRequests = SupplyRequest::where('request_status', 'Declined')->count();
-
-        return view('settings.supplyReports', compact(
-            'reports',
-            'totalCompleted',
-            'awaitingConfirmation',
-            'cancelledRequests',
-            'unapprovedRequests',
-            'status',
-            'startDate',
-            'endDate'
-        ));
+    // 🔍 Search filter
+    if (!empty($search)) {
+        $requestsQuery->where(function ($q) use ($search) {
+            $q->where('name', 'like', "%{$search}%")
+              ->orWhere('email', 'like', "%{$search}%")
+              ->orWhere('supply_name', 'like', "%{$search}%");
+        });
     }
+
+    // Filter by status
+    if (!empty($status)) {
+        $requestsQuery->where('request_status', $status);
+    }
+
+    // Filter by date range
+    if ($status === 'Completed' && !empty($startDate) && !empty($endDate)) {
+        $requestsQuery->whereBetween('updated_at', [$startDate, $endDate]);
+    }
+
+    $reports = $requestsQuery->get();
+
+    // Counts
+    $totalCompleted = SupplyRequest::where('request_status', 'Completed')->count();
+    $awaitingConfirmation = SupplyRequest::where('request_status', 'Pending')->count();
+    $cancelledRequests = SupplyRequest::where('request_status', 'Cancelled')->count();
+    $unapprovedRequests = SupplyRequest::where('request_status', 'Declined')->count();
+
+    return view('settings.supplyReports', compact(
+        'reports',
+        'totalCompleted',
+        'awaitingConfirmation',
+        'cancelledRequests',
+        'unapprovedRequests',
+        'status',
+        'startDate',
+        'endDate',
+        'search'
+    ));
+}
+
 
     // ✅ EXPORT REPORTS (Excel)
     public function exportSupplyReports(Request $request)
@@ -503,13 +561,5 @@ public function destroy($id)
     return redirect()->back()
                      ->with('success', 'Supply deleted successfully from both inventory and main supplies!');
 }
-
-
-
-
-
-
-
-
 
 }

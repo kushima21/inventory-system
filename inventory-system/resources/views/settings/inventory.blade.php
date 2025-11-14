@@ -51,6 +51,14 @@
                             <label for="quantity">Quantity:</label>
                             <input type="number" name="quantity" id="supply_quantity" placeholder="Quantity..." required>
                         </div>
+                        <div class="info-container">
+                            <label for="category">Categories</label>
+                            <select name="category">
+                                <option value="">Select Categories</option>
+                                <option value="Items">Items</option>
+                                <option value="Equipment">Equipment</option>
+                            </select>
+                        </div>
 
                         <div class="info-btn">
                             <button type="submit" name="submit" id="submitBtn">Create</button>

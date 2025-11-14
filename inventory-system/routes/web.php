@@ -307,3 +307,6 @@ Route::delete('/settings/supplies/{id}', [SuppliesController::class, 'destroy'])
 Route::put('/faculty/update/{id}', [UserController::class, 'updateFaculty'])->name('faculty.updateProfile');
 
 Route::get('/booked-dates', [BookingController::class, 'getBookedDates']);
+
+Route::post('/notifications/mark-as-read', [BookingController::class, 'markAsRead'])->name('notifications.markAsRead');
+Route::post('/bookings/{id}/update-status', [BookingController::class, 'updateBookingStatus'])->name('bookings.updateStatus');
